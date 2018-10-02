@@ -1,0 +1,6 @@
+__pycache__
+
+
+yarn-error.log
+node_modules
+.DS_Store

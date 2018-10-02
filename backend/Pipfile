@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+alembic = "==0.9.6"
+Flask-Script = "==2.0.6"
+gunicorn = "==19.7.1"
+pyflakes = "==1.6.0"
+requests = "==2.18.4"
+"urllib3" = "==1.22"
+Flask-Cors = "*"
+flask-script = "*"
+sqlalchemy-utils = "*"
+flask = "*"
+mongoengine = "*"
+
+[dev-packages]
+"flake8" = "*"
+black = "==18.6b4"
+mypy = "*"
+pytest = "*"
+
+[requires]
+python_version = "3.7"
