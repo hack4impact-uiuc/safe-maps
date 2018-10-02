@@ -1,14 +1,15 @@
-const tintColor = '#2f95dc';
+const base = '#242134';
+const primary = '#428bca';
+const success = '#5cb85c';
+const info = '#5bc0de';
+const warning = '#f0ad4e';
+const danger = '#d9534f';
 
 export default {
-  tintColor,
-  tabIconDefault: '#ccc',
-  tabIconSelected: tintColor,
-  tabBar: '#fefefe',
-  errorBackground: 'red',
-  errorText: '#fff',
-  warningBackground: '#EAEB5E',
-  warningText: '#666804',
-  noticeBackground: tintColor,
-  noticeText: '#fff',
+  base,
+  primary,
+  success,
+  info,
+  warning,
+  danger,
 };

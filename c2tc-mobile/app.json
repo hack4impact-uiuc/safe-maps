@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "example",
-    "description": "A very interesting project.",
-    "slug": "example",
+    "name": "Cut To The Case",
+    "description": "Snip. Snip.",
+    "slug": "c2tc",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": ["ios", "android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/c2tc.png",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/c2tc.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
