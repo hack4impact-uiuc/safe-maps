@@ -2,7 +2,8 @@ import React from 'react';
 import { DrawerNavigator } from 'react-navigation';
 import { Dimensions } from 'react-native';
 
-import HomeScreen from './screens/CustomOverlay';
+import HomeScreen from './screens/LiveLocation';
+//import HomeScreen from './screens/CustomOverlay';
 
 var {height, width} = Dimensions.get('window');
 
