@@ -6,7 +6,9 @@ import {
 } from 'react-native';
 
 import MapView, { ProviderPropType } from 'react-native-maps';
-import XMarksTheSpot from './CustomOverlayXMarksTheSpot';
+import XMarksTheSpot from '../../screens/CustomOverlayXMarksTheSpot';
+
+import {Icon} from 'native-base'
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -15,7 +17,14 @@ const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-class CustomOverlay extends React.Component {
+class MapTab extends React.Component {
+  
+	static navigationOptions = {
+		tabBarIcon: ({tintColor}) => (
+			<Icon name= "ios-navigate" style = {{color: tintColor}} />
+		)
+	}
+
   constructor(props) {
     super(props);
 
@@ -67,7 +76,7 @@ class CustomOverlay extends React.Component {
   }
 }
 
-CustomOverlay.propTypes = {
+MapTab.propTypes = {
   provider: ProviderPropType,
 };
 
@@ -81,5 +90,5 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
 });
-export default CustomOverlay;
 
+export default MapTab;

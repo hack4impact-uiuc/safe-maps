@@ -1,26 +1,47 @@
-import React from 'react';
-import { DrawerNavigator } from 'react-navigation';
-import { Dimensions } from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, StyleSheet} from 'react-native'
 
-import HomeScreen from './screens/LiveLocation';
-//import HomeScreen from './screens/CustomOverlay';
+// Instagram like tab navigator
+import {TabNavigator} from 'react-navigation'
 
-var {height, width} = Dimensions.get('window');
+// Components on the navigator
+import MapTab from './components/AppTabNavigator/MapTab'
+import SettingTab from './components/AppTabNavigator/SettingTab'
 
-export default DrawerNavigator({
-    'Home': {
-        screen: HomeScreen,
+class MainScreen extends Component {
+    render() {
+        return (
+            <AppTabNavigator/>
+        );
+    }
+}
+
+export default MainScreen;
+
+// This instance will create the TabNavigator that displays the instagram-like tab bar
+const AppTabNavigator = TabNavigator({
+
+    MapTab: {
+        screen: MapTab
     },
+
+    SettingTab: {
+        screen: SettingTab
+    }
+
 }, {
-    initialRouteName: 'Home',
-    drawerWidth: width / 2,
-    drawerPosition: 'left',
-    drawerOpenRoute: 'DrawerOpen',
-    drawerCloseRoute: 'DrawerClose',
-    drawerToggleRoute: 'DrawerToggle',
-    drawerBackgroundColor: 'green',
-    contentOptions: {
-        activeTintColor: 'red',
-    },
-    order: ['Home']
-} );
+    animationEnabled: true,
+    swipeEnabled: true,
+    tabBarPosition: "bottom",
+    tabBarOptions: {
+        style: {
+            ...Platform.select({
+                android: {
+                    backgroundColor: 'white'
+                }
+            })
+        },
+        showLabel: false,
+        showIcon: true,
+    }
+})
