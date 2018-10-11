@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { View } from 'react-native';
-import { Polygon, Polyline, Marker } from 'react-native-maps';
+import { View } from "react-native";
+import { Polygon, Polyline, Marker } from "react-native-maps";
 
 class XMarksTheSpot extends React.Component {
   render() {
@@ -19,9 +19,7 @@ class XMarksTheSpot extends React.Component {
         <Polyline
           coordinates={[this.props.coordinates[1], this.props.coordinates[3]]}
         />
-        <Marker
-          coordinate={this.props.center}
-        />
+        <Marker coordinate={this.props.center} />
       </View>
     );
   }
@@ -30,7 +28,7 @@ class XMarksTheSpot extends React.Component {
 XMarksTheSpot.propTypes = {
   coordinates: PropTypes.array,
   center: PropTypes.object,
-  zIndex: PropTypes.number,
+  zIndex: PropTypes.number
 };
 
 export default XMarksTheSpot;

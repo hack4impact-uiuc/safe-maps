@@ -1,14 +1,10 @@
-import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-} from 'react-native';
+import React from "react";
+import { StyleSheet, View, Dimensions } from "react-native";
 
-import MapView, { ProviderPropType } from 'react-native-maps';
-import XMarksTheSpot from './CustomOverlayXMarksTheSpot';
+import MapView, { ProviderPropType } from "react-native-maps";
+import XMarksTheSpot from "./CustomOverlayXMarksTheSpot";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
@@ -24,30 +20,30 @@ class CustomOverlay extends React.Component {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
       },
       coordinates: [
         {
           longitude: -122.442753,
-          latitude: 37.798790,
+          latitude: 37.79879
         },
         {
           longitude: -122.424728,
-          latitude: 37.801232,
+          latitude: 37.801232
         },
         {
           longitude: -122.422497,
-          latitude: 37.790651,
+          latitude: 37.790651
         },
         {
           longitude: -122.440693,
-          latitude: 37.788209,
-        },
+          latitude: 37.788209
+        }
       ],
       center: {
         longitude: -122.4326648935676,
-        latitude: 37.79418561114521,
-      },
+        latitude: 37.79418561114521
+      }
     };
   }
 
@@ -68,18 +64,17 @@ class CustomOverlay extends React.Component {
 }
 
 CustomOverlay.propTypes = {
-  provider: ProviderPropType,
+  provider: ProviderPropType
 };
 
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center"
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
-  },
+    ...StyleSheet.absoluteFillObject
+  }
 });
 export default CustomOverlay;
-

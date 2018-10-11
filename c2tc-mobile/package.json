@@ -1,9 +1,11 @@
 {
-  "name": "my-new-project",
+  "name": "cut-to-the-case",
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
     "start": "expo start",
+    "format": "prettier --write './**/*.{js,jsx,json,css}'",
+    "format:check": "prettier --list-different \"./**/*.js\"",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
@@ -22,6 +24,7 @@
     "react-navigation": "^2.17.0"
   },
   "devDependencies": {
-    "jest-expo": "30.0.0"
+    "jest-expo": "30.0.0",
+    "prettier": "^1.14.3"
   }
 }

@@ -1,37 +1,32 @@
-import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-} from 'react-native';
+import React from "react";
+import { StyleSheet, View, Dimensions } from "react-native";
 
-import MapView, { ProviderPropType } from 'react-native-maps';
+import MapView, { ProviderPropType } from "react-native-maps";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class LiveLocation extends React.Component {
-  
   constructor(props) {
     super(props);
-    
+
     this.state = {
-        mapRegion: null,
-        lastLat: null,
-        lastLong: null,
-      }        
+      mapRegion: null,
+      lastLat: null,
+      lastLong: null
+    };
   }
 
   componentDidMount() {
-    this.watchID = navigator.geolocation.watchPosition((position) => {
+    this.watchID = navigator.geolocation.watchPosition(position => {
       let region = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
-      }
+      };
       this.onRegionChange(region, region.latitude, region.longitude);
     });
   }
@@ -54,9 +49,9 @@ class LiveLocation extends React.Component {
       longitude: e.nativeEvent.coordinate.longitude,
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
-    }
+    };
     this.onRegionChange(region, region.latitude, region.longitude);
-  }
+  };
 
   render() {
     return (
@@ -66,26 +61,26 @@ class LiveLocation extends React.Component {
           region={this.state.mapRegion}
           showsUserLocation={true}
           followUserLocation={true}
-          onPress={this.onMapPress}>
-        </MapView>
+          onPress={this.onMapPress}
+        />
       </View>
     );
   }
 }
 
 LiveLocation.propTypes = {
-  provider: ProviderPropType,
+  provider: ProviderPropType
 };
 
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center"
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
-  },
+    ...StyleSheet.absoluteFillObject
+  }
 });
 
 export default LiveLocation;
