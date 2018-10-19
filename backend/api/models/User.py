@@ -14,4 +14,3 @@ class User(mongoengine.DynamicDocument):
     net_id = StringField(required=True)
     first_name = StringField(required=True)
     last_name = StringField(require=True)
-
