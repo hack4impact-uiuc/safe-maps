@@ -1,15 +1,7 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity
-} from "react-native";
+import { Button, StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
-
-import Panel from "../components/Panel";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -19,7 +11,10 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const policeLocations = require("../assets/data/police_locations.json");
 const layer2Data = require("../assets/data/layer2_loc.json");
 const layerData = [policeLocations, layer2Data];
+const policeColor = "#841584";
 let id = 0;
+
+let renderLayers = true;
 
 function randomColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
@@ -81,14 +76,19 @@ class LiveLocation extends React.Component {
       markers: list
     });
   }
-  onMapPress = e => {
-    let region = {
-      latitude: e.nativeEvent.coordinate.latitude,
-      longitude: e.nativeEvent.coordinate.longitude,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA
-    };
-    this.onRegionChange(region, region.latitude, region.longitude);
+
+  _onPressToggleLayers = () => {
+    if (renderLayers) {
+      this.setState({
+        markers: []
+      });
+      renderLayers = false;
+    } else {
+      for (var index in layerData) {
+        this.renderMarkers(layerData[index], randomColor());
+      }
+      renderLayers = true;
+    }
   };
 
   render() {
@@ -109,12 +109,10 @@ class LiveLocation extends React.Component {
             />
           ))}
         </MapView>
-        <Panel />
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => this.setState({ markers: [] })} />
-        </View>
-        onPress=
-        {this.onMapPress}
+        <Button
+          onPress={this._onPressToggleLayers}
+          title="Toggle Police"
+          color={policeColor}
         />
       </View>
     );
@@ -134,6 +132,12 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject
   },
+  bubble: {
+    backgroundColor: "rgba(255,255,255,0.7)",
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20
+  },
   latlng: {
     width: 200,
     alignItems: "stretch"
@@ -148,8 +152,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginVertical: 20,
     backgroundColor: "transparent"
-  },
-  ...StyleSheet.absoluteFillObject
+  }
 });
 
 export default LiveLocation;
