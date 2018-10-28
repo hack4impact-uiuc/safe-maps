@@ -22,5 +22,5 @@ def get_user():
 
 @main.route("/users", methods=["POST"])
 def create_user():
-    User(net_id="tk2", first_name="Tim", last_name="Ko").save()
+    User(net_id="tk2", first_name="Anooj", last_name="Ko").save()
     return create_response(message="success!")
