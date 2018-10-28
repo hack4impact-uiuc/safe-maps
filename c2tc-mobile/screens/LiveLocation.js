@@ -2,6 +2,7 @@ import React from "react";
 import { Button, StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
+import Panel from "../components/PanelComponent/Panel";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
@@ -11,9 +12,10 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const policeLocations = require("../assets/data/police_locations.json");
 const layer2Data = require("../assets/data/layer2_loc.json");
 const layerData = [policeLocations, layer2Data];
+const layerKey = ["police", "light", "construction"];
 const policeColor = "#841584";
-let id = 0;
 
+let id = 0;
 let renderLayers = true;
 
 function randomColor() {
@@ -42,6 +44,7 @@ class LiveLocation extends React.Component {
       };
       this.onRegionChange(region, region.latitude, region.longitude);
     });
+
     for (var index in layerData) {
       this.renderMarkers(layerData[index], randomColor());
     }
@@ -109,11 +112,7 @@ class LiveLocation extends React.Component {
             />
           ))}
         </MapView>
-        <Button
-          onPress={this._onPressToggleLayers}
-          title="Toggle Police"
-          color={policeColor}
-        />
+        <Panel ref="panel" toggleLayers={this._onPressToggleLayers} />
       </View>
     );
   }
