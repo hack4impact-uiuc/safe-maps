@@ -1,13 +1,6 @@
 import React from "react";
 
-import {
-  AppRegistry,
-  Text,
-  View,
-  Dimensions,
-  Image,
-  Animated
-} from "react-native";
+import { View, Dimensions, Animated } from "react-native";
 
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
@@ -72,8 +65,8 @@ export default class Panel extends React.Component {
         onDrag={this.setDrag}
       >
         <View style={styles.panel}>
-          <ButtonInterface type="Police" ref="button" parentPanel={this} />
-          <ButtonInterface type="Lights" ref="button" parentPanel={this} />
+          <ButtonInterface type="police" ref="button" parentPanel={this} />
+          <ButtonInterface type="lights" ref="button" parentPanel={this} />
         </View>
       </SlidingUpPanel>
     );

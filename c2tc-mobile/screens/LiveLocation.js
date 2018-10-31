@@ -1,9 +1,9 @@
 import React from "react";
-import { Button, StyleSheet, View, Dimensions } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Panel from "../components/PanelComponent/Panel";
-
+import Tab from "../components/Tab";
 import PhoneButton from "../components/PhoneButton";
 
 const { width, height } = Dimensions.get("window");
@@ -12,17 +12,13 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const policeLocations = require("../assets/data/police_locations.json");
-const layer2Data = require("../assets/data/layer2_loc.json");
-const layerData = [policeLocations, layer2Data];
-const layerKey = ["police", "light", "construction"];
-const policeColor = "#841584";
+const lightLocations = require("../assets/data/light_locations.json");
 
+const layerData = { police: policeLocations, lights: lightLocations };
+const colorData = { police: "#841584", lights: "#000000" };
+
+let renderData = { police: true, lights: false };
 let id = 0;
-let renderLayers = true;
-
-function randomColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-}
 
 class LiveLocation extends React.Component {
   constructor(props) {
@@ -48,7 +44,7 @@ class LiveLocation extends React.Component {
     });
 
     for (var index in layerData) {
-      this.renderMarkers(layerData[index], randomColor());
+      this.renderMarkers(layerData[index], colorData[index]);
     }
   }
 
@@ -82,17 +78,17 @@ class LiveLocation extends React.Component {
     });
   }
 
-  _onPressToggleLayers = () => {
-    if (renderLayers) {
+  _onPressToggleLayers = layer => {
+    if (renderData[layer]) {
       this.setState({
-        markers: []
+        markers: this.state.markers.filter(
+          marker => marker["color"] !== colorData[layer]
+        )
       });
-      renderLayers = false;
+      renderData[layer] = false;
     } else {
-      for (var index in layerData) {
-        this.renderMarkers(layerData[index], randomColor());
-      }
-      renderLayers = true;
+      this.renderMarkers(layerData[layer], colorData[layer]);
+      renderData[layer] = true;
     }
   };
 
@@ -115,6 +111,7 @@ class LiveLocation extends React.Component {
           ))}
         </MapView>
         <Panel ref="panel" toggleLayers={this._onPressToggleLayers} />
+        <Tab />
       </View>
     );
   }
