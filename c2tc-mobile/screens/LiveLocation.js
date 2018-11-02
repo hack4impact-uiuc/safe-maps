@@ -2,9 +2,10 @@ import React from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
+
 import Panel from "../components/PanelComponent/Panel";
-import Tab from "../components/Tab";
 import PhoneButton from "../components/PhoneButton";
+import API from "../components/API";
 
 const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;

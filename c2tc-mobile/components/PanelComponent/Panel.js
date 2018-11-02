@@ -5,6 +5,8 @@ import { View, Dimensions, Animated } from "react-native";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import ButtonInterface from "./ButtonInterface";
 
+import API from "../API";
+
 const { height } = Dimensions.get("window");
 
 export default class Panel extends React.Component {
@@ -22,6 +24,10 @@ export default class Panel extends React.Component {
     this.state = {
       toggleLayerList: []
     };
+  }
+
+  async componentDidMount() {
+    console.log(API);
   }
 
   getLayerTypes() {
