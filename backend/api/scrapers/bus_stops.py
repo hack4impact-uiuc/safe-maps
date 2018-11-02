@@ -1,11 +1,7 @@
 import requests
 import json
 import sys
-
-sys.path.append("../../")
 from api.models.BusStop import BusStop
-
-##TODO: Changes - Only get route number and the hex color
 
 api_keys = [
     "95b24e883247444095625960a8bbee98",
@@ -14,11 +10,8 @@ api_keys = [
 ]
 stops_url = "https://developer.cumtd.com/api/v2.2/json/getstops"
 routes_url = "https://developer.cumtd.com/api/v2.2/json/getroutesbystop"
-
 stops_payload = {"key": api_keys[0]}
-
 routes_payload = {"key": api_keys[0], "stop_id": ""}  # change stop_id to id of stop
-
 stops_req_fields = ["stop_id", "stop_lat", "stop_lon", "stop_name"]
 
 
@@ -56,26 +49,6 @@ def get_stops(payload, url, req_fields):
     return return_data
 
 
-def save_stop_to_db(stop_dict):
-    """
-    busStop = BusStop.objects.create(
-        stop_id=stop_dict["stop_id"],
-        stop_name=stop_dict["stop_name"],
-        latitude=stop_dict["latitude"],
-        longitude=stop_dict["longitude"],
-        routes=stop_dict["routes"]
-    )
-    """
-    busStop = BusStop.objects.create(
-        stop_id="stop1",
-        stop_name="transit plaza",
-        latitude=100.0,
-        longitude=200.0,
-        routes={},
-    )
-    busStop.save()
-
-
 def get_full_stop_info(stop_data, payload, url):
     """
     Given a json structure containing all stops from get_stops(), the
@@ -96,10 +69,8 @@ def get_full_stop_info(stop_data, payload, url):
         single_stop_routes_raw = requests.get(get_qs_url(url, payload)).json()
         route_list = {}
         for stop_route in single_stop_routes_raw["routes"]:
-            route_list[stop_route["route_short_name"]] = stop_route["route_text_color"]
+            route_list[stop_route["route_short_name"]] = stop_route["route_color"]
         stop_data[stop_id]["routes"] = route_list
-        # print(stop_data[stop_id])
-        # save_stop_to_db(stop_data[stop_id])
         stop_counter += 1  # debugging
         perc_complete = float(stop_counter) / total_stops * 100  # debugging
         print(
@@ -113,8 +84,10 @@ def get_full_stop_info(stop_data, payload, url):
 
 
 def scrape():
+    """
+    Wrapper function for get_stops and get_full_stop_info that returns a fully
+    mined list of all bus stops.
+    """
     stop_data = get_stops(stops_payload, stops_url, stops_req_fields)
     stop_data = get_full_stop_info(stop_data, routes_payload, routes_url)
     return stop_data
-    # with open("scrapers/bus_data.txt", "w") as file:
-    # file.write(json.dumps(stop_data))

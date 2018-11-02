@@ -1,6 +1,10 @@
 import requests
 import json
 
+"""
+This file is mostly just to host the hardcoded emergency phone data on a disk,
+but it also supports returning this data as a list of dicts.
+"""
 phones = [
     {"latitude": 40.0957696644812, "longitude": -88.2405983758263, "id": 0},
     {"latitude": 40.108900829088, "longitude": -88.230672676274, "id": 1},

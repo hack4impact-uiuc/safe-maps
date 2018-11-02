@@ -13,6 +13,9 @@ def open_businesses():
     """
     Querystring args:   time= #### (time as 4 digit 24hr time, eg. 1430 = 2:30pm)
                         day = # (integer 0-6, where 0 is Monday)
+
+    Gets a list of businesses that are open at the time specified in the
+    querystring.
     """
     data = Business.objects()
     time = int(request.args.get("time"))
@@ -30,6 +33,10 @@ def open_businesses():
 
 
 def get_open_business_day(business, day):
+    """
+    Helper function which returns 'day' dictionary of corresponding day for
+    given business dictionary. If the day is not found, returns None.
+    """
     if len(business.open_hours) == 0:
         return None
     for open_day in business.open_hours:
@@ -75,13 +82,30 @@ def create_business():
 
 @business.route("/scrape_businesses", methods=["POST"])
 def scrape_businesses():
-    data = business_scrape()
-    for business_id in data.keys():
-        save_business_to_db(data[business_id])
-    return create_response(message="success!")
+    """
+    POST function which scrapes data from business_scrape() method in
+    open_businesses.py scraper and stores them in the businesses db collection.
+    Should be run maybe once a month.
+    """
+    try:
+        data = business_scrape()
+        for business_id in data.keys():
+            save_business_to_db(data[business_id])
+        return create_response(status=200, message="success!")
+    except requests.exceptions.HTTPError:
+        return create_response(status=500, message="HTTPError")
+    except requests.exceptions.Timeout:
+        return create_response(status=500, message="Connection timed out")
+    except Exception as e:
+        return create_response(status=500, message="Exception raised: " + repr(e))
 
 
 def save_business_to_db(business_dict):
+    """
+    Helper function to save python dict object representing a business db entry
+    to an actual mongoDB object. Gracefully handles missing hours attribute by
+    replacing it with an empty list.
+    """
     location = Location(
         city=business_dict["location"].get("city"),
         country=business_dict["location"].get("country"),
@@ -102,7 +126,6 @@ def save_business_to_db(business_dict):
                     day=hours["day"],
                 )
                 open_hours.append(new_hours)
-
     business = Business.objects.create(
         name=business_dict.get("name"),
         yelp_id=business_dict.get("yelp_id"),

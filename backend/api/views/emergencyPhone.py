@@ -32,13 +32,26 @@ def create_emergencyPhone():
 
 @emergencyPhone.route("/scrape_phones", methods=["POST"])
 def scrape_phones():
-    data = get_phones()
-    for phone in data:
-        save_phone_to_db(phone)
-    return create_response(message="success!")
+    """
+    POST function which calls get_phones() from the emergency_phones.py scraper
+    and stores phone data to the database.
+    This data is hardcoded and will probably never change, so this endpoint
+    only needs to be called if the db is reset or the collection is lost.
+    """
+    try:
+        data = get_phones()
+        for phone in data:
+            save_phone_to_db(phone)
+        return create_response(status=200, message="success!")
+    except Exception as e:
+        return create_response(status=500, message="Exception raised: " + repr(e))
 
 
 def save_phone_to_db(phone_dict):
+    """
+    Helper function to save python dict object representing an emergency phone
+    db entry to an actual mongoDB object.
+    """
     emergencyPhone = EmergencyPhone.objects.create(
         emergencyPhone_id=phone_dict.get("id"),
         latitude=phone_dict.get("latitude"),

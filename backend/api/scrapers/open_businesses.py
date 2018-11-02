@@ -7,18 +7,21 @@ search_url = "https://api.yelp.com/v3/businesses/search"
 details_url = "https://api.yelp.com/v3/businesses/"  # {id} after last backslash
 
 payload = {
-    "latitude": 40.106689,
+    "latitude": 40.106689,  # center of campus
     "longitude": -88.227326,
     "radius": 3000,  # meters
-    "limit": 50,
-    "sort_by": "distance",
-    "offset": 0,
+    "limit": 50,  # limit per page
+    "sort_by": "distance",  # closest first
+    "offset": 0,  # page offset
 }
 headers = {"content-type": "application/json", "Authorization": "Bearer " + api_key}
 
-# Accepts url string and dictionary of querystring parameters, returns properly
-# formatted url.
+
 def get_qs_url(url, args):
+    """
+    Accepts url string and dictionary of querystring parameters, returns properly
+    formatted url.
+    """
     qs_url = url
     i = 0
     for k, v in args.items():
@@ -32,8 +35,11 @@ def get_qs_url(url, args):
 
 
 def business_scrape():
-    mined_data = {}  # this dict's keys will be business names, values will be dict
-    # containing location, image_url, close hours, open hours
+    """
+    This method produces a dictionary containing business data from the Yelp
+    API.
+    """
+    mined_data = {}
     num_results = 1
 
     t0 = time.time()
@@ -49,18 +55,12 @@ def business_scrape():
                     print("Retrieving " + biz["name"] + " data...")
                     # get detailed info about each business, extract hours
                     info_dict = {}
-                    biz_keys = biz.keys()
-                    if "name" in biz_keys:
-                        info_dict["name"] = biz["name"]
-                    if "id" in biz_keys:
-                        info_dict["yelp_id"] = biz["id"]
-                    if "location" in biz_keys:
-                        info_dict["location"] = biz["location"]
-                    if "image_url" in biz_keys:
-                        info_dict["image_url"] = biz["image_url"]
-                    if "display_phone" in biz_keys:
-                        info_dict["display_phone"] = biz["display_phone"]
-                    biz_url = details_url + biz["id"]
+                    info_dict["name"] = biz.get("name")
+                    info_dict["yelp_id"] = biz.get("id")
+                    info_dict["location"] = biz.get("location")
+                    info_dict["image_url"] = biz.get("image_url")
+                    info_dict["display_phone"] = biz.get("display_phone")
+                    biz_url = details_url + biz.get("id")
                     biz_details = requests.get(biz_url, headers=headers)
                     if "hours" in biz_details.json().keys():
                         info_dict["hours"] = biz_details.json()["hours"]
@@ -72,6 +72,7 @@ def business_scrape():
     # with open("mined_raw_data.txt", "w") as file:
     # file.write(json.dumps(mined_data))
 
+    # Following lines are for timing the scrape
     t1 = time.time()
     total_time = t1 - t0
     print("\n\n")
@@ -85,4 +86,5 @@ def business_scrape():
         + "s."
     )
     print("\n\n")
+    # End timing code
     return mined_data

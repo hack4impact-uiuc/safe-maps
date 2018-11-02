@@ -3,7 +3,7 @@ import json
 import time
 import datetime
 
-app_token = "3vAi4grxLm8Lql1sffmqGNo2o"
+app_token = "3vAi4grxLm8Lql1sffmqGNo2o"  # Effectively the api key
 api_url = "https://moto.data.socrata.com/resource/3h5f-6xbh.json"
 
 days_of_crime = 30  # How many days of crime data to pull from API
@@ -44,7 +44,8 @@ def get_qs_url(url, args):
 
 def get_datetime(days_ago):
     """
-    Returns datetime as formatted floating datetime string.
+    Returns datetime as formatted floating datetime string from days_ago days
+    ago.
     E.g.: 2015-01-10T14:00:00.000
     """
     today = datetime.date.today()
@@ -71,6 +72,10 @@ def pull_data(headers, payload, api_url):
 
 
 def crime_scrape():
+    """
+    Wrapper function that calls all methods in this script in order to return
+    a mined dictionary of the past ${days_of_crime} days of crime data.
+    """
     payload = {"$where": "incident_datetime > '" + get_datetime(days_of_crime) + "'"}
     headers = {"content-type": "application/json", "X-App-Token": app_token}
     mined_data = pull_data(headers, payload, api_url)
