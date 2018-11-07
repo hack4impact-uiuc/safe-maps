@@ -18,29 +18,6 @@ def get_crime():
 
 
 @crime.route("/crimes", methods=["POST"])
-def create_crime():
-    """
-    POST function for posting a hard-coded Crime object for testing purposes
-    """
-    crime = Crime.objects.create(
-        incident_id="1",
-        incident_type_primary="Peeing in public",
-        incident_description="Self explanatory",
-        address_1="Outside Shreyas's apartment",
-        city="Champaign",
-        state="IL",
-        latitude=100.1,
-        longitude=200.2,
-        hour_of_day=23,
-        day_of_week="Monday",
-        parent_incident_type="Disturbing the peace",
-    )
-    crime.save()
-
-    return create_response(message="success!")
-
-
-@crime.route("/scrape_crimes", methods=["POST"])
 def scrape_crimes():
     """
     POST function which scrapes data from crime_scrape() method in crimes.py
@@ -49,6 +26,7 @@ def scrape_crimes():
     """
     try:
         crime_data = crime_scrape()
+        delete_crime_collection()
         for crime_id in crime_data.keys():
             save_crime_to_db(crime_data[crime_id])
         return create_response(status=200, message="success!")
@@ -79,3 +57,30 @@ def save_crime_to_db(crime_dict):
         parent_incident_type=crime_dict.get("parent_incident_type"),
     )
     crime.save()
+
+
+@crime.route("/crimes", methods=["DELETE"])
+def clear_crimes():
+    """
+    DELETE method which wraps the clear crimes collection function as
+    an API endpoint.
+    """
+    try:
+        count = delete_crime_collection()
+        return create_response(
+            status=200, message="Success! Deleted " + str(count) + " records."
+        )
+    except Exception as e:
+        return create_response(
+            status=500, message="Could not clear collection: " + repr(e)
+        )
+
+
+def delete_crime_collection():
+    """
+    Helper function to delete crime collection in db.
+    """
+    count = len(Crime.objects())
+    for crime in Crime.objects():
+        crime.delete()
+    return count

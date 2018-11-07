@@ -8,7 +8,7 @@ from api.scrapers.open_businesses import business_scrape
 business = Blueprint("business", __name__)
 
 
-@business.route("/open_businesses", methods=["GET"])
+@business.route("/businesses", methods=["GET"])
 def open_businesses():
     """
     Querystring args:   time= #### (time as 4 digit 24hr time, eg. 1430 = 2:30pm)
@@ -18,8 +18,10 @@ def open_businesses():
     querystring.
     """
     data = Business.objects()
-    time = int(request.args.get("time"))
-    day = int(request.args.get("day"))
+    time = int(request.args.get("time", default=-1))
+    day = int(request.args.get("day", default=-1))
+    if time == -1 or day == -1:
+        return get_business()
     open_businesses = []
     for b in data:
         curr_day = get_open_business_day(b, day)
@@ -45,7 +47,7 @@ def get_open_business_day(business, day):
     return None
 
 
-@business.route("/businesses", methods=["GET"])
+@business.route("/all_businesses", methods=["GET"])
 def get_business():
     """
     GET function for retrieving Business objects
@@ -53,34 +55,12 @@ def get_business():
     response = [business.to_mongo() for business in Business.objects]
     response = {"businesses": response}
     logger.info("BUSINESSES: %s", response)
-    return create_response(data=response)
+    return create_response(
+        data=response, status=200, message="Returning all businesses."
+    )
 
 
 @business.route("/businesses", methods=["POST"])
-def create_business():
-    """
-    POST function for posting a hard-coded Business object for testing purposes
-    """
-    location = Location(
-        city="Champaign", country="USA", address1="addy1", state="IL", zip_code="12345"
-    )
-
-    open_hours = OpenHours(start="0000", end="1111", is_overnight=True, day=3)
-
-    business = Business.objects.create(
-        name="McDonalds",
-        yelp_id="asdasd",
-        image_url="asdasd.com",
-        display_phone="12345555",
-    )
-    business.location = location
-    business.open_hours = [open_hours]
-    business.save()
-
-    return create_response(message="success!")
-
-
-@business.route("/scrape_businesses", methods=["POST"])
 def scrape_businesses():
     """
     POST function which scrapes data from business_scrape() method in
@@ -89,6 +69,7 @@ def scrape_businesses():
     """
     try:
         data = business_scrape()
+        delete_business_collection()
         for business_id in data.keys():
             save_business_to_db(data[business_id])
         return create_response(status=200, message="success!")
@@ -135,3 +116,30 @@ def save_business_to_db(business_dict):
         open_hours=open_hours,
     )
     business.save()
+
+
+@business.route("/businesses", methods=["DELETE"])
+def clear_businesses():
+    """
+    DELETE method which wraps the delete business collection function as
+    an API endpoint.
+    """
+    try:
+        count = delete_business_collection()
+        return create_response(
+            status=200, message="Success! Deleted " + str(count) + " records."
+        )
+    except Exception as e:
+        return create_response(
+            status=500, message="Could not clear collection: " + repr(e)
+        )
+
+
+def delete_business_collection():
+    """
+    Helper function to delete phone collection in db.
+    """
+    count = len(Business.objects())
+    for business in Business.objects():
+        business.delete()
+    return count

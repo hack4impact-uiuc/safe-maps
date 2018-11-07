@@ -11,3 +11,4 @@ api.log
 test.db
 _connect.py
 creds.ini
+api/scrapers/api_constants.py

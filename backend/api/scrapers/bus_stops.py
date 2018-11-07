@@ -1,7 +1,6 @@
 import requests
 import json
 import sys
-from api.models.BusStop import BusStop
 
 api_keys = [
     "95b24e883247444095625960a8bbee98",

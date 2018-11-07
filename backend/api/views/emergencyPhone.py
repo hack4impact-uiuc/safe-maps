@@ -6,31 +6,18 @@ from api.scrapers.emergency_phones import get_phones
 emergencyPhone = Blueprint("emergencyPhone", __name__)
 
 
-@emergencyPhone.route("/emergencyPhones", methods=["GET"])
+@emergencyPhone.route("/emergency-phones", methods=["GET"])
 def get_emergencyPhone():
     """
     GET function for retrieving EmergencyPhone objects
     """
     response = [emergencyPhone.to_mongo() for emergencyPhone in EmergencyPhone.objects]
-    response = {"emergencyPhones": response}
+    response = {"emergency-phones": response}
     logger.info("EMERGENCYPHONES: %s", response)
     return create_response(data=response)
 
 
-@emergencyPhone.route("/emergencyPhones", methods=["POST"])
-def create_emergencyPhone():
-    """
-    POST function for posting a hard-coded EmergencyPhone object for testing purposes
-    """
-    emergencyPhone = EmergencyPhone.objects.create(
-        emergencyPhone_id=4, latitude=2030.2, longitude=300.3
-    )
-    emergencyPhone.save()
-
-    return create_response(message="success!")
-
-
-@emergencyPhone.route("/scrape_phones", methods=["POST"])
+@emergencyPhone.route("/emergency-phones", methods=["POST"])
 def scrape_phones():
     """
     POST function which calls get_phones() from the emergency_phones.py scraper
@@ -40,6 +27,7 @@ def scrape_phones():
     """
     try:
         data = get_phones()
+        delete_phone_collection()
         for phone in data:
             save_phone_to_db(phone)
         return create_response(status=200, message="success!")
@@ -58,3 +46,30 @@ def save_phone_to_db(phone_dict):
         longitude=phone_dict.get("longitude"),
     )
     emergencyPhone.save()
+
+
+@emergencyPhone.route("/emergency-phones", methods=["DELETE"])
+def clear_phones():
+    """
+    DELETE method which wraps the clear emergency phones collection function as
+    an API endpoint.
+    """
+    try:
+        count = delete_phone_collection()
+        return create_response(
+            status=200, message="Success! Deleted " + str(count) + " records."
+        )
+    except Exception as e:
+        return create_response(
+            status=500, message="Could not clear collection: " + repr(e)
+        )
+
+
+def delete_phone_collection():
+    """
+    Helper function to delete phone collection in db.
+    """
+    count = len(EmergencyPhone.objects())
+    for phone in EmergencyPhone.objects():
+        phone.delete()
+    return count

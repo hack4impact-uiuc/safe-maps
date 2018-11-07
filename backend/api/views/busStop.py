@@ -9,33 +9,18 @@ busStop = Blueprint("busStop", __name__)
 # TODO: change busStop to bus-stop in urls
 
 
-@busStop.route("/busStops", methods=["GET"])
+@busStop.route("/bus-stops", methods=["GET"])
 def get_busStop():
     """
     GET function for retrieving BusStop objects
     """
     response = [busStop.to_mongo() for busStop in BusStop.objects]
-    response = {"busStops": response}
+    response = {"bus-stops": response}
     logger.info("BUSSTOPS: %s", response)
     return create_response(data=response)
 
 
-@busStop.route("/busStops", methods=["POST"])
-def create_busStop():
-    """
-    POST function for posting a hard-coded BusStop object for testing purposes
-    """
-    busStop = BusStop.objects.create(
-        stop_id="0", stop_name="Shreyas", latitude=200.2, longitude=300.3
-    )
-    busStop.routes["Route 1"] = "ffffffff"
-    busStop.routes["Route 2"] = "00000000"
-    busStop.save()
-
-    return create_response(message="success!")
-
-
-@busStop.route("/scrape_stops", methods=["POST"])
+@busStop.route("/bus-stops", methods=["POST"])
 def scrape_stops():
     """
     POST function which scrapes data from scrape() method in bus_stops.py
@@ -45,6 +30,7 @@ def scrape_stops():
     """
     try:
         stop_data = scrape()
+        delete_stop_collection()
         for stop_id in stop_data.keys():
             save_stop_to_db(stop_data[stop_id])
         return create_response(status=200, message="success!")
@@ -69,3 +55,30 @@ def save_stop_to_db(stop_dict):
         routes=stop_dict.get("routes"),
     )
     busStop.save()
+
+
+@busStop.route("/bus-stops", methods=["DELETE"])
+def clear_stops():
+    """
+    DELETE method which wraps the delete stops collection function as
+    an API endpoint.
+    """
+    try:
+        count = delete_stop_collection()
+        return create_response(
+            status=200, message="Success! Deleted " + str(count) + " records."
+        )
+    except Exception as e:
+        return create_response(
+            status=500, message="Could not clear collection: " + repr(e)
+        )
+
+
+def delete_stop_collection():
+    """
+    Helper function to delete stop collection in db.
+    """
+    count = len(BusStop.objects())
+    for stop in BusStop.objects():
+        stop.delete()
+    return count
