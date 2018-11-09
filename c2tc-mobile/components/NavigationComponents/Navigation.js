@@ -10,7 +10,7 @@ import Tabs from "react-native-tabs";
 const { height } = Dimensions.get("window");
 const draggableRange = {
   top: height / 1.75,
-  bottom: 120
+  bottom: 170
 };
 
 export default class Navigation extends Component {
@@ -108,7 +108,7 @@ export default class Navigation extends Component {
         </SlidingUpPanel>
         <Tabs
           selected={this.state.page}
-          style={styles.background}
+          style={styles.tabbg}
           selectedStyle={{ color: "purple" }}
           onSelect={tab => this._onSelect(tab)}
         >
@@ -126,17 +126,26 @@ export default class Navigation extends Component {
 
 const styles = StyleSheet.create({
   panel: {
+    shadowColor: "black",
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
     flex: 1,
+    flexDirection: "row",
     backgroundColor: "white",
     position: "relative",
-    opacity: 0.7
+    opacity: 1,
+    borderRadius: 8
   },
-  background: {
+  tabbg: {
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
     backgroundColor: "white",
-    opacity: 0.5
+    opacity: 1,
+    padding: 38
   },
   tab: {
-    borderTopWidth: 2,
-    borderTopColor: "purple"
+    borderTopWidth: 0,
+    borderTopColor: "#c7c7cc"
   }
 });

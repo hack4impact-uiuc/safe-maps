@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button } from "react-native";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Row } from "native-base";
 
 export default class ButtonInterace extends Component {
   constructor(props) {
@@ -19,11 +20,27 @@ export default class ButtonInterace extends Component {
   render() {
     var buttonColor = "purple";
     return (
-      <Button
-        onPress={this.updateLayer}
-        title={this.props.type}
-        color={buttonColor}
-      />
+      <TouchableOpacity onPress={this.updateLayer} style={styles.button}>
+        <Text style={styles.text}>{this.props.type}</Text>
+      </TouchableOpacity>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    backgroundColor: "#9b59b6",
+    borderRadius: 8,
+    width: 166,
+    height: 52,
+    paddingVertical: 15,
+    margin: 20,
+    flexDirection: "row",
+    justifyContent: "space-around"
+  },
+  text: {
+    fontSize: 20,
+    color: "white"
+  }
+});
