@@ -53,4 +53,4 @@ async function getStreetLight() {
   }
 }
 */
-export { getBusStops, getCrimes, getBusinesses, getEmergencyPhones };
+export default { getBusStops, getCrimes, getBusinesses, getEmergencyPhones };

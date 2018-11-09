@@ -13,6 +13,7 @@ export default class ButtonInterace extends Component {
   updateLayer = () => {
     this.props.parentPanel.updateLayerList(this.getType());
     this.props.parentPanel.props.toggleLayers(this.props.type);
+    console.log(this.props.type);
   };
 
   render() {
