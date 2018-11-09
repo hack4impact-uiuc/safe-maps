@@ -3,7 +3,6 @@ import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
-import Icon from "react-native-vector-icons/FontAwesome";
 
 import API from "../components/API";
 
@@ -13,10 +12,6 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const policeLocations = require("../assets/data/police_locations.json");
-const lightLocations = require("../assets/data/light_locations.json");
-//const layerData = { police: policeLocations, lights: lightLocations };
-//const colorData = { police: "#841584", lights: "#000000" };
 let renderData = {
   busStop: true,
   crime: false,
@@ -24,6 +19,13 @@ let renderData = {
   emergency: false
 };
 let id = 0;
+
+const icons = {
+  busStop: require("../assets/images/bus.png"),
+  crime: require("../assets/images/crime.png"),
+  business: require("../assets/images/business.png"),
+  emergency: require("../assets/images/phone.png")
+};
 
 class LiveLocation extends Component {
   constructor(props) {
@@ -75,10 +77,11 @@ class LiveLocation extends Component {
       error => console.log({ error: error.message })
     );
 
-    for (var index in this.state.layerData) {
+    for (var layer in this.state.layerData) {
       this.renderMarkers(
-        this.state.layerData[index],
-        this.state.colorData[index]
+        layer,
+        this.state.layerData[layer],
+        this.state.colorData[layer]
       );
     }
 
@@ -126,7 +129,7 @@ class LiveLocation extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  renderMarkers(data, markerColor) {
+  renderMarkers(layer, data, markerColor) {
     console.log(data);
     var list = this.state.markers;
     for (i = 0; i < data.length; i++) {
@@ -136,7 +139,8 @@ class LiveLocation extends Component {
           longitude: data[i].longitude
         },
         key: id++,
-        color: markerColor
+        color: markerColor,
+        image: icons[layer]
         //title: data[i].place_name
       });
     }
@@ -155,6 +159,7 @@ class LiveLocation extends Component {
       renderData[layer] = false;
     } else {
       this.renderMarkers(
+        layer,
         this.state.layerData[layer],
         this.state.colorData[layer]
       );
@@ -176,7 +181,7 @@ class LiveLocation extends Component {
               key={marker.key}
               coordinate={marker.coordinate}
               pinColor={marker.color}
-              image={require("../assets/images/bus.png")}
+              image={marker.image}
               title={"asdf"}
               description={"bdsf"}
             />
