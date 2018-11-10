@@ -81,22 +81,18 @@ export default class Navigation extends Component {
               <Text style={styles.filter}>Filters</Text>
               <View style={styles.panel}>
                 <ButtonInterface
-                  type="Bus Stops"
+                  type="busStop"
+                  ref="button"
+                  parentPanel={this}
+                />
+                <ButtonInterface type="crime" ref="button" parentPanel={this} />
+                <ButtonInterface
+                  type="business"
                   ref="button"
                   parentPanel={this}
                 />
                 <ButtonInterface
-                  type="Crimes"
-                  ref="button"
-                  parentPanel={this}
-                />
-                <ButtonInterface
-                  type="Open Businesses"
-                  ref="button"
-                  parentPanel={this}
-                />
-                <ButtonInterface
-                  type="Emergencies"
+                  type="emergency"
                   ref="button"
                   parentPanel={this}
                 />
