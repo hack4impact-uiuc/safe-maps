@@ -18,9 +18,12 @@ export default class ButtonInterace extends Component {
   };
 
   render() {
-    var buttonColor = "purple";
+    var buttonColor = this.props.parentPanel.props.layers[this.props.type];
     return (
-      <TouchableOpacity onPress={this.updateLayer} style={styles.button}>
+      <TouchableOpacity
+        onPress={this.updateLayer}
+        style={buttonColor ? styles.buttonOn : styles.buttonOff}
+      >
         <Text style={styles.text}>{this.props.type}</Text>
       </TouchableOpacity>
     );
@@ -28,16 +31,29 @@ export default class ButtonInterace extends Component {
 }
 
 const styles = StyleSheet.create({
-  button: {
+  buttonOn: {
     alignItems: "center",
-    backgroundColor: "#9b59b6",
+    backgroundColor: "purple",
     borderRadius: 8,
-    width: 166,
+    width: 150,
     height: 52,
     paddingVertical: 15,
-    margin: 20,
-    flexDirection: "row",
-    justifyContent: "space-around"
+    margin: 20
+    // flexDirection: "row",
+    // flex: 1,
+    // justifyContent: "space-around"
+  },
+  buttonOff: {
+    alignItems: "center",
+    backgroundColor: "gray",
+    borderRadius: 8,
+    width: 150,
+    height: 52,
+    paddingVertical: 15,
+    margin: 20
+    // flex: 1,
+    // flexDirection: "row",
+    // justifyContent: "space-around"
   },
   text: {
     fontSize: 20,

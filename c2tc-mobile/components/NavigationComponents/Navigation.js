@@ -7,7 +7,7 @@ import ButtonInterface from "./ButtonInterface";
 import PhoneButton from "./PhoneButtonInterface";
 import Tabs from "react-native-tabs";
 
-const { height } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 const draggableRange = {
   top: height / 1.75,
   bottom: 170
@@ -77,19 +77,30 @@ export default class Navigation extends Component {
           onDrag={this.setDrag}
         >
           {filter ? (
-            <View style={styles.panel}>
-              <ButtonInterface type="busStop" ref="button" parentPanel={this} />
-              <ButtonInterface type="crime" ref="button" parentPanel={this} />
-              <ButtonInterface
-                type="business"
-                ref="button"
-                parentPanel={this}
-              />
-              <ButtonInterface
-                type="emergency"
-                ref="button"
-                parentPanel={this}
-              />
+            <View style={styles.title}>
+              <Text style={styles.filter}>Filters</Text>
+              <View style={styles.panel}>
+                <ButtonInterface
+                  type="Bus Stops"
+                  ref="button"
+                  parentPanel={this}
+                />
+                <ButtonInterface
+                  type="Crimes"
+                  ref="button"
+                  parentPanel={this}
+                />
+                <ButtonInterface
+                  type="Open Businesses"
+                  ref="button"
+                  parentPanel={this}
+                />
+                <ButtonInterface
+                  type="Emergencies"
+                  ref="button"
+                  parentPanel={this}
+                />
+              </View>
             </View>
           ) : (
             <View style={styles.panel}>
@@ -133,8 +144,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "white",
     position: "relative",
+    justifyContent: "space-around",
     opacity: 1,
-    borderRadius: 8
+    borderRadius: 8,
+    flexWrap: "wrap"
+  },
+  title: {
+    height: 20,
+    width: width,
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "white"
+  },
+  filter: {
+    // fontFamily: "SFProDisplay-Bold",
+    fontSize: 20,
+    color: "black",
+    height: 25,
+    textAlign: "left",
+    position: "relative"
   },
   tabbg: {
     shadowColor: "black",
