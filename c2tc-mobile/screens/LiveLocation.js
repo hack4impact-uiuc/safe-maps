@@ -3,8 +3,10 @@ import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import API from "../components/API";
+import Loader from "../components/Loader";
 
 const { width, height } = Dimensions.get("window");
 
@@ -13,7 +15,7 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let renderData = {
-  busStop: true,
+  busStop: false,
   crime: false,
   business: false,
   emergency: false
@@ -38,6 +40,7 @@ class LiveLocation extends Component {
       markers: [],
       renderData: { police: true, lights: false },
       layerData: {},
+      loading: true,
       colorData: {}
     };
   }
@@ -113,9 +116,10 @@ class LiveLocation extends Component {
         crime: "#000000",
         business: "#ffffff",
         emergency: "#123123"
-      }
+      },
+      loading: false
     });
-    console.log(JSON.parse(this.state.busStop));
+    console.log(this.state.loading);
   }
 
   onRegionChange(region, lastLat, lastLong) {
@@ -169,6 +173,9 @@ class LiveLocation extends Component {
   };
 
   render() {
+    if (this.state.loading) {
+      return <Loader loading={this.state.loading} />;
+    }
     return (
       <View style={styles.container}>
         <MapView
