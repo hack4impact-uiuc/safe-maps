@@ -11,7 +11,7 @@ stops_url = "https://developer.cumtd.com/api/v2.2/json/getstops"
 routes_url = "https://developer.cumtd.com/api/v2.2/json/getroutesbystop"
 stops_payload = {"key": api_keys[0]}
 routes_payload = {"key": api_keys[0], "stop_id": ""}  # change stop_id to id of stop
-stops_req_fields = ["stop_id", "stop_lat", "stop_lon", "stop_name"]
+stops_req_fields = ["stop_id", "stop_name"]
 
 
 def get_qs_url(url, args):
@@ -40,11 +40,12 @@ def get_stops(payload, url, req_fields):
     data = requests.get(get_qs_url(url, payload))
     return_data = {}
     for stop in data.json()["stops"]:
-        for stop_point in stop.get("stop_points"):
-            stop_point_data = {}
-            for field in req_fields:
-                stop_point_data[field] = stop_point.get(field)
-            return_data[stop_point["stop_id"]] = stop_point_data
+        stop_data = {}
+        for field in req_fields:
+            stop_data[field] = stop.get(field)
+        stop_data["stop_lat"] = stop.get("stop_points")[0].get("stop_lat")
+        stop_data["stop_lon"] = stop.get("stop_points")[0].get("stop_lon")
+        return_data[stop["stop_id"]] = stop_data
     return return_data
 
 
