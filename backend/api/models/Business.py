@@ -3,6 +3,7 @@ from mongoengine.fields import (
     ListField,
     EmbeddedDocumentField,
     EmbeddedDocumentListField,
+    FloatField,
 )
 from api.models.Location import Location
 from api.models.OpenHours import OpenHours
@@ -15,6 +16,8 @@ class Business(mongoengine.DynamicDocument):
     name = StringField(required=True)
     yelp_id = StringField(required=True, unique=True)
     location = EmbeddedDocumentField(Location)
+    latitude = FloatField(required=True)
+    longitude = FloatField(required=True)
     image_url = StringField()
     display_phone = StringField()
     open_hours = EmbeddedDocumentListField(OpenHours)

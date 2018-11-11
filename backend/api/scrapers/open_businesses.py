@@ -58,6 +58,8 @@ def business_scrape():
                     info_dict["name"] = biz.get("name")
                     info_dict["yelp_id"] = biz.get("id")
                     info_dict["location"] = biz.get("location")
+                    info_dict["latitude"] = biz.get("coordinates").get("latitude")
+                    info_dict["longitude"] = biz.get("coordinates").get("longitude")
                     info_dict["image_url"] = biz.get("image_url")
                     info_dict["display_phone"] = biz.get("display_phone")
                     biz_url = details_url + biz.get("id")
