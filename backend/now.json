@@ -1,0 +1,10 @@
+
+{
+    "name": "cut-to-the-case",
+    "public": true,
+    "type": "docker",
+    "features": {
+      "cloud": "v2"
+    },
+    "alias": "h4i-cut-to-the-case-backend.now.sh"
+}
