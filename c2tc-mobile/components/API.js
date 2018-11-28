@@ -1,6 +1,8 @@
 async function getBusStops() {
   try {
-    let response = await fetch("https://backend-xnbrzeooeu.now.sh/busStops");
+    let response = await fetch(
+      "https://h4i-cut-to-the-case-backend.now.sh/busStops"
+    );
     let responseJson = await response.json();
     return responseJson.result.busStops;
   } catch (error) {
@@ -10,7 +12,9 @@ async function getBusStops() {
 
 async function getCrimes() {
   try {
-    let response = await fetch("https://backend-xnbrzeooeu.now.sh/crimes");
+    let response = await fetch(
+      "https://h4i-cut-to-the-case-backend.now.sh/crimes"
+    );
     let responseJson = await response.json();
     return responseJson.result.crimes;
   } catch (error) {
@@ -20,7 +24,9 @@ async function getCrimes() {
 
 async function getBusinesses() {
   try {
-    let response = await fetch("https://backend-xnbrzeooeu.now.sh/businesses");
+    let response = await fetch(
+      "https://h4i-cut-to-the-case-backend.now.sh/businesses"
+    );
     let responseJson = await response.json();
     return responseJson.result.businesses;
   } catch (error) {
@@ -31,7 +37,7 @@ async function getBusinesses() {
 async function getEmergencyPhones() {
   try {
     let response = await fetch(
-      "https://backend-xnbrzeooeu.now.sh/emergencyPhones"
+      "https://h4i-cut-to-the-case-backend.now.sh/emergencyPhones"
     );
     let responseJson = await response.json();
     return responseJson.result.emergencyPhones;
