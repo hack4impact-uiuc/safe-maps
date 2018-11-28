@@ -12,7 +12,7 @@ def get_police_stations():
     GET function for retrieving Police Station objects
     """
     response = [policeStation.to_mongo() for policeStation in PoliceStation.objects]
-    response = {"police-stations": response}
+    response = {"policeStations": response}
     logger.info("POLICESTATIONS: %s", response)
     return create_response(data=response)
 
