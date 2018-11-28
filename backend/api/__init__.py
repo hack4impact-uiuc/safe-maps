@@ -5,6 +5,8 @@ from flask import Flask, request
 from flask_cors import CORS
 
 from api.config import config
+from api.core import get_mongo_credentials
+from mongoengine import connect
 from api.core import all_exception_handler
 import api.models
 
@@ -20,6 +22,13 @@ def create_app(test_config=None):
     app = Flask(__name__)
 
     CORS(app)  # add CORS
+
+    (db_name, mongo_url) = get_mongo_credentials()
+    if test_config:
+        if test_config.get("MONGO_TEST_URI"):
+            mongo_url = test_config["MONGO_TEST_URI"]
+            db_name = test_config["MONGO_TEST_DB"]
+    connect(db_name, host=mongo_url)
 
     # check environment variables to see which config to load
     env = os.environ.get("FLASK_ENV", "dev")

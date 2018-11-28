@@ -96,6 +96,9 @@ def all_exception_handler(error: Exception) -> Tuple[Response, int]:
 def get_mongo_credentials(file: str = "creds.ini") -> Tuple:
     config = configparser.ConfigParser()
     config.read(file)
-
-    mongo_section = config["mongo_creds"]
-    return (mongo_section["mongo_db_name"], mongo_section["mongo_url"])
+    try:
+        mongo_section = config["mongo_creds"]
+        return (mongo_section["mongo_db_name"], mongo_section["mongo_url"])
+    except KeyError:
+        print(f"Couldn't parse {file} for mongo creds... Check whether it exists.")
+        return (None, None)
