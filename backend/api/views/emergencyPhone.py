@@ -12,7 +12,7 @@ def get_emergencyPhone():
     GET function for retrieving EmergencyPhone objects
     """
     response = [emergencyPhone.to_mongo() for emergencyPhone in EmergencyPhone.objects]
-    response = {"emergency-phones": response}
+    response = {"emergencyPhones": response}
     logger.info("EMERGENCYPHONES: %s", response)
     return create_response(data=response)
 
