@@ -1,7 +1,7 @@
 async function getBusStops() {
   try {
     let response = await fetch(
-      "https://h4i-cut-to-the-case-backend.now.sh/busStops"
+      "https://h4i-cut-to-the-case-backend.now.sh/bus-stops"
     );
     let responseJson = await response.json();
     return responseJson.result.busStops;
@@ -37,7 +37,7 @@ async function getBusinesses() {
 async function getEmergencyPhones() {
   try {
     let response = await fetch(
-      "https://h4i-cut-to-the-case-backend.now.sh/emergencyPhones"
+      "https://h4i-cut-to-the-case-backend.now.sh/emergency-phones"
     );
     let responseJson = await response.json();
     return responseJson.result.emergencyPhones;
