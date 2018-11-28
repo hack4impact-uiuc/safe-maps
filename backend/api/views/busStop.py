@@ -15,7 +15,7 @@ def get_busStop():
     GET function for retrieving BusStop objects
     """
     response = [busStop.to_mongo() for busStop in BusStop.objects]
-    response = {"bus-stops": response}
+    response = {"busStops": response}
     logger.info("BUSSTOPS: %s", response)
     return create_response(data=response)
 
