@@ -3,7 +3,7 @@ import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Colors from "../constants/Colors";
 
 import API from "../components/API";
 import Loader from "../components/Loader";
@@ -111,10 +111,10 @@ class LiveLocation extends Component {
         emergency: JSON.parse(await AsyncStorage.getItem("emergencyData"))
       },
       colorData: {
-        busStop: "#841584",
-        crime: "#000000",
-        business: "#ffffff",
-        emergency: "#123123"
+        busStop: Colors.busStop,
+        crime: Colors.crime,
+        business: Colors.business,
+        emergency: Colors.emergency
       },
       loading: false
     });
