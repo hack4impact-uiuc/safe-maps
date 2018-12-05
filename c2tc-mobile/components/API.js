@@ -46,6 +46,18 @@ async function getEmergencyPhones() {
   }
 }
 
+async function getPoliceStations() {
+  try {
+    let response = await fetch(
+      "https://h4i-cut-to-the-case-backend.now.sh/police-stations"
+    );
+    let responseJson = await response.json();
+    return responseJson.result.policeStations;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 //This function is commented because the backend data is not available yet.
 
 /*
@@ -59,4 +71,10 @@ async function getStreetLight() {
   }
 }
 */
-export default { getBusStops, getCrimes, getBusinesses, getEmergencyPhones };
+export default {
+  getPoliceStations,
+  getBusStops,
+  getCrimes,
+  getBusinesses,
+  getEmergencyPhones
+};

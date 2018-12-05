@@ -20,7 +20,8 @@ const icons = {
   busStop: require("../assets/images/bus.png"),
   crime: require("../assets/images/crime.png"),
   business: require("../assets/images/business.png"),
-  emergency: require("../assets/images/phone.png")
+  emergency: require("../assets/images/phone.png"),
+  policeStations: require("../assets/images/police.png")
 };
 
 class LiveLocation extends Component {
@@ -99,6 +100,7 @@ class LiveLocation extends Component {
       let crimeData = await API.getCrimes();
       let businessData = await API.getBusinesses();
       let emergencyData = await API.getEmergencyPhones();
+      let policeStations = await API.getPoliceStations();
 
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
@@ -107,6 +109,10 @@ class LiveLocation extends Component {
         "emergencyData",
         JSON.stringify(emergencyData)
       );
+      await AsyncStorage.setItem(
+        "policeStations",
+        JSON.stringify(policeStations)
+      );
     }
 
     this.setState({
@@ -114,13 +120,15 @@ class LiveLocation extends Component {
         busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
         crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
         business: JSON.parse(await AsyncStorage.getItem("businessData")),
-        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData"))
+        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
+        policeStations: JSON.parse(await AsyncStorage.getItem("policeStations"))
       },
       colorData: {
         busStop: Colors.busStop,
         crime: Colors.crime,
         business: Colors.business,
-        emergency: Colors.emergency
+        emergency: Colors.emergency,
+        policeStations: Colors.police
       },
       loading: false
     });
