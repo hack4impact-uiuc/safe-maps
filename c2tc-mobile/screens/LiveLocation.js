@@ -44,6 +44,12 @@ class LiveLocation extends Component {
     };
   }
 
+  setRegion(region) {
+    if (this.state.ready) {
+      setTimeout(() => this.map.mapview.animateToRegion(region), 10);
+    }
+  }
+
   async componentDidMount() {
     this.watchID = navigator.geolocation.watchPosition(position => {
       let region = {
