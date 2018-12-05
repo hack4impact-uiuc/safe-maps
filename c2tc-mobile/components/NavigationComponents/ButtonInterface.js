@@ -19,11 +19,9 @@ export default class ButtonInterace extends Component {
   updateLayer = () => {
     this.props.parentPanel.updateLayerList(this.getType());
     this.props.parentPanel.props.toggleLayers(this.props.type);
-    console.log(this.props.type);
   };
 
   render() {
-    console.log(this.props.color);
     var isSelected = this.props.parentPanel.props.layers[this.props.type];
     return (
       <View style={styles.view}>
