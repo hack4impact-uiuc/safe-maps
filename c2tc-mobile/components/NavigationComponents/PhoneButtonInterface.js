@@ -25,7 +25,7 @@ export default class PhoneButton extends Component {
     return (
       <View style={styles.view}>
         <TouchableOpacity onPress={this._onPressCall} style={styles.button}>
-          <FontAwesome name={this.props.icon} color="black" size={30} />
+          <FontAwesome name={this.props.icon} color="#8e8e93" size={25} />
         </TouchableOpacity>
         <Text style={styles.text}>{this.props.name}</Text>
       </View>
@@ -35,23 +35,24 @@ export default class PhoneButton extends Component {
 
 const styles = StyleSheet.create({
   view: {
-    width: Dimensions.get("window").width / 2,
+    width: Dimensions.get("window").width / 2 - 50,
     alignItems: "center"
   },
   button: {
     alignItems: "center",
     backgroundColor: "#e5e5ea",
-    borderRadius: 25,
-    padding: 10,
-    width: 55,
-    height: 55,
-    margin: 10
+    borderRadius: 900,
+    paddingTop: 17,
+    width: 60,
+    height: 60,
+    margin: 13
   },
   text: {
     textAlign: "center",
-    width: 100,
-    height: 35,
-    fontSize: 18,
+    fontWeight: "600",
+    width: 150,
+    height: 32,
+    fontSize: 17,
     color: "black"
   }
 });
