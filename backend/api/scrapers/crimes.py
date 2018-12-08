@@ -2,6 +2,7 @@ import requests
 import json
 import time
 import datetime
+import re
 
 app_token = "3vAi4grxLm8Lql1sffmqGNo2o"  # Effectively the api key
 api_url = "https://moto.data.socrata.com/resource/3h5f-6xbh.json"
@@ -66,9 +67,20 @@ def pull_data(headers, payload, api_url):
     for raw_record in data.json():
         record = {}
         for field in req_fields:
-            record[field] = raw_record.get(field)
+            if field == "incident_description":
+                record[field] = format_string(raw_record.get(field))
+            elif field == "incident_type_primary":
+                record[field] = raw_record.get(field).title()
+            else:
+                record[field] = raw_record.get(field)
         return_data[record["incident_id"]] = record
     return return_data
+
+
+def format_string(text):
+    TAG_RE = re.compile(r"<[^>]+>")
+    stripped = TAG_RE.sub("", text)
+    return stripped.capitalize()
 
 
 def crime_scrape():

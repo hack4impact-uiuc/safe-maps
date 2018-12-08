@@ -2,6 +2,8 @@ from flask import Blueprint
 from api.models.Crime import Crime
 from api.core import create_response, serialize_list, logger
 from api.scrapers.crimes import crime_scrape
+import datetime
+import dateutil.parser
 
 crime = Blueprint("crime", __name__)
 
@@ -43,6 +45,8 @@ def save_crime_to_db(crime_dict):
     Helper function to save python dict object representing a crime db entry to
     an actual mongoDB object.
     """
+    date = dateutil.parser.parse(crime_dict.get("incident_datetime"))
+    formatted_date = date.strftime("%b %d, %Y at %I:%M %p")
     crime = Crime.objects.create(
         incident_id=crime_dict.get("incident_id"),
         incident_type_primary=crime_dict.get("incident_type_primary"),
@@ -55,6 +59,7 @@ def save_crime_to_db(crime_dict):
         hour_of_day=crime_dict.get("hour_of_day"),
         day_of_week=crime_dict.get("day_of_week"),
         parent_incident_type=crime_dict.get("parent_incident_type"),
+        incident_datetime=formatted_date,
     )
     crime.save()
 
