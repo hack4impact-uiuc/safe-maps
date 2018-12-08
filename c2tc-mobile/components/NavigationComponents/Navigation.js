@@ -87,7 +87,7 @@ export default class Navigation extends Component {
           ) : (
             [
               filter ? (
-                <View style={styles.title}>
+                <View style={styles.title} key="title">
                   <View style={styles.panel}>
                     <Text style={styles.filter}>Filters</Text>
                     <View style={styles.row}>

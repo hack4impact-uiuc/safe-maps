@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
-import { Constants, Location, Permissions } from "expo";
+import { Location, Permissions } from "expo";
 
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
