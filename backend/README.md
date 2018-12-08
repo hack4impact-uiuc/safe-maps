@@ -1,27 +1,31 @@
-# C2TC Backend
+# Backend Instructions
 
-Mongo + Flask
+## Setting Up Instructions
+Set up a  `creds.ini` with the following mongo creds `mongo_db_name` and `mongo_url`.
 
-Setup:
-
-Get `creds.ini` from project leads and copy it to the folder `/backend`. This file contain credentials for the database.
-Then,
+## How To Run Backend
 
 ```
-pipenv install
-```
-
-To start the server:
-
-```
-pipenv shell
+cd backend
+pipenv install              #Install dependencies
+pipenv shell                #Start server             
 python manage.py runserver
 ```
+## How To Format Backend
 
-Note: tests don't work because they were made for postgres
+```
+cd backend
+pipenv install              #Install dependencies if you have not already
+pipenv run black .
+```
 
-`api.log` is the log file. Always log important information or errors when you catch them.
+## How To Test Backend
 
-For more information on how this repo works, look at https://github.com/tko22/flask-boilerplate/wiki.
+```
+cd backend
+pipenv install              #Install dependencies if you have not already
+pipenv run pytest
+```
 
-This uses mongodb instead of Postgres so we've switched over to using the package mongoengine, which is an ODM wrapper around MongoDB.
+## Backend Resources
+* [Database Schema](https://github.com/hack4impact-uiuc/c2tc-fall-2018/blob/master/docs/api_docs.md)
