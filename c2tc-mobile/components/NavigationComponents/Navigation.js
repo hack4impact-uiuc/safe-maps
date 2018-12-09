@@ -81,7 +81,17 @@ export default class Navigation extends Component {
             <View style={styles.title}>
               <View style={styles.panel}>
                 <Text style={styles.filter}>{this.props.descriptionTitle}</Text>
-                <Text>{this.props.descriptionContent}</Text>
+                <Text style={styles.text}>
+                  {this.props.descriptionContent[2]}
+                </Text>
+                <Text style={styles.subtitle}>Crime Type:</Text>
+                <Text style={styles.text}>
+                  {this.props.descriptionContent[0]}
+                </Text>
+                <Text style={styles.subtitle}>Crime Description:</Text>
+                <Text style={styles.text}>
+                  {this.props.descriptionContent[1]}
+                </Text>
               </View>
             </View>
           ) : (
@@ -213,6 +223,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center"
   },
+  subtitle: {
+    // fontFamily: "SFProText-Semibold",
+    fontSize: 15,
+    color: "#000000",
+    letterSpacing: 0.01,
+    lineHeight: 20,
+    textAlign: "left"
+  },
+  text: {
+    height: 5,
+    width: width,
+    flex: 1,
+    justifyContent: "center"
+  },
   row: {
     flexDirection: "row",
     marginBottom: 20,
@@ -226,7 +250,29 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 15,
     color: "black",
-    height: 58,
+    // height: re,
+    textAlign: "left",
+    position: "relative"
+  },
+  subtitle: {
+    borderRadius: 10,
+    width: width,
+    fontWeight: "700",
+    fontSize: 15,
+    padding: 15,
+    color: "black",
+    // height: 15,
+    textAlign: "left",
+    position: "relative"
+  },
+  text: {
+    borderRadius: 10,
+    width: width,
+    fontWeight: "300",
+    fontSize: 10,
+    padding: 15,
+    color: "black",
+    // height: 15,
     textAlign: "left",
     position: "relative"
   },
