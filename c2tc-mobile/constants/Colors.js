@@ -11,6 +11,7 @@ const crime = "#C0382A";
 const business = "#1A5E20";
 const emergency = "#3498DB";
 const police = "#925CB1";
+const streetlights = "#ffc107";
 
 export default {
   base,
@@ -25,5 +26,6 @@ export default {
   busStop,
   crime,
   emergency,
-  police
+  police,
+  streetlights
 };

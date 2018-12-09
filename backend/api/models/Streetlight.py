@@ -5,6 +5,5 @@ import mongoengine
 class Streetlight(mongoengine.DynamicDocument):
     """Streetlight Document Schema"""
 
-    streetlight_id = IntField(required=True, unique=True)
     latitude = FloatField(required=True)
     longitude = FloatField(required=True)
