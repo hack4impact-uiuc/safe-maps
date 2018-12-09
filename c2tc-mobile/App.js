@@ -3,6 +3,7 @@ import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
 
 import LiveLocation from "./screens/LiveLocation";
+import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
 
 class App extends Component {
@@ -25,16 +26,23 @@ class App extends Component {
 
   render() {
     if (this.state.isLoaded) {
-      return <LiveLocation />;
+      return <LiveLocation navigation={this.props.navigation} />;
     }
 
-    return <IntroScreen />;
+    return <IntroScreen navigation={this.props.navigation} />;
   }
 }
 
 export default createStackNavigator({
   Intro: {
     screen: App,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  Welcome: {
+    screen: WelcomeScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"

@@ -49,14 +49,13 @@ export default class IntroScreen extends React.Component {
             style={styles.image}
             source={require("../assets/images/welcome/0-1.png")}
             resizeMode="contain"
-          >
-            <Button
-              title="Get Started"
-              color="white"
-              style={styles.button}
-              onPress={() => this.props.navigation.goBack()}
-            />
-          </ImageBackground>
+          />
+          <Button
+            title="Get Started"
+            color="white"
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate("Welcome")}
+          />
         </ImageBackground>
       </FadeInView>
     );
