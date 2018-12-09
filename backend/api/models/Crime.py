@@ -21,3 +21,4 @@ class Crime(mongoengine.DynamicDocument):
     hour_of_day = IntField(required=True)
     day_of_week = StringField(required=True)
     parent_incident_type = StringField(required=True)
+    duration = IntField(required=False)
