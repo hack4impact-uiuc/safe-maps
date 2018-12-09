@@ -138,7 +138,7 @@ export default class Navigation extends Component {
                       <ButtonInterface
                         icon="lightbulb-o"
                         name="Streetlights"
-                        type="streetlights"
+                        type="streetLights"
                         ref="button"
                         color={Colors.streetlights}
                         parentPanel={this}
