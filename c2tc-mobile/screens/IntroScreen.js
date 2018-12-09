@@ -70,15 +70,13 @@ const styles = StyleSheet.create({
   image: {
     alignSelf: "center",
     width: "100%",
-    height: "100%",
-    justifyContent: "flex-end"
+    height: "90%"
   },
   button: {
     alignItems: "center",
     backgroundColor: "#e5e5ea",
-    margin: "auto",
-    position: "absolute",
+    width: "100%",
     justifyContent: "flex-end",
-    width: "100%"
+    bottom: 0
   }
 });
