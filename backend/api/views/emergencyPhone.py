@@ -69,7 +69,5 @@ def delete_phone_collection():
     """
     Helper function to delete phone collection in db.
     """
-    count = len(EmergencyPhone.objects())
-    for phone in EmergencyPhone.objects():
-        phone.delete()
-    return count
+    result = EmergencyPhone.objects().delete()
+    return result

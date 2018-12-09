@@ -6,8 +6,6 @@ import requests
 
 busStop = Blueprint("busStop", __name__)
 
-# TODO: change busStop to bus-stop in urls
-
 
 @busStop.route("/bus-stops", methods=["GET"])
 def get_busStop():
@@ -78,7 +76,5 @@ def delete_stop_collection():
     """
     Helper function to delete stop collection in db.
     """
-    count = len(BusStop.objects())
-    for stop in BusStop.objects():
-        stop.delete()
-    return count
+    result = BusStop.objects().delete()
+    return result

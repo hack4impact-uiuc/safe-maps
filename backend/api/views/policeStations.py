@@ -69,7 +69,5 @@ def delete_police_station_collection():
     """
     Helper function to delete station collection in db.
     """
-    count = len(PoliceStation.objects())
-    for station in PoliceStation.objects():
-        station.delete()
-    return count
+    result = PoliceStation.objects().delete()
+    return result

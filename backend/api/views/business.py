@@ -22,13 +22,23 @@ def open_businesses():
     day = int(request.args.get("day", default=-1))
     if time == -1 or day == -1:
         return get_business()
+    p_day = day - 1
+    if p_day == -1:
+        p_day = 6
     open_businesses = []
     for b in data:
         curr_day = get_open_business_day(b, day)
+        prev_day = get_open_business_day(b, p_day)
         if curr_day == None:
             continue
         if int(curr_day.start) <= time and int(curr_day.end) >= time:
             # open
+            open_businesses.append(b.to_mongo())
+        elif (
+            prev_day != None
+            and prev_day.is_overnight
+            and (int(prev_day.end) >= time or int(prev_day.end) == 0)
+        ):
             open_businesses.append(b.to_mongo())
     ret_data = {"businesses": open_businesses}
     return create_response(data=ret_data, message="Success", status=201)
@@ -85,7 +95,7 @@ def save_business_to_db(business_dict):
     """
     Helper function to save python dict object representing a business db entry
     to an actual mongoDB object. Gracefully handles missing hours attribute by
-    replacing it with an empty list.
+    replacing it with an empty list.delete
     """
     location = Location(
         city=business_dict["location"].get("city"),
@@ -139,9 +149,7 @@ def clear_businesses():
 
 def delete_business_collection():
     """
-    Helper function to delete phone collection in db.
+    Helper function to delete business collection in db.
     """
-    count = len(Business.objects())
-    for business in Business.objects():
-        business.delete()
-    return count
+    result = Business.objects().delete()
+    return result

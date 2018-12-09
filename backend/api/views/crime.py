@@ -85,7 +85,5 @@ def delete_crime_collection():
     """
     Helper function to delete crime collection in db.
     """
-    count = len(Crime.objects())
-    for crime in Crime.objects():
-        crime.delete()
-    return count
+    result = Crime.objects().delete()
+    return result
