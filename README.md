@@ -8,6 +8,7 @@
 
 ## Design Resources
 
+* [Wireframes](https://sketch.cloud/s/45Dzo)
 * [Mockups](https://philkuo.com/hack4impact/c2tc_mockup_current/)
 * [Prototype](https://sketch.cloud/s/AJ9Ky/PrjlrQ/play)
 
@@ -68,3 +69,4 @@ Note: if you prefer using npm, use `npm` instead of `yarn` in commands provided 
 * Josh Burke ([@JoshBurke](https://github.com/JoshBurke))
 * Anooj Lal([@anoojlal](https://github.com/anoojlal))
 * Philip Kuo ([@pkgamma](https://github.com/pkgamma))
+* Annie Wu
