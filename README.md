@@ -68,5 +68,7 @@ Note: if you prefer using npm, use `npm` instead of `yarn` in commands provided 
 * Daniel Choi ([@choiboy98](https://github.com/choiboy98))
 * Josh Burke ([@JoshBurke](https://github.com/JoshBurke))
 * Anooj Lal([@anoojlal](https://github.com/anoojlal))
+
+### Designers
 * Philip Kuo ([@pkgamma](https://github.com/pkgamma))
 * Annie Wu
