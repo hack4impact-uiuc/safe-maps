@@ -81,17 +81,7 @@ export default class Navigation extends Component {
             <View style={styles.title}>
               <View style={styles.panel}>
                 <Text style={styles.filter}>{this.props.descriptionTitle}</Text>
-                <Text style={styles.text}>
-                  {this.props.descriptionContent[2]}
-                </Text>
-                <Text style={styles.subtitle}>Crime Type:</Text>
-                <Text style={styles.text}>
-                  {this.props.descriptionContent[0]}
-                </Text>
-                <Text style={styles.subtitle}>Crime Description:</Text>
-                <Text style={styles.text}>
-                  {this.props.descriptionContent[1]}
-                </Text>
+                <Text>{this.props.descriptionContent}</Text>
               </View>
             </View>
           ) : (
