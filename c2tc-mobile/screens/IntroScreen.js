@@ -2,10 +2,10 @@ import React from "react";
 import {
   Animated,
   View,
-  Image,
+  Dimensions,
   Text,
   ImageBackground,
-  Button,
+  TouchableOpacity,
   StyleSheet
 } from "react-native";
 
@@ -50,12 +50,12 @@ export default class IntroScreen extends React.Component {
             source={require("../assets/images/welcome/0-1.png")}
             resizeMode="contain"
           />
-          <Button
-            title="Get Started"
-            color="white"
+          <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.navigation.navigate("Welcome")}
-          />
+          >
+            <Text style={styles.text}>Get Started</Text>
+          </TouchableOpacity>
         </ImageBackground>
       </FadeInView>
     );
@@ -63,6 +63,10 @@ export default class IntroScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  text: {
+    color: "white",
+    fontSize: 18
+  },
   view: {
     width: "100%",
     height: "100%"
@@ -74,9 +78,11 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#e5e5ea",
-    width: "100%",
+    backgroundColor: "#8e44ad",
+    borderRadius: 10,
+    width: Dimensions.get("window").width - 20,
     justifyContent: "flex-end",
-    bottom: 0
+    marginHorizontal: 10,
+    paddingVertical: 15
   }
 });

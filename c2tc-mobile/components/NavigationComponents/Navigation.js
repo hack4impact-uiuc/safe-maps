@@ -214,7 +214,6 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   subtitle: {
-    // fontFamily: "SFProText-Semibold",
     fontSize: 15,
     color: "#000000",
     letterSpacing: 0.01,
@@ -240,7 +239,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 15,
     color: "black",
-    // height: re,
     textAlign: "left",
     position: "relative"
   },
@@ -251,7 +249,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     padding: 15,
     color: "black",
-    // height: 15,
     textAlign: "left",
     position: "relative"
   },
@@ -262,7 +259,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     padding: 15,
     color: "black",
-    // height: 15,
     textAlign: "left",
     position: "relative"
   },
