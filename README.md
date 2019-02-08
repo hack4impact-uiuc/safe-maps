@@ -1,4 +1,4 @@
-# C2TC Spring 2019[![CircleCI](https://circleci.com/gh/hack4impact-uiuc/c2tc-fall-2018.svg?style=svg)](https://circleci.com/gh/hack4impact-uiuc/c2tc-fall-2018)
+# C2TC Spring 2019[![CircleCI](https://circleci.com/gh/hack4impact-uiuc/c2tc-spring-2019.svg?style=svg)](https://circleci.com/gh/hack4impact-uiuc/c2tc-spring-2019)
 
 **Goal:** To create a mobile application that makes the students of UIUC feel safer on campus.
 
