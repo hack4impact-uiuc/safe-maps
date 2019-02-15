@@ -64,6 +64,8 @@ def create_app(test_config=None):
         emergencyPhone,
         busStop,
         policeStations,
+        user,
+        tips,
     )
 
     app.register_blueprint(main.main)
@@ -73,6 +75,8 @@ def create_app(test_config=None):
     app.register_blueprint(emergencyPhone.emergencyPhone)
     app.register_blueprint(busStop.busStop)
     app.register_blueprint(policeStations.policeStation)
+    app.register_blueprint(user.user)
+    app.register_blueprint(tips.tips)
     # register error Handler
     app.register_error_handler(Exception, all_exception_handler)
 
