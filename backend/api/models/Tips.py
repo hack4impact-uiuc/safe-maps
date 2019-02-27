@@ -3,7 +3,6 @@ from mongoengine.fields import (
     IntField,
     DateTimeField,
     FloatField,
-    EmbeddedDocumentField,
     ObjectIdField,
     ListField,
 )
@@ -16,7 +15,7 @@ class Tips(mongoengine.DynamicDocument):
 
     title = StringField(required=True)
     content = StringField(required=True)
-    author = EmbeddedDocumentField(User)
+    author = ObjectIdField(required=True)
     posted_time = DateTimeField(required=True)
     latitude = FloatField(required=True)
     longitude = FloatField(required=True)
