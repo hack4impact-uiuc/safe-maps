@@ -65,7 +65,8 @@ export default class IntroScreen extends React.Component {
 const styles = StyleSheet.create({
   text: {
     color: "white",
-    fontSize: 18
+    fontSize: 19,
+    fontWeight: "600"
   },
   view: {
     width: "100%",
@@ -73,16 +74,17 @@ const styles = StyleSheet.create({
   },
   image: {
     alignSelf: "center",
-    width: "100%",
-    height: "90%"
+    width: "90%",
+    height: "70%"
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#8e44ad",
-    borderRadius: 10,
-    width: Dimensions.get("window").width - 20,
+    backgroundColor: "#8E44AD",
+    borderRadius: 7,
+    width: Dimensions.get("window").width - 40,
     justifyContent: "flex-end",
-    marginHorizontal: 10,
-    paddingVertical: 15
+    marginHorizontal: 20,
+    paddingVertical: 17,
+    marginTop: 120
   }
 });
