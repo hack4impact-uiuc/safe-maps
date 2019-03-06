@@ -24,7 +24,13 @@ export default class Navigation extends Component {
     };
   }
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    this._mounted = true;
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+  }
 
   getLayerTypes() {
     var list = this.state.toggleLayerList;
@@ -62,7 +68,9 @@ export default class Navigation extends Component {
 
   _onSelect = tab => {
     this.props.onDescExit();
-    this.setState({ page: tab.props.name });
+    if (this._mounted) {
+      this.setState({ page: tab.props.name });
+    }
   };
 
   render() {
@@ -77,17 +85,15 @@ export default class Navigation extends Component {
           draggableRange={draggableRange}
           onDrag={this.setDrag}
         >
-          {this.props.description ? (
-            <View style={styles.title}>
+          <View style={styles.title} key="title">
+            {this.props.description ? (
               <View style={styles.panel}>
                 <Text style={styles.filter}>{this.props.descriptionTitle}</Text>
                 <Text>{this.props.descriptionContent}</Text>
               </View>
-            </View>
-          ) : (
-            [
-              filter ? (
-                <View style={styles.title} key="title">
+            ) : (
+              [
+                filter ? (
                   <View style={styles.panel}>
                     <Text style={styles.filter}>Filters</Text>
                     <View style={styles.row}>
@@ -145,28 +151,28 @@ export default class Navigation extends Component {
                       />
                     </View>
                   </View>
-                </View>
-              ) : (
-                <View style={styles.panel}>
-                  <Text style={styles.filter}>Contacts</Text>
-                  <View style={styles.row}>
-                    <PhoneButton
-                      icon="car"
-                      name="SafeRide"
-                      ref="button"
-                      number="2172657433"
-                    />
-                    <PhoneButton
-                      icon="male"
-                      name="SafeWalk"
-                      ref="button"
-                      number="2173331216"
-                    />
+                ) : (
+                  <View style={styles.panel} key={"phone"}>
+                    <Text style={styles.filter}>Contacts</Text>
+                    <View style={styles.row}>
+                      <PhoneButton
+                        icon="car"
+                        name="SafeRide"
+                        ref="button"
+                        number="2172657433"
+                      />
+                      <PhoneButton
+                        icon="male"
+                        name="SafeWalk"
+                        ref="button"
+                        number="2173331216"
+                      />
+                    </View>
                   </View>
-                </View>
-              )
-            ]
-          )}
+                )
+              ]
+            )}
+          </View>
         </SlidingUpPanel>
         <Tabs
           selected={this.state.page}

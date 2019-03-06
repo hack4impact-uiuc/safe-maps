@@ -18,7 +18,6 @@ const LATITUDE_DELTA = 0.017;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 let id = 0;
-let newLine = "\n\n";
 
 const icons = {
   busStop: require("../assets/images/bus.png"),
@@ -61,6 +60,8 @@ class LiveLocation extends Component {
   }
 
   async componentDidMount() {
+    this._mounted = true;
+
     this.watchID = navigator.geolocation.watchPosition(position => {
       let region = {
         latitude: position.coords.latitude,
@@ -126,41 +127,46 @@ class LiveLocation extends Component {
       await AsyncStorage.setItem("streetLights", JSON.stringify(streetLights));
     }
 
-    this.setState({
-      layerData: {
-        busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
-        crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
-        business: JSON.parse(await AsyncStorage.getItem("businessData")),
-        emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
-        policeStations: JSON.parse(
-          await AsyncStorage.getItem("policeStations")
-        ),
-        streetLights: JSON.parse(await AsyncStorage.getItem("streetLights"))
-      },
-      colorData: {
-        busStop: Colors.busStop,
-        crime: Colors.crime,
-        business: Colors.business,
-        emergency: Colors.emergency,
-        policeStations: Colors.police,
-        streetLights: Colors.streetlights
-      },
-      loading: false
-    });
+    if (this._mounted) {
+      this.setState({
+        layerData: {
+          busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
+          crime: JSON.parse(await AsyncStorage.getItem("crimeData")),
+          business: JSON.parse(await AsyncStorage.getItem("businessData")),
+          emergency: JSON.parse(await AsyncStorage.getItem("emergencyData")),
+          policeStations: JSON.parse(
+            await AsyncStorage.getItem("policeStations")
+          ),
+          streetLights: JSON.parse(await AsyncStorage.getItem("streetLights"))
+        },
+        colorData: {
+          busStop: Colors.busStop,
+          crime: Colors.crime,
+          business: Colors.business,
+          emergency: Colors.emergency,
+          policeStations: Colors.police,
+          streetLights: Colors.streetlights
+        },
+        loading: false
+      });
+    }
 
     this.getLocationAsync();
   }
 
   onRegionChange(region, lastLat, lastLong) {
-    this.setState({
-      mapRegion: region,
-      lastLat: lastLat || this.state.lastLat,
-      lastLong: lastLong || this.state.lastLong
-    });
+    if (this._mounted) {
+      this.setState({
+        mapRegion: region,
+        lastLat: lastLat || this.state.lastLat,
+        lastLong: lastLong || this.state.lastLong
+      });
+    }
   }
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
+    this._mounted = false;
   }
 
   getDistance(lat1, lon1, lat2, lon2) {
@@ -188,7 +194,9 @@ class LiveLocation extends Component {
 
   componentWillMount() {
     setTimeout(() => {
-      this.setState({ statusBarHeight: 5 });
+      if (this._mounted) {
+        this.setState({ statusBarHeight: 5 });
+      }
     }, 500);
   }
 
@@ -266,47 +274,59 @@ class LiveLocation extends Component {
         description: description
       });
     }
-    this.setState({
-      markers: list
-    });
+    if (this._mounted) {
+      this.setState({
+        markers: list
+      });
+    }
   }
 
   markerClick = (title, description) => {
-    this.setState({
-      markerClicked: true,
-      markerTitle: title,
-      markerDescrption: description
-    });
+    if (this._mounted) {
+      this.setState({
+        markerClicked: true,
+        markerTitle: title,
+        markerDescrption: description
+      });
+    }
   };
 
   changeMarkerToFalse = () => {
-    this.setState({
-      markerClicked: false
-    });
+    if (this._mounted) {
+      this.setState({
+        markerClicked: false
+      });
+    }
   };
 
   _onPressToggleLayers = layer => {
     if (this.state.renderData[layer]) {
-      this.setState({
-        markers: this.state.markers.filter(
-          marker => marker["color"] !== this.state.colorData[layer]
-        )
-      });
-      this.state.renderData[layer] = false;
+      if (this._mounted) {
+        this.setState({
+          markers: this.state.markers.filter(
+            marker => marker["color"] !== this.state.colorData[layer]
+          )
+        });
+        this.state.renderData[layer] = false;
+      }
     } else {
       this.renderMarkers(
         layer,
         this.state.layerData[layer],
         this.state.colorData[layer]
       );
-      this.state.renderData[layer] = true;
+      if (this._mounted) {
+        this.state.renderData[layer] = true;
+      }
     }
   };
 
   backToUser = () => {
-    this.setState({
-      mapRegion: this.state.locationResult
-    });
+    if (this._mounted) {
+      this.setState({
+        mapRegion: this.state.locationResult
+      });
+    }
   };
 
   onRegionChangeRender = region => {
@@ -316,9 +336,11 @@ class LiveLocation extends Component {
   getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
-      this.setState({
-        locationResult: "Permission to access location was denied"
-      });
+      if (this._mounted) {
+        this.setState({
+          locationResult: "Permission to access location was denied"
+        });
+      }
     }
 
     let location = await Location.getCurrentPositionAsync({});
@@ -328,13 +350,18 @@ class LiveLocation extends Component {
       longitude: location.coords.longitude,
       longitudeDelta: LONGITUDE_DELTA
     };
-    this.setState({ locationResult: locationTwo });
+    if (this._mounted) {
+      this.setState({ locationResult: locationTwo });
+    }
   };
 
   render() {
-    if (this.state.loading) {
-      return <Loader loading={this.state.loading} />;
+    if (this._mounted) {
+      if (this.state.loading) {
+        return <Loader loading={this.state.loading} />;
+      }
     }
+
     return (
       <View style={styles.container}>
         <MapView

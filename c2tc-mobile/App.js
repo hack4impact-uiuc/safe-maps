@@ -9,23 +9,21 @@ import IntroScreen from "./screens/IntroScreen";
 class App extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      isLoaded: false
-    };
   }
   async componentDidMount() {
     if (AsyncStorage.getAllKeys().length != 1) {
       await AsyncStorage.setItem("loaded", JSON.stringify(1));
     } else {
-      this.setState({
-        isLoaded: true
-      });
+      this._mounted = true;
     }
   }
 
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+
   render() {
-    if (this.state.isLoaded) {
+    if (this._mounted) {
       return <LiveLocation navigation={this.props.navigation} />;
     }
 
