@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     marginHorizontal: 20,
     paddingVertical: 17,
-    marginTop: -75
+    marginTop: 0 // -75 works perfectly on iPhones but not on Android, 0 works fine on android but it's too low for iPhones, relative values dont work either
   },
   view: {
     height: Dimensions.get("window").height - (110 + width / 10),
