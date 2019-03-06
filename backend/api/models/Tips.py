@@ -5,6 +5,7 @@ from mongoengine.fields import (
     FloatField,
     ObjectIdField,
     ListField,
+    BooleanField,
 )
 import mongoengine
 from api.models.User import User
@@ -18,6 +19,7 @@ class Tips(mongoengine.DynamicDocument):
     content = StringField(required=True)
     author = ObjectIdField(required=True)
     posted_time = DateTimeField(required=True)
+    verified = BooleanField(required=True)
     latitude = FloatField(required=True)
     longitude = FloatField(required=True)
     category = StringField(required=True)

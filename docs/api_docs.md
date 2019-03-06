@@ -29,8 +29,8 @@
 
 **TIP**
 
-|   title  |   content  |   author  |   posted_time  |   latitude  |   longitude  |  category  |  upvotes  |  downvotes  |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|   title  |   content  |   author  |   posted_time  |   latitude  |   longitude  |  category  |  upvotes  |  downvotes  |  verified  |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 
 
 ## Endpoints Documentation
@@ -379,6 +379,16 @@ GET function for retrieving all tips objects downvoted by a certain user
 
 ### Endpoint
 
+    GET /tips/verified
+
+**Description**
+
+GET function for retrieving all tips objects that are verified
+
+**Response**
+
+### Endpoint
+
     POST /tips
 
 **Description**
@@ -437,6 +447,18 @@ The parameter are passed in as a JSON:
 }
 ```  
 "vote_type" can be either UPVOTE or DOWNVOTE
+
+**Response**
+
+### Endpoint
+
+    PUT /tips/<id>/verify
+
+**Description**
+
+PUT function for changing the tip's verified status
+
+Takes in a query parameter "verified" which must be either "True" or "False"
 
 **Response**
 

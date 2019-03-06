@@ -77,19 +77,18 @@ def delete_user(id):
     return create_response(message="success!")
 
 
-# @emergencyPhone.route("/emergency-phones", methods=["POST"])
-# def scrape_phones():
-#     """
-#     POST function which calls get_phones() from the emergency_phones.py scraper
-#     and stores phone data to the database.
-#     This data is hardcoded and will probably never change, so this endpoint
-#     only needs to be called if the db is reset or the collection is lost.
-#     """
-#     try:
-#         data = get_phones()
-#         delete_phone_collection()
-#         for phone in data:
-#             save_phone_to_db(phone)
-#         return create_response(status=200, message="success!")
-#     except Exception as e:
-#         return create_response(status=500, message="Exception raised: " + repr(e))
+@user.route("/users/<id>/verify", methods=["PUT"])
+def update_verified(id):
+    """
+    PUT function for changing the user's verified status
+    """
+    user = User.objects.get(id=id)
+    if request.args.get("verified") == "True":
+        user.update(verified=True)
+        return create_response(message="success!")
+    if request.args.get("verified") == "False":
+        user.update(verified=False)
+        return create_response(message="success!")
+    return create_response(
+        message="query string not recognized, it must be either True or False"
+    )
