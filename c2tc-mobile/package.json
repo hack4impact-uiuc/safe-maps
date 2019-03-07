@@ -1,7 +1,18 @@
 {
   "name": "cut-to-the-case",
+  "version": "0.0.5",
+  "description": "A mobile application that makes the students of UIUC feel safer on campus.",
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
+  "author": "Hack4Impact UIUC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hack4impact-uiuc/c2tc-spring-2019.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hack4impact-uiuc/c2tc-spring-2019/issues"
+  },
+  "homepage": "https://github.com/hack4impact-uiuc/c2tc-spring-2019#readme",
   "scripts": {
     "start": "expo start",
     "format": "prettier --write './**/*.{js,jsx,json,css}'",
