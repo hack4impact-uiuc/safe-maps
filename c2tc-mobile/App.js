@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
 
-import LiveLocation from "./screens/LiveLocation";
+import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
+import { Provider, connect } from "react-redux";
+import { store, reduxifiedNavigator } from "./Redux";
 
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
   }
@@ -23,17 +25,22 @@ class App extends Component {
   }
 
   render() {
-    if (this._mounted) {
-      return <LiveLocation navigation={this.props.navigation} />;
-    }
+    return <Navigator />;
+    // if (this._mounted) {
+    //   return(
+    //     <Provider store={store}>
+    //       <LiveLocation  navigation={this.props.navigation} />
+    //     </Provider>
+    //   );
+    // }
 
-    return <IntroScreen navigation={this.props.navigation} />;
+    // return <IntroScreen navigation={this.props.navigation} />
   }
 }
 
-export default createStackNavigator({
+Navigator = createStackNavigator({
   Intro: {
-    screen: App,
+    screen: IntroScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
@@ -47,7 +54,7 @@ export default createStackNavigator({
     }
   },
   MapScreen: {
-    screen: LiveLocation,
+    screen: MapScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"

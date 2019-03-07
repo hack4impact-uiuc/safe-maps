@@ -7,22 +7,73 @@ import {
   StyleSheet,
   Dimensions
 } from "react-native";
-export default class ButtonInterace extends Component {
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { updateRenderData, updateMarkers } from "../../Redux";
+import renderLayerMarkers from "../MapRendering";
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      updateMarkers,
+      updateRenderData
+    },
+    dispatch
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    renderData: state.renderData,
+    layerData: state.layerData,
+    colorData: state.colorData,
+    markers: state.markers,
+    mapRegion: state.mapRegion
+  };
+};
+
+class ButtonInterface extends Component {
   constructor(props) {
     super(props);
   }
 
-  getType() {
-    return this.props.type;
+  _onPressToggleLayers = layer => {
+    if (this.props.renderData[layer]) {
+      this.props.updateRenderData(layer, false);
+      let markers = this.props.markers.filter(
+        marker => marker["color"] !== this.props.colorData[layer]
+      );
+      this.props.updateMarkers(markers);
+    } else {
+      this.renderMarkers(
+        layer,
+        this.props.layerData[layer],
+        this.props.colorData[layer]
+      );
+      this.props.updateRenderData(layer, true);
+    }
+  };
+
+  async renderMarkers(layer, data, markerColor) {
+    const { layerData, colorData, markers, mapRegion } = this.props;
+    let markerList = await renderLayerMarkers(
+      layer,
+      data,
+      markerColor,
+      layerData,
+      colorData,
+      markers,
+      mapRegion
+    );
+    this.props.updateMarkers(markerList);
   }
 
   updateLayer = () => {
-    this.props.parentPanel.updateLayerList(this.getType());
-    this.props.parentPanel.props.toggleLayers(this.props.type);
+    this._onPressToggleLayers(this.props.type);
   };
 
   render() {
-    var isSelected = this.props.parentPanel.props.layers[this.props.type];
+    var isSelected = this.props.renderData[this.props.type];
     return (
       <View style={styles.view}>
         <TouchableOpacity
@@ -48,6 +99,11 @@ export default class ButtonInterace extends Component {
     );
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ButtonInterface);
 
 const styles = StyleSheet.create({
   selectedButton: {
