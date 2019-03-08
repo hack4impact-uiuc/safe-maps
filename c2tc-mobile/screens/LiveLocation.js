@@ -75,7 +75,12 @@ class LiveLocation extends Component {
         };
         this.onRegionChange(region);
       },
-      error => console.log({ error: error.message })
+      error => {
+        console.log({ error: error.message });
+      },
+      {
+        enableHighAccuracy: true
+      }
     );
 
     this.watchID = navigator.geolocation.watchPosition(
@@ -180,6 +185,7 @@ class LiveLocation extends Component {
       longitudeDelta: LONGITUDE_DELTA
     };
     this.setState({ locationResult: region });
+    this.props.updateMapRegion(this.state.locationResult);
   };
 
   render() {
