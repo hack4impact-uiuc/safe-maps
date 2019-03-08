@@ -6,11 +6,9 @@ import {
   Image,
   StyleSheet,
   ImageBackground,
-  Button,
   Dimensions,
   TouchableOpacity
 } from "react-native";
-import ButtonInterface from "../components/NavigationComponents/ButtonInterface";
 
 const { width, height } = Dimensions.get("window");
 

@@ -5,8 +5,6 @@ import { createStackNavigator } from "react-navigation";
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
-import { Provider, connect } from "react-redux";
-import { store, reduxifiedNavigator } from "./Redux";
 
 export default class App extends Component {
   constructor(props) {
@@ -26,15 +24,6 @@ export default class App extends Component {
 
   render() {
     return <Navigator />;
-    // if (this._mounted) {
-    //   return(
-    //     <Provider store={store}>
-    //       <LiveLocation  navigation={this.props.navigation} />
-    //     </Provider>
-    //   );
-    // }
-
-    // return <IntroScreen navigation={this.props.navigation} />
   }
 }
 

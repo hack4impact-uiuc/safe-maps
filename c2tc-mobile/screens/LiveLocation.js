@@ -4,7 +4,6 @@ import { Location, Permissions } from "expo";
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
 import Colors from "../constants/Colors";
-import renderLayerMarkers from "../components/MapRendering";
 import API from "../components/API";
 import Loader from "../components/Loader";
 

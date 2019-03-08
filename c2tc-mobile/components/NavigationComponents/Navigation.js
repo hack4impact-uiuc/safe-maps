@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
 import Panel from "./Panel";
 import TabBar from "./Tabs";
 

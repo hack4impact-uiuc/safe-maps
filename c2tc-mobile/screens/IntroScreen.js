@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Animated,
-  View,
   Dimensions,
   Text,
   ImageBackground,

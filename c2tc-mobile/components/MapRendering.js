@@ -90,7 +90,6 @@ export default (renderLayerMarkers = (
       description: description
     });
   }
-  // (console.log("here is list",list))
   return list;
 });
 

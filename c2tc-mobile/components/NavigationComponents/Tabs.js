@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Tabs from "react-native-tabs";
-import { StyleSheet, Text, Dimensions } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 import { connect } from "react-redux";
