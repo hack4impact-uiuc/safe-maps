@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import api from "./components/API";
+import API from "./components/API";
 
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
 import TipForm from "./screens/TipForm";
-import { Provider, connect } from "react-redux";
-import { store, reduxifiedNavigator } from "./Redux";
 import TipOverviewScreen from "./screens/TipOverviewScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
 
@@ -17,15 +15,6 @@ export default class App extends Component {
     super(props);
   }
   async componentDidMount() {
-    console.log("PRINTING OUT USERS");
-    console.log(await api.getStreetLight());
-    // data = {
-    //   net_id: "alicesf2",
-    //   username: "alicesf2",
-    //   verified: False,
-    //   anon: False
-    // };
-    // console.log(api.createUser(data));
     if (AsyncStorage.getAllKeys().length != 1) {
       await AsyncStorage.setItem("loaded", JSON.stringify(1));
     } else {
@@ -77,14 +66,12 @@ Navigator = createStackNavigator({
       header: null,
       headerMode: "screen"
     }
-  }
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+  },
+  TipForm: {
+    screen: TipForm,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
   }
 });

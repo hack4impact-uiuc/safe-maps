@@ -8,10 +8,14 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
+import Geocoder from "react-native-geocoding";
 
 class TipOverview extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      address: "Grainger"
+    };
   }
 
   render() {
@@ -24,19 +28,20 @@ class TipOverview extends React.Component {
       >
         <View style={styles.cardTitle}>
           <View style={styles.tags}>
-            {this.props.tags.map(tag => (
-              <Tag key={tag} category={tag} />
-            ))}
+            <Tag
+              key={this.props.tip.category}
+              category={this.props.tip.category}
+            />
           </View>
-          <Text style={styles.tipTitle}>{this.props.title}</Text>
+          <Text style={styles.tipTitle}>{this.props.tip.title}</Text>
         </View>
         <View style={styles.cardActions}>
           <View style={styles.leftActions}>
             <Text style={styles.actionText}>
-              <FontAwesome name="map-marker" size={17} /> {this.props.location}{" "}
+              <FontAwesome name="map-marker" size={17} /> {this.state.address}{" "}
             </Text>
             <Text style={styles.actionText}>
-              <FontAwesome name="user" size={17} /> {this.props.author}
+              <FontAwesome name="user" size={17} /> {this.props.tip.author}
             </Text>
           </View>
           <View style={styles.rightActions}>

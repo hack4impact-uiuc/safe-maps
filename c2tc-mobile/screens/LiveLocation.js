@@ -6,7 +6,6 @@ import Navigation from "../components/NavigationComponents/Navigation";
 import Colors from "../constants/Colors";
 import API from "../components/API";
 import Loader from "../components/Loader";
-import TipOverviewScreen from "./TipOverviewScreen";
 import CurrentLocationButton from "../components/NavigationComponents/CurrentLocationButton";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

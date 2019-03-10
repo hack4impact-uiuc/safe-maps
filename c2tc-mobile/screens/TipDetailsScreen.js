@@ -13,38 +13,31 @@ class TipDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "title",
-      content: "content",
-      author: "author",
-      date: "date posted",
-      location: "location",
-      tags: ["safety", "traffic"],
       upvotes: 87
     };
   }
 
   render() {
+    let tip = this.props.navigation.state.params.tip;
     return (
       <View style={styles.detail}>
         <View>
-          <Text style={styles.title}>{this.state.title}</Text>
+          <Text style={styles.title}>{tip.title}</Text>
           <View style={styles.tags}>
-            {this.state.tags.map(tag => (
-              <Tag key={tag} category={tag} />
-            ))}
+            <Tag key={tip.category} category={tip.category} />
           </View>
-          <Text style={styles.content}>{this.state.content}</Text>
+          <Text style={styles.content}>{tip.content}</Text>
           <Text style={styles.postDetails}>
             {" "}
-            <FontAwesome name="map-marker" size={17} /> {this.state.location}
+            <FontAwesome name="map-marker" size={17} /> Grainger
           </Text>
           <Text style={styles.postDetails}>
             {" "}
-            <FontAwesome name="user" size={17} /> {this.state.author}
+            <FontAwesome name="user" size={17} /> {tip.author}
           </Text>
           <Text style={styles.postDetails}>
             {" "}
-            <FontAwesome name="clock-o" size={17} /> {this.state.date}
+            <FontAwesome name="clock-o" size={17} /> {tip.posted_time}
           </Text>
         </View>
         <View style={styles.action}>

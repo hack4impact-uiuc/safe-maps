@@ -7,6 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import TipOverview from "../components/TipOverview";
+import API from "../components/API";
 
 class TipOverviewScreen extends React.Component {
   constructor(props) {
@@ -18,8 +19,14 @@ class TipOverviewScreen extends React.Component {
       date: "date posted",
       location: "location",
       user: "Philip",
-      currentdate: "Thursday Feb 28"
+      currentdate: "Thursday Feb 28",
+      tips: []
     };
+  }
+
+  async componentDidMount() {
+    let tipsResponse = await API.getTips();
+    this.setState({ tips: tipsResponse });
   }
 
   handleAddTipPress = e => {
@@ -40,25 +47,13 @@ class TipOverviewScreen extends React.Component {
           <TouchableOpacity onPress={this.handleAddTipPress}>
             <Text style={styles.button}> Submit A Tip ></Text>
           </TouchableOpacity>
-          <TipOverview
-            navigation={this.props.navigation}
-            tip=""
-            tags={["safety", "food"]}
-            title="Two Theft Incidents at Grainger"
-            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus cursus massa nunc, vitae porttitor felis pulvinar at."
-            category="safety"
-            location="location"
-            author="author"
-          />
-          <TipOverview
-            navigation={this.props.navigation}
-            tip=""
-            tags={["safety", "traffic"]}
-            title="Car Accident on 1st St"
-            category="safety"
-            location="location"
-            author="author"
-          />
+          {this.state.tips.map(tip => (
+            <TipOverview
+              key={tip._id}
+              tip={tip}
+              navigation={this.props.navigation}
+            />
+          ))}
         </View>
       </ScrollView>
     );

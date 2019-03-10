@@ -61,9 +61,7 @@ class TabBar extends Component {
           <FontAwesome
             name="phone"
             size={38}
-            color={
-              filter === "contact" ? Colors.tabUnselected : Colors.tabSelected
-            }
+            color={filter === "contact" ? Colors.Selected : Colors.Unselected}
           />
         </Text>
       </Tabs>

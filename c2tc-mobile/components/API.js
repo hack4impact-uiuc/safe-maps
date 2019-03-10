@@ -1,4 +1,4 @@
-const host = "https://h4i-cut-to-the-case-backend.now.sh";
+const host = "https://cut-to-the-case.now.sh";
 
 async function getEndpoint(endPoint, dataKey) {
   try {
@@ -56,6 +56,12 @@ async function deleteEndpoint(endPoint) {
     console.error(error);
   }
 }
+async function createTip(data) {
+  return postEndpoint("tips", data);
+}
+async function getTips() {
+  return getEndpoint("tips", "tips");
+}
 
 async function getUsers() {
   return getEndpoint("users", "users");
@@ -112,5 +118,6 @@ export default {
   getCrimes,
   getBusinesses,
   getEmergencyPhones,
-  getStreetLight
+  getStreetLight,
+  getTips
 };
