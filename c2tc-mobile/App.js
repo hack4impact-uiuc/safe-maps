@@ -5,6 +5,9 @@ import { createStackNavigator } from "react-navigation";
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
+import TipForm from "./screens/TipForm";
+import { Provider, connect } from "react-redux";
+import { store, reduxifiedNavigator } from "./Redux";
 import TipOverviewScreen from "./screens/TipOverviewScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
 
