@@ -31,7 +31,7 @@ class TabBar extends Component {
   };
 
   render() {
-    let filter = this.props.page === "filter";
+    let filter = this.props.page;
     return (
       <Tabs
         selected={this.props.page}
@@ -39,18 +39,31 @@ class TabBar extends Component {
         selectedStyle={{ color: "purple" }}
         onSelect={tab => this._onSelect(tab)}
       >
+        <Text name="tips" selectedIconStyle={styles.tab}>
+          <FontAwesome
+            name="users"
+            size={32}
+            color={
+              filter === "tips" ? Colors.tabSelected : Colors.tabUnselected
+            }
+          />
+        </Text>
         <Text name="filter" selectedIconStyle={styles.tab}>
           <FontAwesome
             name="map"
             size={32}
-            color={filter ? Colors.tabSelected : Colors.tabUnselected}
+            color={
+              filter === "filter" ? Colors.tabSelected : Colors.tabUnselected
+            }
           />
         </Text>
         <Text name="contact" selectedIconStyle={styles.tab}>
           <FontAwesome
             name="phone"
             size={38}
-            color={filter ? Colors.tabUnselected : Colors.tabSelected}
+            color={
+              filter === "contact" ? Colors.tabUnselected : Colors.tabSelected
+            }
           />
         </Text>
       </Tabs>

@@ -6,7 +6,7 @@ import Navigation from "../components/NavigationComponents/Navigation";
 import Colors from "../constants/Colors";
 import API from "../components/API";
 import Loader from "../components/Loader";
-
+import TipOverviewScreen from "./TipOverviewScreen";
 import CurrentLocationButton from "../components/NavigationComponents/CurrentLocationButton";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -41,7 +41,8 @@ const mapStateToProps = state => {
     colorData: state.colorData,
     renderData: state.renderData,
     markers: state.markers,
-    mapRegion: state.mapRegion
+    mapRegion: state.mapRegion,
+    page: state.page
   };
 };
 
@@ -191,6 +192,8 @@ class LiveLocation extends Component {
   render() {
     if (this._mounted) {
       return <Loader loading={this._mounted} />;
+    } else if (this.props.page == "tips") {
+      return this.props.navigation.navigate("TipOverview");
     }
     return (
       <View style={styles.container}>

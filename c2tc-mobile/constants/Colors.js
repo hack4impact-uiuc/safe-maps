@@ -12,6 +12,10 @@ const business = "#1A5E20";
 const emergency = "#3498DB";
 const police = "#925CB1";
 const streetlights = "#ffc107";
+const safety = "#8D5725";
+const campus = "orange";
+const traffic = "#ffc107";
+const food = "green";
 
 export default {
   base,
@@ -27,5 +31,9 @@ export default {
   crime,
   emergency,
   police,
-  streetlights
+  streetlights,
+  safety,
+  campus,
+  traffic,
+  food
 };

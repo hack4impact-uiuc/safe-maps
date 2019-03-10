@@ -113,7 +113,7 @@ export default class WelcomeScreen extends React.Component {
         <View style={styles.viewButton}>
           <TouchableOpacity
             style={styles.selectedButton}
-            onPress={() => this.props.navigation.navigate("MapScreen")}
+            onPress={() => this.props.navigation.navigate("Map")}
           >
             <Text style={styles.selectedText}>Continue</Text>
           </TouchableOpacity>

@@ -5,6 +5,8 @@ import { createStackNavigator } from "react-navigation";
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import IntroScreen from "./screens/IntroScreen";
+import TipOverviewScreen from "./screens/TipOverviewScreen";
+import TipDetailsScreen from "./screens/TipDetailsScreen";
 
 export default class App extends Component {
   constructor(props) {
@@ -42,8 +44,22 @@ Navigator = createStackNavigator({
       headerMode: "screen"
     }
   },
-  MapScreen: {
+  Map: {
     screen: MapScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  TipOverview: {
+    screen: TipOverviewScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  TipDetail: {
+    screen: TipDetailsScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
