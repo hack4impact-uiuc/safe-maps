@@ -29,10 +29,6 @@ class TipOverviewScreen extends React.Component {
     this.setState({ tips: tipsResponse });
   }
 
-  handleAddTipPress = e => {
-    console.log("Add a Tip");
-  };
-
   render() {
     return (
       <ScrollView style={styles.tipOverview}>
@@ -44,7 +40,9 @@ class TipOverviewScreen extends React.Component {
           <Text style={styles.headertext}>{this.state.user}!</Text>
         </View>
         <View style={styles.content}>
-          <TouchableOpacity onPress={this.handleAddTipPress}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TipForm")}
+          >
             <Text style={styles.button}> Submit A Tip ></Text>
           </TouchableOpacity>
           {this.state.tips.map(tip => (
