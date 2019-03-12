@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import TipOverview from "../components/TipOverview";
 import API from "../components/API";
+import { NavigationEvents } from "react-navigation";
 
 class TipOverviewScreen extends React.Component {
   constructor(props) {
@@ -28,10 +29,14 @@ class TipOverviewScreen extends React.Component {
     let tipsResponse = await API.getTips();
     this.setState({ tips: tipsResponse });
   }
-
+  onComponentFocused = async () => {
+    let tipsResponse = await API.getTips();
+    this.setState({ tips: tipsResponse });
+  };
   render() {
     return (
       <ScrollView style={styles.tipOverview}>
+        <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View style={styles.header}>
           <Text style={styles.date}>
             {this.state.currentdate.toUpperCase()}

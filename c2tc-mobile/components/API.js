@@ -119,5 +119,6 @@ export default {
   getBusinesses,
   getEmergencyPhones,
   getStreetLight,
-  getTips
+  getTips,
+  createTip
 };
