@@ -13,7 +13,7 @@
 
 ## Backend Resources
 
-* [Database Schema](https://github.com/hack4impact-uiuc/c2tc-fall-2018/blob/master/docs/api_docs.md)
+* [Database Schema](https://github.com/hack4impact-uiuc/c2tc-spring-2019/blob/master/docs/api_docs.md)
 
 ## Tech Stack
 
