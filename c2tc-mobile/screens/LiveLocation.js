@@ -96,27 +96,49 @@ class LiveLocation extends Component {
       error => console.log({ error: error.message })
     );
 
-    if (AsyncStorage.getAllKeys().length != 6) {
-      let busStopData = await API.getBusStops();
-      let crimeData = await API.getCrimes();
-      let businessData = await API.getBusinesses();
-      let emergencyData = await API.getEmergencyPhones();
-      let policeStations = await API.getPoliceStations();
-      let streetLights = await API.getStreetLight();
+    let busStop = await AsyncStorage.getItem("busStop");
+    let crimeData = await AsyncStorage.getItem("crimeData");
+    let businessData = await AsyncStorage.getItem("businessData");
+    let emergencyData = await AsyncStorage.getItem("emergencyData");
+    let policeStations = await AsyncStorage.getItem("policeStations");
+    let streetLights = await AsyncStorage.getItem("streetLights");
 
+    if (!busStop) {
+      busStopData = await API.getBusStops();
       await AsyncStorage.setItem("busStop", JSON.stringify(busStopData));
+    }
+
+    if (!crimeData) {
+      crimeData = await API.getCrimes();
       await AsyncStorage.setItem("crimeData", JSON.stringify(crimeData));
+    }
+
+    if (!businessData) {
+      businessData = await API.getBusinesses();
       await AsyncStorage.setItem("businessData", JSON.stringify(businessData));
+    }
+
+    if (!emergencyData) {
+      emergencyData = await API.getEmergencyPhones();
       await AsyncStorage.setItem(
         "emergencyData",
         JSON.stringify(emergencyData)
       );
+    }
+
+    if (!policeStations) {
+      policeStations = await API.getPoliceStations();
       await AsyncStorage.setItem(
         "policeStations",
         JSON.stringify(policeStations)
       );
+    }
+
+    if (!streetLights) {
+      streetLights = await API.getStreetLight();
       await AsyncStorage.setItem("streetLights", JSON.stringify(streetLights));
     }
+
     await this.props.updateLayerData({
       busStop: JSON.parse(await AsyncStorage.getItem("busStop")),
       crime: JSON.parse(await AsyncStorage.getItem("crimeData")),

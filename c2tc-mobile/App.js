@@ -15,10 +15,11 @@ export default class App extends Component {
     super(props);
   }
   async componentDidMount() {
-    if (AsyncStorage.getAllKeys().length != 1) {
-      await AsyncStorage.setItem("loaded", JSON.stringify(1));
-    } else {
+    let is_loaded = await AsyncStorage.getItem("loaded");
+    if (is_loaded) {
       this._mounted = true;
+    } else {
+      await AsyncStorage.setItem("loaded", JSON.stringify(1));
     }
   }
 
