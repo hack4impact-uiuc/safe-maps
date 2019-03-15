@@ -5,7 +5,7 @@ from api.core import create_response, serialize_list, logger
 from datetime import datetime
 from bson.objectid import ObjectId
 import json
-from Constants import UPVOTE, DOWNVOTE
+from api.constants import UPVOTE, DOWNVOTE
 
 tips = Blueprint("tips", __name__)
 
