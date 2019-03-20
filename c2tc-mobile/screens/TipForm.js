@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Picker
 } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 import { TextInput, withTheme } from "react-native-paper";
 import Tag from "../components/Tag.js";
 import API from "../components/API";
@@ -55,24 +56,28 @@ class TipForm extends React.Component {
   };
 
   render() {
-    const {
-      theme: {
-        colors: { background }
-      }
-    } = this.props;
-
     return (
       <KeyboardAvoidingView
         style={styles.wrapper}
         behavior="padding"
         keyboardVerticalOffset={0}
       >
+        <View style={styles.backHeader}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TipOverview")}
+            style={styles.backButton}
+          >
+            <Text style={styles.backText}>
+              <FontAwesome name="chevron-left" size={20} color="#027BFF" /> Back
+            </Text>
+          </TouchableOpacity>
+        </View>
         <ScrollView
-          style={[styles.container, { backgroundColor: background }]}
+          style={styles.container}
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
-          <Text style={[styles.header, { marginTop: 25 }]}>Tip Title</Text>
+          <Text style={styles.header}>Tip Title</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
@@ -123,6 +128,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  backButton: {
+    paddingLeft: 20,
+    width: Dimensions.get("window").width
+  },
+  backText: {
+    color: "#027BFF",
+    fontSize: 20
+  },
+  backHeader: {
+    marginTop: 30,
+    flexDirection: "row",
+    justifyContent: "flex-start"
+  },
   pickerContainer: {
     borderWidth: 1,
     borderColor: "black",
@@ -135,22 +153,24 @@ const styles = StyleSheet.create({
     width: 200
   },
   wrapper: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "white"
   },
   inputContainerStyle: {
-    margin: 20,
+    marginHorizontal: 20,
     marginTop: 0
   },
   inputBodyContainerStyle: {
     paddingBottom: 100,
-    margin: 20,
+    marginHorizontal: 20,
     marginTop: 0
   },
   header: {
     fontWeight: "500",
     fontSize: 25,
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingTop: 20,
+    paddingBottom: 10,
     color: "black",
     textAlign: "left",
     position: "relative"
