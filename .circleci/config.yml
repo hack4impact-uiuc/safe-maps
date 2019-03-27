@@ -10,7 +10,7 @@ jobs:
             cd backend
             pipenv install --skip-lock
             pipenv install --skip-lock --dev
-            pipenv run black . --check 
+            pipenv run black . --check
   backend_test:
     docker:
       - image: circleci/python:3.7
@@ -30,8 +30,8 @@ jobs:
       - run:
           command: |
             cd c2tc-mobile
-            npm install
-            npm run format:check
+            yarn
+            yarn format
 workflows:
   version: 2
   build-test:
