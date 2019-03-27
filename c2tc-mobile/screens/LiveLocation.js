@@ -210,6 +210,39 @@ class LiveLocation extends Component {
     this.props.updateMapRegion(this.state.locationResult);
   };
 
+  getAddress(lat, long) {
+    api_address =
+      "http://www.mapquestapi.com/geocoding/v1/reverse?key=6lJsB5kKwRsYYkkjhk4AXkPFn2DhGCiy&location=" +
+      lat +
+      "," +
+      long +
+      "&includeRoadMetadata=false&includeNearestIntersection=false";
+
+    fetch(api_address)
+      .then(response => {
+        return response.json();
+      })
+      .then(responseJson => {
+        street_address = responseJson["results"][0]["locations"][0]["street"];
+        city = responseJson["results"][0]["locations"][0]["adminArea5"];
+        state = responseJson["results"][0]["locations"][0]["adminArea3"];
+        country = responseJson["results"][0]["locations"][0]["adminArea1"];
+        postal_code = responseJson["results"][0]["locations"][0][
+          "postalCode"
+        ].substring(0, 5);
+        full_address =
+          street_address +
+          " " +
+          city +
+          " " +
+          state +
+          " " +
+          country +
+          " " +
+          postal_code;
+      });
+  }
+
   render() {
     if (this._mounted) {
       return <Loader loading={this._mounted} />;
