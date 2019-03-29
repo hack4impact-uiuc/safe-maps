@@ -1,7 +1,6 @@
 import React from "react";
 
 import TabBar from "../components/NavigationComponents/Tabs";
-import { NavigationEvents } from "react-navigation";
 import { Provider } from "react-redux";
 import { store } from "../Redux";
 import TipOverviewScreen from "./TipOverviewScreen";

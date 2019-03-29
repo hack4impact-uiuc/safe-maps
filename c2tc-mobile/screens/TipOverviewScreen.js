@@ -10,8 +10,6 @@ import TipOverview from "../components/TipOverview";
 import TabBar from "../components/NavigationComponents/Tabs";
 import API from "../components/API";
 import { NavigationEvents } from "react-navigation";
-import { bindActionCreators } from "redux";
-import { store } from "../Redux";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {

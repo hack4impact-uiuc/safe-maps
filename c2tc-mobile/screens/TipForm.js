@@ -1,17 +1,16 @@
 import React from "react";
 import {
-  Text,
   StyleSheet,
-  ScrollView,
   KeyboardAvoidingView,
-  View,
   Dimensions,
+  View,
   TouchableOpacity,
+  Text,
+  ScrollView,
   Picker
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { TextInput, withTheme } from "react-native-paper";
-import Tag from "../components/Tag.js";
 import API from "../components/API";
 import { Location } from "expo";
 import Color from "../constants/Colors";
@@ -23,7 +22,18 @@ class TipForm extends React.Component {
     category: "",
     author: "Megha Mallya",
     userId: "5c86c850f875c618f8557f40",
-    location: null
+    location: null,
+    address: "",
+
+    touched: {
+      title: false,
+      body: false,
+      category: false,
+      author: false,
+      userId: false,
+      location: false,
+      address: false
+    }
   };
 
   async componentWillMount() {
@@ -42,6 +52,7 @@ class TipForm extends React.Component {
       };
     }
   };
+
   handSubmitTip = async () => {
     tip = {
       title: this.state.title,
@@ -53,6 +64,12 @@ class TipForm extends React.Component {
     };
     await API.createTip(tip);
     this.props.navigation.navigate("TipOverview");
+  };
+
+  shouldMarkError = field => {
+    const hasError = this.validate(this.state.title, this.state.content)[field];
+    const shouldShow = this.state.touched[field];
+    return hasError ? shouldShow : false;
   };
 
   render() {
@@ -79,6 +96,7 @@ class TipForm extends React.Component {
         >
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
+            className={this.shouldMarkError("title") ? "error" : ""}
             mode="outlined"
             style={styles.inputContainerStyle}
             label="Tip Title"
@@ -94,6 +112,15 @@ class TipForm extends React.Component {
             placeholder="Content of your tip"
             value={this.state.body}
             onChangeText={body => this.setState({ body })}
+          />
+          <Text style={styles.header}>Tip Location</Text>
+          <TextInput
+            mode="outlined"
+            style={styles.inputBodyContainerStyle}
+            label="Tip Location"
+            placeholder="Location of your tip"
+            value={this.state.address}
+            onChangeText={address => this.setState({ location })}
           />
           <Text style={styles.header}>Category</Text>
           <View style={styles.pickerContainer}>
@@ -188,6 +215,10 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     marginTop: 30,
     marginLeft: 20
+  },
+  error: {
+    borderRadius: 1,
+    borderColor: "red"
   }
 });
 
