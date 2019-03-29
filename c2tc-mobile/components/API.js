@@ -69,7 +69,7 @@ async function getTip(id) {
 }
 
 async function getTipsFromUser(user_id) {
-  return getEndpoint(`tips/${user_id}`, "tips")
+  return getEndpoint(`user/${user_id}/tips`, "tips")
 }
 
 async function getTipsFromCategory(category) {

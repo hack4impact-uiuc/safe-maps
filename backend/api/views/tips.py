@@ -30,7 +30,7 @@ def get_tip(id):
     return create_response(data=dict(response))
 
 
-@tips.route("/tips/<user_id>", methods=["GET"])
+@tips.route("/user/<user_id>/tips", methods=["GET"])
 def get_tips_by_user(user_id):
     """
     GET function for retrieving Tips objects posted by a certain user
