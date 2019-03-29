@@ -21,6 +21,15 @@ def get_all_tips():
     return create_response(data=response)
 
 
+@tips.route("/tips/<id>", methods=["GET"])
+def get_tip(id):
+    """
+    GET function for retrieving a single Tip
+    """
+    response = Tips.objects.get(id=id).to_mongo()
+    return create_response(data=dict(response))
+
+
 @tips.route("/tips/<user_id>", methods=["GET"])
 def get_tips_by_user(user_id):
     """
