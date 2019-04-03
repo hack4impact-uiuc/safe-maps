@@ -14,6 +14,7 @@ import { TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
 import { Location } from "expo";
 import Color from "../constants/Colors";
+import { addressToLatLong } from "../components/Geocoding";
 
 class TipForm extends React.Component {
   state = {
@@ -24,7 +25,9 @@ class TipForm extends React.Component {
     userId: "5c86c850f875c618f8557f40",
     location: null,
     address: "",
-
+    lat: "0",
+    lng: "0",
+    errors: [],
     touched: {
       title: false,
       body: false,
@@ -54,17 +57,53 @@ class TipForm extends React.Component {
   };
 
   handSubmitTip = async () => {
-    tip = {
-      title: this.state.title,
-      content: this.state.body,
-      user_id: this.state.userId,
-      latitude: this.state.location.coords.latitude,
-      longitude: this.state.location.coords.longitude,
-      category: this.state.category
-    };
-    await API.createTip(tip);
-    this.props.navigation.navigate("TipOverview");
+    const errors = this.validate();
+    if (this.state.address.length !== 0) {
+      const latlng = await addressToLatLong(this.state.address);
+      this.state.lat = latlng[0];
+      this.state.lng = latlng[1];
+    }
+
+    if (errors.length > 0) {
+      this.setState({ errors });
+      return;
+    }
+
+    if (this.state.errors.length === 0) {
+      console.log(this.state.errors);
+      tip = {
+        title: this.state.title,
+        content: this.state.body,
+        user_id: this.state.userId,
+        latitude: this.state.lat,
+        longitude: this.state.lng,
+        category: this.state.category
+      };
+      await API.createTip(tip);
+      this.props.navigation.navigate("TipOverview");
+    }
   };
+
+  validate() {
+    const errors = [];
+
+    if (this.state.title.length === 0) {
+      errors.push("Name cannot be empty");
+    }
+
+    if (this.state.body.length === 0) {
+      errors.push("Body cannot be empty");
+    }
+
+    if (this.state.address.length === 0) {
+      errors.push("Address cannot be empty");
+    }
+
+    if (this.state.category.length === 0) {
+      errors.push("Please select a category");
+    }
+    return errors;
+  }
 
   shouldMarkError = field => {
     const hasError = this.validate(this.state.title, this.state.content)[field];
@@ -73,6 +112,8 @@ class TipForm extends React.Component {
   };
 
   render() {
+    const { errors } = this.state;
+
     return (
       <KeyboardAvoidingView
         style={styles.wrapper}
@@ -94,6 +135,11 @@ class TipForm extends React.Component {
           keyboardShouldPersistTaps={"always"}
           removeClippedSubviews={false}
         >
+          <View style={styles.errors}>
+            {errors.map(error => (
+              <Text key={error}>Error: {error}</Text>
+            ))}
+          </View>
           <Text style={styles.header}>Tip Title</Text>
           <TextInput
             className={this.shouldMarkError("title") ? "error" : ""}
@@ -116,11 +162,13 @@ class TipForm extends React.Component {
           <Text style={styles.header}>Tip Location</Text>
           <TextInput
             mode="outlined"
-            style={styles.inputBodyContainerStyle}
+            style={styles.inputContainerStyle}
             label="Tip Location"
             placeholder="Location of your tip"
             value={this.state.address}
-            onChangeText={address => this.setState({ location })}
+            multiline={true}
+            numberOfLines={3}
+            onChangeText={address => this.setState({ address })}
           />
           <Text style={styles.header}>Category</Text>
           <View style={styles.pickerContainer}>
@@ -215,6 +263,12 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     marginTop: 30,
     marginLeft: 20
+  },
+  errors: {
+    borderRadius: 1,
+    alignItems: "center",
+    borderColor: "red",
+    marginBottom: 10
   },
   error: {
     borderRadius: 1,
