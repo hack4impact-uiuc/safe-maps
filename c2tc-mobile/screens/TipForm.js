@@ -64,13 +64,7 @@ class TipForm extends React.Component {
       this.state.lng = latlng[1];
     }
 
-    if (errors.length > 0) {
-      this.setState({ errors });
-      return;
-    }
-
-    if (this.state.errors.length === 0) {
-      console.log(this.state.errors);
+    if (errors.length === 0) {
       tip = {
         title: this.state.title,
         content: this.state.body,
@@ -81,6 +75,8 @@ class TipForm extends React.Component {
       };
       await API.createTip(tip);
       this.props.navigation.navigate("TipOverview");
+    } else {
+      this.setState({ errors });
     }
   };
 
