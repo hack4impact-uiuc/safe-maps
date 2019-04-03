@@ -8,17 +8,34 @@ import {
 } from "react-native";
 import Tag from "../components/Tag";
 import { FontAwesome } from "@expo/vector-icons";
+import API from "../components/API";
 
 class TipDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      upvotes: 87
+      upvotes: 87,
+      username: ""
     };
+  }
+
+  async componentDidMount() {
+    let author = await API.getUser(
+      this.props.navigation.state.params.tip.author
+    );
+    let username = author.username;
+    if (author.anon) {
+      username = "Anonymous";
+    }
+
+    this.setState({
+      username
+    });
   }
 
   render() {
     let tip = this.props.navigation.state.params.tip;
+
     return (
       <View style={styles.detail}>
         <View style={styles.header}>
@@ -49,7 +66,7 @@ class TipDetailsScreen extends React.Component {
           </Text>
           <Text style={styles.postDetails}>
             {" "}
-            <FontAwesome name="user" size={17} /> {tip.author}
+            <FontAwesome name="user" size={17} /> {this.state.username}
           </Text>
           <Text style={styles.postDetails}>
             {" "}

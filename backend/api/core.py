@@ -15,8 +15,8 @@ logger = LocalProxy(lambda: current_app.logger)
 
 
 class Mixin:
-    """Utility Base Class for SQLAlchemy Models. 
-    
+    """Utility Base Class for SQLAlchemy Models.
+
     Adds `to_dict()` to easily serialize objects to dictionaries.
     """
 
@@ -41,7 +41,7 @@ def create_response(
 ) -> Tuple[Response, int]:
     """
     Wraps response in a consistent format throughout the API.
-    
+
     Format inspired by https://medium.com/@shazow/how-i-design-json-api-responses-71900f00f2db
     Modifications included:
     - make success a boolean since there's only 2 values
@@ -75,7 +75,7 @@ def create_response(
 
 def serialize_list(items: List) -> List:
     """Serializes a list of SQLAlchemy Objects, exposing their attributes.
-    
+
     :param items - List of Objects that inherit from Mixin
     :returns List of dictionaries
     """
@@ -100,5 +100,5 @@ def get_mongo_credentials(file: str = "creds.ini") -> Tuple:
         mongo_section = config["mongo_creds"]
         return (mongo_section["mongo_db_name"], mongo_section["mongo_url"])
     except KeyError:
-        print(f"Couldn't parse {file} for mongo creds... Check whether it exists.")
+        print("Couldn't parse {file} for mongo creds... Check whether it exists.")
         return (None, None)
