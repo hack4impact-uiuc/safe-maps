@@ -53,30 +53,36 @@ export default class SettingsScreen extends React.Component {
             <Appbar.Content title="Settings"/>
             </Appbar.Header>
         </View>
-        <View style={styles.profile}>
-            <Image
-            style={{ width: 50, height: 50, borderRadius: 50 / 2}}
-            source={{
-            uri:
-                "https://facebook.github.io/react-native/docs/assets/favicon.png"
-            }}
-            />
-            <View>
-              <Text style={styles.name}>Phillip Kuo</Text>
-              <Text style={styles.editProfile}>Edit Your Profile</Text>
-            </View>
-              <FontAwesome name="chevron-right" size={15} style={styles.profileArrow}/>
-        </View>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("Profile")}>
+          <View style={styles.profile}>
+              <Image
+              style={{ width: 50, height: 50, borderRadius: 50 / 2}}
+              source={{
+              uri:
+                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+              }}
+              />
+              <View>
+                  <Text style={styles.name}>Phillip Kuo</Text>
+                  <Text style={styles.editProfile}>Edit Your Profile</Text>
+              </View>
+                <FontAwesome name="chevron-right" size={15} style={styles.profileArrow}/>
+          </View>
+        </TouchableOpacity>
         <View style={styles.divider}></View>
-        <View style={styles.list}>
-            <Text style={styles.text}>Notifications</Text>
-            <FontAwesome name="chevron-right" size={15} style={styles.arrow}/>
-        </View>
+        <TouchableOpacity onPress={() => console.log("notifications pressed")}>
+          <View style={styles.list}>
+              <Text style={styles.text}>Notifications</Text>
+              <FontAwesome name="chevron-right" size={15} style={styles.arrow}/>
+          </View>
+        </TouchableOpacity>
         <View style={styles.divider}></View>
+        <TouchableOpacity onPress={() => console.log("show app tutorials pressed")}>
         <View style={styles.list}>
             <Text style={styles.text}>Show App Tutorials</Text>
             <FontAwesome name="chevron-right" size={15} style={styles.arrow}/>
         </View>
+        </TouchableOpacity>
         <View style={styles.divider}></View>
         </View>
     )}

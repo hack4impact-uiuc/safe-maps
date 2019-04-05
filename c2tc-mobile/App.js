@@ -9,6 +9,7 @@ import IntroScreen from "./screens/IntroScreen";
 import TipForm from "./screens/TipForm";
 import TipScreen from "./screens/TipScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
+import SettingsScreen from "./screens/SettingsScreen";
 
 export default class App extends Component {
   constructor(props) {
@@ -33,6 +34,13 @@ export default class App extends Component {
 }
 
 Navigator = createStackNavigator({
+  Settings: {
+    screen: SettingsScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
   Intro: {
     screen: IntroScreen,
     navigationOptions: {
@@ -74,5 +82,12 @@ Navigator = createStackNavigator({
       header: null,
       headerMode: "screen"
     }
-  }
+  },
+  // Settings: {
+  //   screen: SettingsScreen,
+  //   navigationOptions: {
+  //     header: null,
+  //     headerMode: "screen"
+  //   }
+  // }
 });
