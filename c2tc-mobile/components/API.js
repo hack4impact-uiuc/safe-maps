@@ -4,7 +4,7 @@ async function getEndpoint(endPoint, dataKey) {
   try {
     let response = await fetch(host + "/" + endPoint);
     let responseJson = await response.json();
-    return responseJson.result[dataKey];
+    return dataKey === "" ? responseJson.result : responseJson.result[dataKey];
   } catch (error) {
     console.error(error);
   }
@@ -59,8 +59,49 @@ async function deleteEndpoint(endPoint) {
 async function createTip(data) {
   return postEndpoint("tips", data);
 }
+
 async function getTips() {
   return getEndpoint("tips", "tips");
+}
+
+async function getTip(id) {
+  return getEndpoint(`tips/${id}`, "tip");
+}
+
+async function getTipsFromUser(user_id) {
+  return getEndpoint(`user/${user_id}/tips`, "tips")
+}
+
+async function getTipsFromCategory(category) {
+  return getEndpoint(`tips_category/${category}`, "tips")
+}
+
+async function getUserUpvotes(tips_id) {
+  return getEndpoint(`tips_upvotes/${tips_id}`, "users")
+}
+
+async function getUserDownvotes(tips_id) {
+  return getEndpoint(`tips_downvotes/${tips_id}`, "users")
+}
+
+async function getVerifiedTips() {
+  return getEndpoint("tips/verified", "tips")
+}
+
+async function editTip(id, data) {
+  return putEndpoint(`tips/${id}`, data)
+}
+
+async function updateVerified(id, data) {
+  return putEndpoint(`tips/${id}/verified`, data)
+}
+
+async function voteTip(data) {
+  return putEndpoint("tips_votes", data)
+}
+
+async function deleteTip(id) {
+  return deleteEndpoint(`tips/${id}`)
 }
 
 async function getUsers() {
@@ -68,7 +109,7 @@ async function getUsers() {
 }
 
 async function getUser(id) {
-  return getEndpoint(`users/${id}`, "user");
+  return getEndpoint(`users/${id}`, "");
 }
 
 async function createUser(data) {
@@ -120,5 +161,15 @@ export default {
   getEmergencyPhones,
   getStreetLight,
   getTips,
-  createTip
+  getTip,
+  createTip,
+  getTipsFromUser,
+  getTipsFromCategory,
+  getUserUpvotes,
+  getUserDownvotes,
+  getVerifiedTips,
+  editTip,
+  updateVerified,
+  voteTip,
+  deleteTip,
 };

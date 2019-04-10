@@ -3,4 +3,7 @@ __pycache__
 
 yarn-error.log
 node_modules
+*.swp
+*.swo
+*~
 .DS_Store

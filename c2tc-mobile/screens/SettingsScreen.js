@@ -41,7 +41,7 @@ export default class SettingsScreen extends React.Component {
   }
 
   handleBackPress = e => {
-    console.log("Leave settings page");
+    this.props.navigation.navigate("Profile");
   };
 
   render() {
@@ -53,7 +53,7 @@ export default class SettingsScreen extends React.Component {
             <Appbar.Content title="Settings"/>
             </Appbar.Header>
         </View>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate("Profile")}>
+        <TouchableOpacity onPress={() => console.log("Edit Profile")}>
           <View style={styles.profile}>
               <Image
               style={{ width: 50, height: 50, borderRadius: 50 / 2}}
@@ -70,14 +70,14 @@ export default class SettingsScreen extends React.Component {
           </View>
         </TouchableOpacity>
         <View style={styles.divider}></View>
-        <TouchableOpacity onPress={() => console.log("notifications pressed")}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("Notifications")}>
           <View style={styles.list}>
               <Text style={styles.text}>Notifications</Text>
               <FontAwesome name="chevron-right" size={15} style={styles.arrow}/>
           </View>
         </TouchableOpacity>
         <View style={styles.divider}></View>
-        <TouchableOpacity onPress={() => console.log("show app tutorials pressed")}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("Welcome")}>
         <View style={styles.list}>
             <Text style={styles.text}>Show App Tutorials</Text>
             <FontAwesome name="chevron-right" size={15} style={styles.arrow}/>
