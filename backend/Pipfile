@@ -17,6 +17,7 @@ itsdangerous = "*"
 pip = "*"
 "urllib3" = "*"
 apscheduler = "*"
+geopy = "*"
 
 [dev-packages]
 "flake8" = "*"

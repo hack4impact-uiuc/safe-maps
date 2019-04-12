@@ -5,6 +5,7 @@ from api.core import create_response, serialize_list, logger
 from datetime import datetime
 from bson.objectid import ObjectId
 import json
+from geopy import distance
 from api.constants import UPVOTE, DOWNVOTE
 
 tips = Blueprint("tips", __name__)
@@ -15,9 +16,20 @@ def get_all_tips():
     """
     GET function for retrieving Tips objects
     """
-    response = [tips.to_mongo() for tips in Tips.objects]
+    latitude = request.args.get("lat")
+    longitude = request.args.get("long")
+    if latitude is None or longitude is None:
+        response = [tips.to_mongo() for tips in Tips.objects]
+    else:
+        response = [
+            tips.to_mongo()
+            for tips in Tips.objects
+            if distance.distance(
+                (tips.latitude, tips.longitude), (latitude, longitude)
+            ).miles
+            <= 0.1
+        ]
     response = {"tips": response}
-    logger.info("TIPS: %s", response)
     return create_response(data=response)
 
 
@@ -63,7 +75,7 @@ def get_tip_upvotes(tips_id):
     tips_upvotes_list = [
         User.objects.get(id=str(user)).to_mongo() for user in tips_upvotes
     ]
-    response = {"upvotes": tips_upvotes_list}
+    response = {"users": tips_upvotes_list}
     return create_response(data=response)
 
 
@@ -77,7 +89,7 @@ def get_tip_downvotes(tips_id):
     tips_downvotes_list = [
         User.objects.get(id=str(user)).to_mongo() for user in tips_downvotes
     ]
-    response = {"upvotes": tips_downvotes_list}
+    response = {"users": tips_downvotes_list}
     return create_response(data=response)
 
 
@@ -88,6 +100,16 @@ def get_verified_tips():
     """
     response = [tip.to_mongo() for tip in Tips.objects if tip.verified == True]
     response = {"verified_tips": response}
+    return create_response(data=response)
+
+
+@tips.route("/tips/pending", methods=["GET"])
+def get_pending_tips():
+    """
+    GET function for retrieving all tips that are not verified yet
+    """
+    response = [tip.to_mongo() for tip in Tips.objects if tip.verified == False]
+    response = {"pending_tips": response}
     return create_response(data=response)
 
 
