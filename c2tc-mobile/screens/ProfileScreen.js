@@ -14,7 +14,7 @@ import {
   TextInput,
   Switch,
   Image,
-  ScrollView,
+  ScrollView
 } from "react-native";
 
 import {
@@ -45,7 +45,7 @@ export default class ProfileScreen extends React.Component {
     await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
     let user_id = await AsyncStorage.getItem("user_id");
     let user = await API.getUser(user_id);
-    let tips = await API.getTipsFromUser(user_id)
+    let tips = await API.getTipsFromUser(user_id);
 
     this.setState({
       displayName: user.username,
@@ -85,54 +85,55 @@ export default class ProfileScreen extends React.Component {
     return (
       <View>
         <ScrollView style={styles.tipOverview}>
-        <Appbar.Header>
-          <Appbar.BackAction onPress={this.handleBackPress} />
-          <Appbar.Content title="Back" />
-          {isEditingName ? (
-            <Appbar.Action icon="save" onPress={this.handleSavePress} />
-          ) : (
-            <Appbar.Action icon="edit" onPress={this.handleEditPress} />
-          )}
-        </Appbar.Header>
-        <View style={styles.profile}>
-          <Image
-            style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
-            source={{
-              uri:
-                "https://facebook.github.io/react-native/docs/assets/favicon.png"
-            }}
-          />
-          {isEditingName ? (
-            <TextInput
-              onChangeText={text => this.setState({ displayName: text })}
-              placeholder={this.state.displayName}
+          <Appbar.Header>
+            <Appbar.BackAction onPress={this.handleBackPress} />
+            <Appbar.Content title="Back" />
+            {isEditingName ? (
+              <Appbar.Action icon="save" onPress={this.handleSavePress} />
+            ) : (
+              <Appbar.Action icon="edit" onPress={this.handleEditPress} />
+            )}
+          </Appbar.Header>
+          <View style={styles.profile}>
+            <Image
+              style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
+              source={{
+                uri:
+                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+              }}
             />
-          ) : (
-            <Text>{this.state.displayName} </Text>
-          )}
-          <Text>{this.state.karmaScore} pts. </Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.profile}>
-          <Text>
-            Visible to other users? {this.state.visibleToOthers ? "Yes" : "No"}
-          </Text>
-          {isEditingName ? (
-            <Switch
-              value={this.state.visibleToOthers}
-              onValueChage={this.handleSwitchVisiblity}
-            />
-          ) : null}
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.profile}>
-          <Paragraph>
-            <FontAwesome name="envelope" size={15} />
-            {this.state.email}
-          </Paragraph>
-        </View>
-        <Divider style={styles.divider} />
-        <Text>Tips</Text>
+            {isEditingName ? (
+              <TextInput
+                onChangeText={text => this.setState({ displayName: text })}
+                placeholder={this.state.displayName}
+              />
+            ) : (
+              <Text>{this.state.displayName} </Text>
+            )}
+            <Text>{this.state.karmaScore} pts. </Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.profile}>
+            <Text>
+              Visible to other users?{" "}
+              {this.state.visibleToOthers ? "Yes" : "No"}
+            </Text>
+            {isEditingName ? (
+              <Switch
+                value={this.state.visibleToOthers}
+                onValueChage={this.handleSwitchVisiblity}
+              />
+            ) : null}
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.profile}>
+            <Paragraph>
+              <FontAwesome name="envelope" size={15} />
+              {this.state.email}
+            </Paragraph>
+          </View>
+          <Divider style={styles.divider} />
+          <Text>Tips</Text>
           <View style={styles.content}>
             {this.state.tips.map(tip => (
               <TipOverview
@@ -166,6 +167,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   content: {
-    paddingHorizontal: 35,
-  },
+    paddingHorizontal: 35
+  }
 });

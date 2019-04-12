@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
     marginVertical: 10,
-    borderColor: 'black',
+    borderColor: "black",
     borderWidth: 1
   },
   tags: {

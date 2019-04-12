@@ -6,11 +6,9 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
-  TouchableHighlight
+  Dimensions
 } from "react-native";
 import TipOverview from "../components/TipOverview";
-import TabBar from "../components/NavigationComponents/Tabs";
 import API from "../components/API";
 import { NavigationEvents } from "react-navigation";
 import { connect } from "react-redux";
@@ -89,7 +87,6 @@ class TipOverviewScreen extends React.Component {
               />
             </TouchableOpacity>
           </View>
-          {/* <Text style={styles.headertext}>{this.state.user}!</Text> */}
         </View>
         <View style={styles.content}>
           <TouchableOpacity
@@ -124,11 +121,6 @@ const styles = StyleSheet.create({
     padding: 35,
     paddingTop: 60,
     paddingBottom: 100
-  },
-  header_right: {
-    // padding: 35,
-    // paddingTop: 60,
-    // paddingBottom: 100
   },
   headertext: {
     fontSize: 27,
