@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Dimensions, AsyncStorage } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  View,
+  Dimensions,
+  AsyncStorage,
+  TouchableOpacity
+} from "react-native";
 import { Location, Permissions } from "expo";
 import MapView, { Marker, ProviderPropType } from "react-native-maps";
 import Navigation from "../components/NavigationComponents/Navigation";
@@ -221,20 +228,25 @@ class LiveLocation extends Component {
           showsUserLocation={true}
           followUserLocation={true}
           showsMyLocationButton={true}
-          onRegionChange={this.onRegionChange}
         >
           {this.props.markers.map(marker => (
             <Marker
               key={marker.key}
               coordinate={marker.coordinate}
               pinColor={marker.color}
-              image={marker.image}
               title={marker.title}
               description={marker.description}
-              onPress={() => {
-                this.markerClick(marker.title, marker.description);
-              }}
             >
+              <TouchableOpacity
+                onPress={() => {
+                  this.markerClick(marker.title, marker.description);
+                }}
+              >
+                <Image
+                  source={marker.image}
+                  style={{ width: 13, height: 13 }}
+                />
+              </TouchableOpacity>
               <MapView.Callout tooltip={true} />
             </Marker>
           ))}

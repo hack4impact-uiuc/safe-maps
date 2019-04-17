@@ -160,10 +160,10 @@ const styles = StyleSheet.create({
     width: 95
   },
   leftActionsVerif: {
-    width: Dimensions.get("window").width / 3,
+    width: Dimensions.get("window").width / 3
   },
   rightActionsVerif: {
-    width: Dimensions.get("window").width / 3,
+    width: Dimensions.get("window").width / 3
   },
   button: {
     alignItems: "center",

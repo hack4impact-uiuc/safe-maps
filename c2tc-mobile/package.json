@@ -1,6 +1,6 @@
 {
   "name": "cut-to-the-case",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A mobile application that makes the students of UIUC feel safer on campus.",
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
