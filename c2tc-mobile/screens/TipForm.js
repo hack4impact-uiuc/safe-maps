@@ -107,6 +107,27 @@ class TipForm extends React.Component {
     return hasError ? shouldShow : false;
   };
 
+  validate() {
+    const errors = [];
+
+    if (this.state.title.length === 0) {
+      errors.push("Name cannot be empty");
+    }
+
+    if (this.state.body.length === 0) {
+      errors.push("Body cannot be empty");
+    }
+
+    if (this.state.address.length === 0) {
+      errors.push("Address cannot be empty");
+    }
+
+    if (this.state.category.length === 0) {
+      errors.push("Please select a category");
+    }
+    return errors;
+  }
+
   render() {
     const { errors } = this.state;
 
@@ -153,17 +174,22 @@ class TipForm extends React.Component {
             label="Tip Content"
             placeholder="Content of your tip"
             value={this.state.body}
+            blurOnSubmit={false}
+            multiline={true}
+            numberOfLines={5}
+            maxHeight={150}
             onChangeText={body => this.setState({ body })}
           />
           <Text style={styles.header}>Tip Location</Text>
           <TextInput
             mode="outlined"
-            style={styles.inputContainerStyle}
+            style={styles.inputBodyContainerStyle}
             label="Tip Location"
             placeholder="Location of your tip"
             value={this.state.address}
             multiline={true}
-            numberOfLines={3}
+            numberOfLines={5}
+            maxHeight={150}
             onChangeText={address => this.setState({ address })}
           />
           <Text style={styles.header}>Category</Text>
@@ -232,7 +258,6 @@ const styles = StyleSheet.create({
     marginTop: 0
   },
   inputBodyContainerStyle: {
-    paddingBottom: 100,
     marginHorizontal: 20,
     marginTop: 0
   },
