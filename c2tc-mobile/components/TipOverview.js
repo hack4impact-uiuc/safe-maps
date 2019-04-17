@@ -20,6 +20,14 @@ class TipOverview extends React.Component {
     };
   }
 
+  categoryStyle = function(buttonCategory) {
+    if (buttonCategory === this.state.category) {
+      return {
+        backgroundColor: Color[this.state.category]
+      };
+    }
+  };
+
   async componentDidMount() {
     let user = await API.getUser(this.props.tip.author);
     let username = user.username;
@@ -33,10 +41,14 @@ class TipOverview extends React.Component {
   }
 
   render() {
+    const screenType = this.props.screenType;
     return (
       <TouchableOpacity
         onPress={() =>
-          this.props.navigation.navigate("TipDetail", { tip: this.props.tip })
+          this.props.navigation.navigate("TipDetail", {
+            tip: this.props.tip,
+            screenType: this.props.screenType
+          })
         }
         style={styles.card}
       >
@@ -58,14 +70,23 @@ class TipOverview extends React.Component {
               <FontAwesome name="user" size={17} /> {this.state.username}
             </Text>
           </View>
-          <View style={styles.rightActions}>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
-            </TouchableOpacity>
-          </View>
+          {screenType === "verification" && (
+            <View style={styles.rightActions}>
+              <TouchableOpacity>
+                <Text color="red">Review</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          {screenType === "view" && (
+            <View style={styles.rightActions}>
+              <TouchableOpacity style={styles.button}>
+                <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </TouchableOpacity>
     );

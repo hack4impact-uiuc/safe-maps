@@ -35,6 +35,7 @@ class TipDetailsScreen extends React.Component {
 
   render() {
     let tip = this.props.navigation.state.params.tip;
+    const screenStyle = this.props.navigation.state.params.screenType;
 
     return (
       <View style={styles.detail}>
@@ -73,19 +74,37 @@ class TipDetailsScreen extends React.Component {
             <FontAwesome name="clock-o" size={17} /> {tip.posted_time}
           </Text>
         </View>
-        <View style={styles.action}>
-          <View style={styles.leftActions}>
-            <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
+
+        {screenStyle === "verification" && (
+          <View style={styles.action}>
+            <View style={styles.leftActionsVerif}>
+              <TouchableOpacity style={styles.discardButton}>
+                <Text style={styles.verifButtonText}>Discard</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.rightActionsVerif}>
+              <TouchableOpacity style={styles.approveButton}>
+                <Text style={styles.verifButtonText}>Approve</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.rightActions}>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
-            </TouchableOpacity>
+        )}
+
+        {screenStyle === "view" && (
+          <View style={styles.action}>
+            <View style={styles.leftActions}>
+              <Text style={styles.upvotes}>{this.state.upvotes}% Upvoted</Text>
+            </View>
+            <View style={styles.rightActions}>
+              <TouchableOpacity style={styles.button}>
+                <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        )}
       </View>
     );
   }
@@ -130,7 +149,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#E6E6EB",
     flexDirection: "row",
-    justifyContent: "flex-start"
+    justifyContent: "space-between"
   },
   leftActions: {
     width: Dimensions.get("window").width - 145
@@ -139,6 +158,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     width: 95
+  },
+  leftActionsVerif: {
+    width: Dimensions.get("window").width / 3,
+  },
+  rightActionsVerif: {
+    width: Dimensions.get("window").width / 3,
   },
   button: {
     alignItems: "center",
@@ -175,7 +200,21 @@ const styles = StyleSheet.create({
   postDetails: {
     paddingHorizontal: 20,
     fontSize: 17
-    // padding:10,
+  },
+  discardButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: "red",
+    justifyContent: "center"
+  },
+  approveButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: "green",
+    justifyContent: "center"
+  },
+  verifButtonText: {
+    color: "white"
   }
 });
 

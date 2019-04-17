@@ -30,18 +30,53 @@ class TipOverviewScreen extends React.Component {
       location: "location",
       user: "Philip",
       currentdate: "Thursday Feb 28",
+      screenType: "view",
       tips: []
     };
   }
 
   async componentDidMount() {
-    let tipsResponse = await API.getTips();
-    this.setState({ tips: tipsResponse });
+    if (this.state.screenType === "view") {
+      let tipsResponse = await API.getVerifiedTips();
+      this.setState({ tips: tipsResponse });
+    } else if (this.state.screenType === "verification") {
+      let tipsResponse = await API.getPendingTips();
+      this.setState({ tips: tipsResponse });
+    } else {
+      let tipsResponse = await API.getTips();
+      this.setState({ tips: tipsResponse });
+    }
   }
 
   onComponentFocused = async () => {
-    let tipsResponse = await API.getTips();
-    this.setState({ tips: tipsResponse });
+    if (this.state.screenType === "view") {
+      let tipsResponse = await API.getVerifiedTips();
+      this.setState({ tips: tipsResponse });
+    } else if (this.state.screenType === "verification") {
+      let tipsResponse = await API.getPendingTips();
+      this.setState({ tips: tipsResponse });
+    } else {
+      let tipsResponse = await API.getTips();
+      this.setState({ tips: tipsResponse });
+    }
+  };
+
+  onChangeScreenType = async () => {
+    if (this.state.screenType === "view") {
+      this.state.screenType = "verification";
+    } else {
+      this.state.screenType = "view";
+    }
+    if (this.state.screenType === "view") {
+      let tipsResponse = await API.getVerifiedTips();
+      this.setState({ tips: tipsResponse });
+    } else if (this.state.screenType === "verification") {
+      let tipsResponse = await API.getPendingTips();
+      this.setState({ tips: tipsResponse });
+    } else {
+      let tipsResponse = await API.getTips();
+      this.setState({ tips: tipsResponse });
+    }
   };
 
   profilePicPressed = () => {
@@ -49,56 +84,76 @@ class TipOverviewScreen extends React.Component {
   };
 
   render() {
+    const screenStyle = this.state.screenType;
     if (this.props.page !== "tips") {
       return this.props.navigation.navigate("Map");
     }
     return (
       <ScrollView style={styles.tipOverview}>
         <NavigationEvents onDidFocus={this.onComponentFocused} />
-        <View style={styles.header}>
-          <Text style={styles.date}>
-            {this.state.currentdate.toUpperCase()}
-          </Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={[
-                styles.headertext,
-                {
-                  alignSelf: "flex-start",
-                  width: Dimensions.get("window").width - 104
-                }
-              ]}
-            >
-              Good Evening,{"\n"}
-              {this.state.user}
+        {screenStyle === "view" && (
+          <View style={styles.header}>
+            <Text style={styles.date}>
+              {this.state.currentdate.toUpperCase()}
             </Text>
-            <TouchableOpacity onPress={this.profilePicPressed}>
-              <Image
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 50 / 2,
-                  alignSelf: "flex-end"
-                }}
-                source={{
-                  uri:
-                    "https://facebook.github.io/react-native/docs/assets/favicon.png"
-                }}
-              />
-            </TouchableOpacity>
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={[
+                  styles.headertext,
+                  {
+                    alignSelf: "flex-start",
+                    width: Dimensions.get("window").width - 104
+                  }
+                ]}
+              >
+                Good Evening,{"\n"}
+                {this.state.user}
+              </Text>
+              <TouchableOpacity onPress={this.profilePicPressed}>
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 50 / 2,
+                    alignSelf: "flex-end"
+                  }}
+                  source={{
+                    uri:
+                      "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+            {/* <Text style={styles.headertext}>{this.state.user}!</Text> */}
           </View>
-        </View>
+        )}
+        {screenStyle === "verification" && (
+          <View style={styles.header}>
+            <Text>All Pending Tips</Text>
+          </View>
+        )}
         <View style={styles.content}>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate("TipForm")}
           >
             <Text style={styles.button}> Submit A Tip ></Text>
           </TouchableOpacity>
+          {screenStyle === "view" && (
+            <TouchableOpacity onPress={this.onChangeScreenType}>
+              <Text style={styles.button}> Review Pending Tips </Text>
+            </TouchableOpacity>
+          )}
+          {screenStyle === "verification" && (
+            <TouchableOpacity onPress={this.onChangeScreenType}>
+              <Text style={styles.button}> View Verified Tips </Text>
+            </TouchableOpacity>
+          )}
           {this.state.tips.map(tip => (
             <TipOverview
               key={tip._id}
               tip={tip}
               navigation={this.props.navigation}
+              screenType={this.state.screenType}
             />
           ))}
         </View>
