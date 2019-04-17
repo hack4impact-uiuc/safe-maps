@@ -162,7 +162,7 @@ class LiveLocation extends Component {
   }
 
   onRegionChange = region => {
-    this.props.updateMapRegion = region;
+    this.props.updateMapRegion(region);
     this.setState({
       lastLat: region.latitude || this.state.lastLat,
       lastLong: region.longitude || this.state.lastLong
@@ -185,10 +185,6 @@ class LiveLocation extends Component {
 
   backToUser = () => {
     this.getLocationAsync();
-  };
-
-  onRegionChangeRender = region => {
-    this.props.updateMapRegion = region;
   };
 
   getLocationAsync = async () => {
@@ -225,7 +221,7 @@ class LiveLocation extends Component {
           showsUserLocation={true}
           followUserLocation={true}
           showsMyLocationButton={true}
-          onRegionChange={this.onRegionChangeRender}
+          onRegionChange={this.onRegionChange}
         >
           {this.props.markers.map(marker => (
             <Marker
