@@ -19,7 +19,7 @@ class Tips(mongoengine.DynamicDocument):
     content = StringField(required=True)
     author = ObjectIdField(required=True)
     posted_time = DateTimeField(required=True)
-    verified = BooleanField(required=True)
+    status = StringField(required=True)
     latitude = FloatField(required=True)
     longitude = FloatField(required=True)
     category = StringField(required=True)
