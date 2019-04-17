@@ -87,6 +87,11 @@ class TipOverview extends React.Component {
               </TouchableOpacity>
             </View>
           )}
+          {(screenType === "denied") && (
+            <View>
+              <Text>DENIED :(</Text>
+            </View>
+          )}
         </View>
       </TouchableOpacity>
     );

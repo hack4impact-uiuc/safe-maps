@@ -36,22 +36,31 @@ export default class ProfileScreen extends React.Component {
       karmaScore: 42,
       verified: false,
       email: "user@illinois.edu",
-      tips: []
+      tips: [],
+      verifiedTips: [],
+      pendingTips: [],
+      deniedTips: []
     };
   }
 
   async componentDidMount() {
     this._mounted = true;
-    await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
+    await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
     let user_id = await AsyncStorage.getItem("user_id");
     let user = await API.getUser(user_id);
     let tips = await API.getTipsFromUser(user_id);
+    let verifiedTips = await API.getVerifiedTipsByUser(user_id);
+    let pendingTips = await API.getPendingTipsByUser(user_id);
+    let deniedTips = await API.getDeniedTipsByUser(user_id);
 
     this.setState({
       displayName: user.username,
       karmaScore: user.karma,
       verified: user.verified,
       tips,
+      verifiedTips,
+      pendingTips,
+      deniedTips,
       visibleToOthers: !user.anon
     });
   }
@@ -135,11 +144,31 @@ export default class ProfileScreen extends React.Component {
           <Divider style={styles.divider} />
           <Text>Tips</Text>
           <View style={styles.content}>
-            {this.state.tips.map(tip => (
+            <Text> Posted Tips </Text>
+            {this.state.verifiedTips.map(tip => (
               <TipOverview
                 key={tip._id}
                 tip={tip}
                 navigation={this.props.navigation}
+                screenType={"view"}
+              />
+            ))}
+            <Text> Pending Tips </Text>
+            {this.state.pendingTips.map(tip => (
+              <TipOverview
+                key={tip._id}
+                tip={tip}
+                navigation={this.props.navigation}
+                screenType={"approved"}
+              />
+            ))}
+            <Text> Denied Tips </Text>
+            {this.state.deniedTips.map(tip => (
+              <TipOverview
+                key={tip._id}
+                tip={tip}
+                navigation={this.props.navigation}
+                screenType={"denied"}
               />
             ))}
           </View>
