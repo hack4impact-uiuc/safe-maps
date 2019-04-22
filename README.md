@@ -1,6 +1,6 @@
 # SafeMaps [![CircleCI](https://circleci.com/gh/hack4impact-uiuc/c2tc-spring-2019.svg?style=svg)](https://circleci.com/gh/hack4impact-uiuc/c2tc-spring-2019)
 
-**Goal:** To create a mobile application that makes the students of UIUC feel safer on campus.
+**Description:** Illini SafeMaps is your real-time safety companion. With Illini SafeMaps, you can navigate safely around the U of I campus by viewing  the locations of past crimes, police stations, emergency phones, running buses, open businesses and streetlights. This app also enables you to be notified of the safety and health resources near you so you can stay safe and healthy at U of I. Lastly, students can access SafeWalks and SafeRides immediately through our app when they feel unsafe on campus. 
 
 ## Product Resources
 
