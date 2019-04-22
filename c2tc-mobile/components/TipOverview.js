@@ -102,8 +102,11 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
     marginVertical: 10,
-    borderColor: "black",
-    borderWidth: 1
+    shadowColor: 'rgba(0,0,0, .6)',
+    shadowOffset: { height: 2, width: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   tags: {
     flexDirection: "row",

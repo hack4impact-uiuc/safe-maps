@@ -4,12 +4,8 @@ import { AsyncStorage } from "react-native";
 import API from "../components/API";
 import TipOverview from "../components/TipOverview";
 import {
-  Animated,
   View,
-  Dimensions,
   Text,
-  ImageBackground,
-  TouchableOpacity,
   StyleSheet,
   TextInput,
   Switch,
@@ -20,10 +16,7 @@ import {
 import {
   Paragraph,
   Appbar,
-  List,
   Divider,
-  withTheme,
-  type Theme
 } from "react-native-paper";
 
 export default class ProfileScreen extends React.Component {
@@ -36,7 +29,6 @@ export default class ProfileScreen extends React.Component {
       karmaScore: 42,
       verified: false,
       email: "user@illinois.edu",
-      tips: [],
       verifiedTips: [],
       pendingTips: [],
       deniedTips: []
@@ -48,7 +40,6 @@ export default class ProfileScreen extends React.Component {
     await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
     let user_id = await AsyncStorage.getItem("user_id");
     let user = await API.getUser(user_id);
-    let tips = await API.getTipsFromUser(user_id);
     let verifiedTips = await API.getVerifiedTipsByUser(user_id);
     let pendingTips = await API.getPendingTipsByUser(user_id);
     let deniedTips = await API.getDeniedTipsByUser(user_id);
@@ -57,7 +48,6 @@ export default class ProfileScreen extends React.Component {
       displayName: user.username,
       karmaScore: user.karma,
       verified: user.verified,
-      tips,
       verifiedTips,
       pendingTips,
       deniedTips,
@@ -105,7 +95,7 @@ export default class ProfileScreen extends React.Component {
           </Appbar.Header>
           <View style={styles.profile}>
             <Image
-              style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
+              style={{ width: 70, height: 70, marginVertical: 10, borderRadius: 70 / 2 }}
               source={{
                 uri:
                   "https://facebook.github.io/react-native/docs/assets/favicon.png"
@@ -117,9 +107,9 @@ export default class ProfileScreen extends React.Component {
                 placeholder={this.state.displayName}
               />
             ) : (
-              <Text>{this.state.displayName} </Text>
+              <Text style={styles.header}>{this.state.displayName} </Text>
             )}
-            <Text>{this.state.karmaScore} pts. </Text>
+            <Text style={styles.subheader}>{this.state.karmaScore} Points </Text>
           </View>
           <Divider style={styles.divider} />
           <View style={styles.profile}>
@@ -142,9 +132,8 @@ export default class ProfileScreen extends React.Component {
             </Paragraph>
           </View>
           <Divider style={styles.divider} />
-          <Text>Tips</Text>
           <View style={styles.content}>
-            <Text> Posted Tips </Text>
+            <Text style={styles.subheader}> Posted Tips </Text>
             {this.state.verifiedTips.map(tip => (
               <TipOverview
                 key={tip._id}
@@ -153,7 +142,7 @@ export default class ProfileScreen extends React.Component {
                 screenType={"view"}
               />
             ))}
-            <Text> Pending Tips </Text>
+            <Text style={styles.subheader}> Pending Tips </Text>
             {this.state.pendingTips.map(tip => (
               <TipOverview
                 key={tip._id}
@@ -162,7 +151,7 @@ export default class ProfileScreen extends React.Component {
                 screenType={"approved"}
               />
             ))}
-            <Text> Denied Tips </Text>
+            <Text style={styles.subheader}> Denied Tips </Text>
             {this.state.deniedTips.map(tip => (
               <TipOverview
                 key={tip._id}
@@ -179,6 +168,14 @@ export default class ProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  subheader: {
+    fontWeight: "500",
+    fontSize: 18
+  },
+  header: {
+    fontSize: 27,
+    fontWeight: "500",
+  },
   profile: {
     flexDirection: "column",
     alignItems: "center",
@@ -196,6 +193,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   content: {
+    marginTop:10,
     paddingHorizontal: 35
   }
 });
