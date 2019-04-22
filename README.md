@@ -1,4 +1,4 @@
-# C2TC Spring 2019[![CircleCI](https://circleci.com/gh/hack4impact-uiuc/c2tc-spring-2019.svg?style=svg)](https://circleci.com/gh/hack4impact-uiuc/c2tc-spring-2019)
+# SafeMaps [![CircleCI](https://circleci.com/gh/hack4impact-uiuc/c2tc-spring-2019.svg?style=svg)](https://circleci.com/gh/hack4impact-uiuc/c2tc-spring-2019)
 
 **Goal:** To create a mobile application that makes the students of UIUC feel safer on campus.
 
@@ -58,17 +58,22 @@ Note: if you prefer using npm, use `npm` instead of `yarn` in commands provided 
 
 ## Team
 
-- Product Manager - Shreyas Mohan ([@shreyshrey1](https://github.com/shreyshrey1))
-- Technical Lead - Megha Mallya ([@meghatron3000](https://github.com/meghatron3000))
+- **Product Manager:** Shreyas Mohan ([@shreyshrey1](https://github.com/shreyshrey1))
+- **Technical Lead:** Megha Mallya ([@meghatron3000](https://github.com/meghatron3000))
+- **Product Designer:** Philip Kuo ([@pkgamma](https://github.com/pkgamma))
+- **User Research/External Relations:**  Annie Wu ([@anniegw2](https://github.com/anniegw2))
 
-### Software Devs
+### Software Devs Fall 2018
 
 - Neeraj Aggarwal ([@n3a9](https://github.com/n3a9))
 - Daniel Choi ([@choiboy98](https://github.com/choiboy98))
 - Josh Burke ([@JoshBurke](https://github.com/JoshBurke))
 - Anooj Lal([@anoojlal](https://github.com/anoojlal))
 
-### Designers
+### Software Devs Spring 2019
 
-- Philip Kuo ([@pkgamma](https://github.com/pkgamma))
-- Annie Wu
+- Neeraj Aggarwal ([@n3a9](https://github.com/n3a9))
+- Albert Cao ([@abetco](https://github.com/abetco))
+- Alice Fang ([@alicesf2](https://github.com/alicesf2))
+- Michael Leon ([@micleo2](https://github.com/micleo2))
+- Rebecca Xun([@rxun](https://github.com/rxun))
