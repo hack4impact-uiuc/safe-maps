@@ -9,6 +9,7 @@ import LoginScreen from "./screens/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import IntroScreen from "./screens/IntroScreen";
 import TipForm from "./screens/TipForm";
+import TipCategories from "./screens/TipCategories";
 import TipScreen from "./screens/TipScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
@@ -59,6 +60,13 @@ Navigator = createStackNavigator({
   },
   TipOverview: {
     screen: TipScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  TipCategories: {
+    screen: TipCategories,
     navigationOptions: {
       header: null,
       headerMode: "screen"

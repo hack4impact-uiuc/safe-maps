@@ -20,7 +20,7 @@ class TipForm extends React.Component {
   state = {
     title: "",
     body: "",
-    category: "",
+    category: this.props.navigation.getParam('category', 'other'),
     author: "Megha Mallya",
     userId: "5c86c850f875c618f8557f40",
     location: null,
@@ -139,7 +139,7 @@ class TipForm extends React.Component {
       >
         <View style={styles.backHeader}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipOverview")}
+            onPress={() => this.props.navigation.navigate("TipCategory")}
             style={styles.backButton}
           >
             <Text style={styles.backText}>
@@ -192,23 +192,7 @@ class TipForm extends React.Component {
             maxHeight={150}
             onChangeText={address => this.setState({ address })}
           />
-          <Text style={styles.header}>Category</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={this.state.category}
-              style={styles.picker}
-              onValueChange={this.setCategory}
-            >
-              <Picker.Item color={Color.campus} label="Campus" value="campus" />
-              <Picker.Item color={Color.safety} label="Safety" value="safety" />
-              <Picker.Item color={Color.food} label="Food" value="food" />
-              <Picker.Item
-                color={Color.traffic}
-                label="Traffic"
-                value="traffic"
-              />
-            </Picker>
-          </View>
+          
           <TouchableOpacity
             style={styles.submit_tip}
             onPress={this.handSubmitTip}

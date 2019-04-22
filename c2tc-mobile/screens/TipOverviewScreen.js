@@ -124,7 +124,6 @@ class TipOverviewScreen extends React.Component {
                 />
               </TouchableOpacity>
             </View>
-            {/* <Text style={styles.headertext}>{this.state.user}!</Text> */}
           </View>
         )}
         {screenStyle === "verification" && (
@@ -134,7 +133,7 @@ class TipOverviewScreen extends React.Component {
         )}
         <View style={styles.content}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipForm")}
+            onPress={() => this.props.navigation.navigate("TipCategories")}
           >
             <Text style={styles.button}> Submit A Tip ></Text>
           </TouchableOpacity>
