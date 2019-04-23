@@ -29,7 +29,7 @@ class TipOverviewScreen extends React.Component {
       author: "author",
       date: "date posted",
       location: "location",
-      user: "Philip",
+      user: "",
       currentdate: "Thursday Feb 28",
       screenType: "view",
       tips: [],

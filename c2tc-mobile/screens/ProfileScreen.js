@@ -79,15 +79,14 @@ export default class ProfileScreen extends React.Component {
     return (
       <View>
         <ScrollView style={styles.tipOverview}>
-          <Appbar.Header>
-            <Appbar.BackAction onPress={this.handleBackPress} />
-            <Appbar.Content title="Back" />
-            {isEditingName ? (
-              <Appbar.Action icon="save" onPress={this.handleSavePress} />
-            ) : (
-              <Appbar.Action icon="edit" onPress={this.handleEditPress} />
-            )}
-          </Appbar.Header>
+          <NavigationEvents onDidFocus={this.onComponentFocused} />
+          <View>
+              <Appbar.Header>
+              <Appbar.BackAction onPress={this.handleBackPress} />
+              <Appbar.Content title="Profile" titleStyle = {styles.profileHeader}/>
+              <Appbar.Content title = "Settings" titleStyle = {styles.settingsHeader} onPress = {() => this.props.navigation.navigate("Settings")}/>
+              </Appbar.Header>
+          </View>
           <View style={styles.profile}>
             <Image
               style={{ width: 70, height: 70, marginVertical: 10, borderRadius: 70 / 2 }}
@@ -179,7 +178,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 0
   },
-
+  profileHeader: {
+    alignSelf: "center"
+  },
+  settingsHeader: {
+    alignSelf: "flex-end"
+  },
   divider: {
     backgroundColor: "black"
   },
