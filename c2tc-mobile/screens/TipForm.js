@@ -20,7 +20,7 @@ class TipForm extends React.Component {
   state = {
     title: "",
     body: "",
-    category: this.props.navigation.getParam('category', 'other'),
+    category: this.props.navigation.getParam("category", "other"),
     author: "Megha Mallya",
     userId: "5c86c850f875c618f8557f40",
     location: null,
@@ -192,7 +192,7 @@ class TipForm extends React.Component {
             maxHeight={150}
             onChangeText={address => this.setState({ address })}
           />
-          
+
           <TouchableOpacity
             style={styles.submit_tip}
             onPress={this.handSubmitTip}

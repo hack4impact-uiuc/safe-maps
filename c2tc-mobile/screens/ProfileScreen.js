@@ -14,11 +14,7 @@ import {
   ScrollView
 } from "react-native";
 
-import {
-  Paragraph,
-  Appbar,
-  Divider,
-} from "react-native-paper";
+import { Paragraph, Appbar, Divider } from "react-native-paper";
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -29,7 +25,7 @@ export default class ProfileScreen extends React.Component {
       visibleToOthers: true,
       karmaScore: 0,
       verified: false,
-      email: "user@illinois.edu",
+      email: "",
       verifiedTips: [],
       pendingTips: [],
       deniedTips: []
@@ -38,12 +34,13 @@ export default class ProfileScreen extends React.Component {
 
   async componentDidMount() {
     this._mounted = true;
-    await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
+    await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
     let user_id = await AsyncStorage.getItem("user_id");
     let user = await API.getUser(user_id);
     let verifiedTips = await API.getVerifiedTipsByUser(user_id);
     let pendingTips = await API.getPendingTipsByUser(user_id);
     let deniedTips = await API.getDeniedTipsByUser(user_id);
+    let email = user.net_id + "@illinois.edu";
 
     this.setState({
       user_id,
@@ -53,7 +50,8 @@ export default class ProfileScreen extends React.Component {
       verifiedTips,
       pendingTips,
       deniedTips,
-      visibleToOthers: !user.anon
+      visibleToOthers: !user.anon,
+      email
     });
   }
 
@@ -62,7 +60,7 @@ export default class ProfileScreen extends React.Component {
     let user = await API.getUser(user_id);
     let tips = await API.getTipsFromUser(user_id);
     let email = user.net_id + "@illinois.edu";
-    
+
     this.setState({
       displayName: user.username,
       email,
@@ -71,39 +69,45 @@ export default class ProfileScreen extends React.Component {
   };
 
   handleBackPress = e => {
-    this.props.navigation.goBack();
+    this.props.navigation.navigate("TipOverview");
   };
 
   render() {
-    const isEditingName = this.state.isEditingName;
     return (
       <View>
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
           <View>
-              <Appbar.Header>
+            <Appbar.Header>
               <Appbar.BackAction onPress={this.handleBackPress} />
-              <Appbar.Content title="Profile" titleStyle = {styles.profileHeader}/>
-              <Appbar.Content title = "Settings" titleStyle = {styles.settingsHeader} onPress = {() => this.props.navigation.navigate("Settings")}/>
-              </Appbar.Header>
+              <Appbar.Content
+                title="Profile"
+                titleStyle={styles.profileHeader}
+              />
+              <Appbar.Content
+                title="Settings"
+                titleStyle={styles.settingsHeader}
+                onPress={() => this.props.navigation.navigate("Settings")}
+              />
+            </Appbar.Header>
           </View>
           <View style={styles.profile}>
             <Image
-              style={{ width: 70, height: 70, marginVertical: 10, borderRadius: 70 / 2 }}
+              style={{
+                width: 70,
+                height: 70,
+                marginVertical: 10,
+                borderRadius: 70 / 2
+              }}
               source={{
                 uri:
                   "https://facebook.github.io/react-native/docs/assets/favicon.png"
               }}
             />
-            {isEditingName ? (
-              <TextInput
-                onChangeText={text => this.setState({ displayName: text })}
-                placeholder={this.state.displayName}
-              />
-            ) : (
-              <Text style={styles.header}>{this.state.displayName} </Text>
-            )}
-            <Text style={styles.subheader}>{this.state.karmaScore} Points </Text>
+            <Text style={styles.header}>{this.state.displayName} </Text>
+            <Text style={styles.subheader}>
+              {this.state.karmaScore} Points{" "}
+            </Text>
           </View>
           <Divider style={styles.divider} />
           <View style={styles.profile}>
@@ -111,12 +115,6 @@ export default class ProfileScreen extends React.Component {
               Visible to other users?{" "}
               {this.state.visibleToOthers ? "Yes" : "No"}
             </Text>
-            {isEditingName ? (
-              <Switch
-                value={this.state.visibleToOthers}
-                onValueChage={this.handleSwitchVisiblity}
-              />
-            ) : null}
           </View>
           <Divider style={styles.divider} />
           <View style={styles.profile}>
@@ -168,7 +166,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 27,
-    fontWeight: "500",
+    fontWeight: "500"
   },
   profile: {
     flexDirection: "column",
@@ -192,7 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   content: {
-    marginTop:10,
+    marginTop: 10,
     paddingHorizontal: 35
   }
 });

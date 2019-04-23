@@ -12,9 +12,9 @@ const business = "#1A5E20";
 const emergency = "#3498DB";
 const police = "#925CB1";
 const streetlights = "#ffc107";
-const health = "#306919"
-const transportation = "#88054E"
-const financial = "#0B65C1"
+const health = "#306919";
+const transportation = "#88054E";
+const financial = "#0B65C1";
 
 export default {
   base,

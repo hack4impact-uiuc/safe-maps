@@ -51,7 +51,9 @@ export default class IntroScreen extends React.Component {
           />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigation.navigate("Welcome", {backPage: "Intro"})}
+            onPress={() =>
+              this.props.navigation.navigate("Welcome", { backPage: "Intro" })
+            }
           >
             <Text style={styles.text}>Get Started</Text>
           </TouchableOpacity>

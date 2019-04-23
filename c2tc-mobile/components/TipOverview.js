@@ -61,7 +61,7 @@ class TipOverview extends React.Component {
         }
         style={styles.card}
       >
-      <NavigationEvents onDidFocus={this.onComponentFocused} />
+        <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View style={styles.cardTitle}>
           <View style={styles.tags}>
             <Tag
@@ -97,7 +97,7 @@ class TipOverview extends React.Component {
               </TouchableOpacity>
             </View>
           )}
-          {(screenType === "denied") && (
+          {screenType === "denied" && (
             <View>
               <Text>DENIED :(</Text>
             </View>
@@ -112,11 +112,11 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
     marginVertical: 10,
-    shadowColor: 'rgba(0,0,0, .6)',
+    shadowColor: "rgba(0,0,0, .6)",
     shadowOffset: { height: 2, width: 2 },
     shadowOpacity: 1,
     shadowRadius: 3,
-    elevation: 3,
+    elevation: 3
   },
   tags: {
     flexDirection: "row",
