@@ -49,7 +49,7 @@ export default class WelcomeScreen extends React.Component {
     return (
       <View style={styles.overall}>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("Intro")}
+          onPress={() => this.props.navigation.navigate(this.props.navigation.getParam("backPage"))}
           style={styles.top_view}
         >
           <Image

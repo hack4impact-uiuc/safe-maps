@@ -3,6 +3,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { AsyncStorage } from "react-native";
 import API from "../components/API";
 import TipOverview from "../components/TipOverview";
+import { NavigationEvents } from "react-navigation";
 import {
   View,
   Text,
@@ -23,10 +24,10 @@ export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditingName: false,
-      displayName: "Test user",
+      user_id: "",
+      displayName: "",
       visibleToOthers: true,
-      karmaScore: 42,
+      karmaScore: 0,
       verified: false,
       email: "user@illinois.edu",
       verifiedTips: [],
@@ -45,6 +46,7 @@ export default class ProfileScreen extends React.Component {
     let deniedTips = await API.getDeniedTipsByUser(user_id);
 
     this.setState({
+      user_id,
       displayName: user.username,
       karmaScore: user.karma,
       verified: user.verified,
@@ -55,24 +57,17 @@ export default class ProfileScreen extends React.Component {
     });
   }
 
-  handleEditPress = e => {
+  onComponentFocused = async () => {
+    let user_id = await AsyncStorage.getItem("user_id");
+    let user = await API.getUser(user_id);
+    let tips = await API.getTipsFromUser(user_id);
+    let email = user.net_id + "@illinois.edu";
+    
     this.setState({
-      isEditingName: true
+      displayName: user.username,
+      email,
+      tips
     });
-  };
-
-  handleSwitchVisiblity = e => {
-    // this.setState({
-    //
-    // })
-    console.log("SWITCHING VISIBILIY...");
-  };
-
-  handleSavePress = e => {
-    this.setState({
-      isEditingName: false
-    });
-    //database update
   };
 
   handleBackPress = e => {

@@ -10,6 +10,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
 import Geocoder from "react-native-geocoding";
 import API from "./API";
+import { NavigationEvents } from "react-navigation";
 
 class TipOverview extends React.Component {
   constructor(props) {
@@ -40,6 +41,14 @@ class TipOverview extends React.Component {
     });
   }
 
+  onComponentFocused = async () => {
+    let user = await API.getUser(this.props.tip.author);
+
+    this.setState({
+      username: user.username
+    });
+  };
+
   render() {
     const screenType = this.props.screenType;
     return (
@@ -52,6 +61,7 @@ class TipOverview extends React.Component {
         }
         style={styles.card}
       >
+      <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View style={styles.cardTitle}>
           <View style={styles.tags}>
             <Tag
