@@ -1,59 +1,26 @@
 import React from "react";
-import { AsyncStorage } from "react-native";
-import API from "../components/API";
 import { FontAwesome } from "@expo/vector-icons";
 import { NavigationEvents } from "react-navigation";
 
 import {
-  Animated,
+  StyleSheet,
   View,
   Dimensions,
   Text,
-  ImageBackground,
   TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  Switch,
   Image
 } from "react-native";
 
-import {
-  Paragraph,
-  Appbar,
-  List,
-  Divider,
-  withTheme,
-  type Theme
-} from "react-native-paper";
+import { Appbar } from "react-native-paper";
 
 export default class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ""
+      user: this.props.navigation.getParam("user", "no user"),
+      username: this.props.navigation.getParam("user", "no user").username
     };
   }
-
-  async componentDidMount() {
-    this._mounted = true;
-    await AsyncStorage.setItem("user_id", "5c86c850f875c618f8557f40");
-    let user_id = await AsyncStorage.getItem("user_id");
-    let user = await API.getUser(user_id);
-
-    this.setState({
-      username: user.username
-    });
-  }
-
-  onComponentFocused = async () => {
-    let user_id = await AsyncStorage.getItem("user_id");
-    let user = await API.getUser(user_id);
-    let username = user.username;
-
-    this.setState({
-      username
-    });
-  };
 
   handleBackPress = e => {
     this.props.navigation.navigate("Profile");
@@ -65,12 +32,32 @@ export default class SettingsScreen extends React.Component {
         <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View>
           <Appbar.Header>
-            <Appbar.BackAction onPress={this.handleBackPress} />
-            <Appbar.Content title="Settings" />
+            <Appbar.BackAction
+              style={styles.backButton}
+              onPress={() =>
+                this.props.navigation.navigate("Profile", {
+                  user: this.state.user
+                })
+              }
+            />
+            <Appbar.Content
+              titleStyle={styles.backHeader}
+              title="Settings"
+              onPress={() =>
+                this.props.navigation.navigate("Profile", {
+                  user: this.state.user
+                })
+              }
+            />
           </Appbar.Header>
         </View>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate("EditProfile")}
+          onPress={() =>
+            this.props.navigation.navigate("EditProfile", {
+              user: this.state.user
+            })
+          }
+
         >
           <View style={styles.profile}>
             <Image
@@ -81,7 +68,7 @@ export default class SettingsScreen extends React.Component {
               }}
             />
             <View>
-              <Text style={styles.name}>{this.state.username}</Text>
+              <Text style={styles.name}>{this.state.user.username}</Text>
               <Text style={styles.editProfile}>Edit Your Profile</Text>
             </View>
             <FontAwesome
@@ -118,6 +105,10 @@ export default class SettingsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  backButton: {
+    marginRight: 0,
+    paddingRight: 0
+  },
   profile: {
     flexDirection: "row",
     padding: 25
@@ -150,6 +141,9 @@ const styles = StyleSheet.create({
   profileArrow: {
     paddingTop: 20,
     paddingLeft: 100
+  },
+  backHeader: {
+    marginLeft: -10
   },
   arrow: {
     paddingTop: 15

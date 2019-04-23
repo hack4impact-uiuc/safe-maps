@@ -5,7 +5,6 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  ImageBackground,
   TouchableOpacity,
   Dimensions
 } from "react-native";
@@ -37,7 +36,7 @@ class TipOverviewScreen extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     if (this.state.screenType === "view") {
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse, hasLoaded: true });
@@ -51,7 +50,7 @@ class TipOverviewScreen extends React.Component {
   }
 
   onComponentFocused = async () => {
-    if (this.state.tipsResponse) {
+    if (this.state.hasLoaded) {
       if (this.state.screenType === "view") {
         let tipsResponse = await API.getVerifiedTips();
         this.setState({ tips: tipsResponse });

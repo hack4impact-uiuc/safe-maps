@@ -1,29 +1,10 @@
 import React from "react";
 import { AsyncStorage } from "react-native";
-import API from "../components/API";
 import ToggleSwitch from "toggle-switch-react-native";
 import { NavigationEvents } from "react-navigation";
-import {
-  Animated,
-  View,
-  Dimensions,
-  Text,
-  ImageBackground,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  Switch,
-  Image
-} from "react-native";
+import { View, Dimensions, Text, StyleSheet } from "react-native";
 
-import {
-  Paragraph,
-  Appbar,
-  List,
-  Divider,
-  withTheme,
-  type Theme
-} from "react-native-paper";
+import { Appbar } from "react-native-paper";
 
 export default class SettingsScreen extends React.Component {
   constructor(props) {

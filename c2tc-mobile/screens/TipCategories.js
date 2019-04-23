@@ -8,12 +8,13 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
+import { Appbar } from "react-native-paper";
 
 class TipCategories extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedCategory: ""
+      selectedCategory: this.props.navigation.getParam("category", "")
     };
   }
 
@@ -24,27 +25,31 @@ class TipCategories extends React.Component {
   render() {
     return (
       <View style={styles.categories}>
-        <View style={styles.backHeader}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipOverview")}
-            style={styles.backButton}
-          >
-            <Text style={styles.backText}>
-              <FontAwesome name="chevron-left" size={20} color="white" /> Back
-            </Text>
-          </TouchableOpacity>
-          {this.state.selectedCategory != "" && (
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate("TipForm", {
-                  category: this.state.selectedCategory
-                })
-              }
-              style={styles.nextButton}
-            >
-              <Text style={styles.nextText}>Next</Text>
-            </TouchableOpacity>
-          )}
+        <View style={styles.header}>
+          <Appbar.Header>
+            <Appbar.BackAction
+              style={styles.backButton}
+              onPress={() => this.props.navigation.navigate("TipOverview")}
+              style={styles.backButton}
+            />
+            <Appbar.Content
+              titleStyle={styles.backHeader}
+              title="Tip Overview"
+              onPress={() => this.props.navigation.navigate("TipOverview")}
+              style={styles.backButton}
+            />
+            {this.state.selectedCategory !== "" && (
+              <Appbar.Content
+                title="Next"
+                titleStyle={styles.nextHeader}
+                onPress={() =>
+                  this.props.navigation.navigate("TipForm", {
+                    category: this.state.selectedCategory
+                  })
+                }
+              />
+            )}
+          </Appbar.Header>
         </View>
         <View style={styles.row}>
           <TouchableOpacity
@@ -129,29 +134,6 @@ class TipCategories extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    paddingLeft: 20,
-    width: Dimensions.get("window").width - 60
-  },
-  nextText: {
-    marginTop: 15,
-    color: "white",
-    fontSize: 17,
-    fontWeight: "500"
-  },
-  backText: {
-    marginTop: 15,
-    color: "white",
-    fontSize: 17
-  },
-  backHeader: {
-    paddingTop: 20,
-    height: 70,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    backgroundColor: "#9042AF",
-    marginBottom: 10
-  },
   row: {
     flexDirection: "row",
     marginBottom: 10,
@@ -183,6 +165,19 @@ const styles = StyleSheet.create({
   categoryView: {
     flexDirection: "column",
     justifyContent: "center"
+  },
+  header: {
+    marginBottom: 20
+  },
+  backButton: {
+    marginRight: 0,
+    paddingRight: 0
+  },
+  backHeader: {
+    marginLeft: -10
+  },
+  nextHeader: {
+    alignSelf: "flex-end"
   }
 });
 

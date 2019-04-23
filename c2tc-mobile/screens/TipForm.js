@@ -4,13 +4,10 @@ import {
   KeyboardAvoidingView,
   Dimensions,
   View,
-  TouchableOpacity,
   Text,
-  ScrollView,
-  Picker
+  ScrollView
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
-import { TextInput, withTheme } from "react-native-paper";
+import { Appbar, TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
 import { Location } from "expo";
 import Color from "../constants/Colors";
@@ -20,7 +17,7 @@ class TipForm extends React.Component {
   state = {
     title: "",
     body: "",
-    category: this.props.navigation.getParam("category", "other"),
+    category: this.props.navigation.getParam("category", ""),
     author: "Megha Mallya",
     userId: "5c86c850f875c618f8557f40",
     location: null,
@@ -137,15 +134,33 @@ class TipForm extends React.Component {
         behavior="padding"
         keyboardVerticalOffset={0}
       >
-        <View style={styles.backHeader}>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipCategory")}
-            style={styles.backButton}
-          >
-            <Text style={styles.backText}>
-              <FontAwesome name="chevron-left" size={20} color="#027BFF" /> Back
-            </Text>
-          </TouchableOpacity>
+        <View style={styles.headerView}>
+          <Appbar.Header>
+            <Appbar.BackAction
+              style={styles.backButton}
+              onPress={() =>
+                this.props.navigation.navigate("TipCategories", {
+                  category: this.state.category
+                })
+              }
+              style={styles.backButton}
+            />
+            <Appbar.Content
+              titleStyle={styles.backHeader}
+              title="Categories"
+              onPress={() =>
+                this.props.navigation.navigate("TipCategories", {
+                  category: this.state.category
+                })
+              }
+              style={styles.backButton}
+            />
+            <Appbar.Content
+              title="Submit"
+              titleStyle={styles.nextHeader}
+              onPress={this.handSubmitTip}
+            />
+          </Appbar.Header>
         </View>
         <ScrollView
           style={styles.container}
@@ -192,13 +207,6 @@ class TipForm extends React.Component {
             maxHeight={150}
             onChangeText={address => this.setState({ address })}
           />
-
-          <TouchableOpacity
-            style={styles.submit_tip}
-            onPress={this.handSubmitTip}
-          >
-            <Text style={styles.button_text}>Submit Tip</Text>
-          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     );
@@ -208,19 +216,6 @@ class TipForm extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  backButton: {
-    paddingLeft: 20,
-    width: Dimensions.get("window").width
-  },
-  backText: {
-    color: "#027BFF",
-    fontSize: 20
-  },
-  backHeader: {
-    marginTop: 30,
-    flexDirection: "row",
-    justifyContent: "flex-start"
   },
   pickerContainer: {
     borderWidth: 1,
@@ -278,6 +273,19 @@ const styles = StyleSheet.create({
   error: {
     borderRadius: 1,
     borderColor: "red"
+  },
+  headerView: {
+    marginBottom: 20
+  },
+  backButton: {
+    marginRight: 0,
+    paddingRight: 0
+  },
+  backHeader: {
+    marginLeft: -10
+  },
+  nextHeader: {
+    alignSelf: "flex-end"
   }
 });
 
