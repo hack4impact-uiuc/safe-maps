@@ -57,7 +57,6 @@ export default class SettingsScreen extends React.Component {
               user: this.state.user
             })
           }
-
         >
           <View style={styles.profile}>
             <Image
