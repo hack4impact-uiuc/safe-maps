@@ -19,3 +19,4 @@ class User(mongoengine.DynamicDocument):
     karma = IntField(required=True, default=0)
     posted_tips = ListField(ObjectIdField())
     date_created = DateTimeField(required=True)
+    auth_server_uid = StringField(required=True)

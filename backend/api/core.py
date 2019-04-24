@@ -1,17 +1,24 @@
 import configparser
+import requests
 from typing import Tuple, List
 from pathlib import Path
 
 from werkzeug.local import LocalProxy
-from flask import current_app, jsonify
+from flask import current_app, jsonify, request
 from flask.wrappers import Response
 
 from bson import ObjectId
 from datetime import datetime
 import json
 
+import functools
+
+from api.models.User import User
+
 # logger object for all views to use
 logger = LocalProxy(lambda: current_app.logger)
+
+auth_server_host = "http://localhost:8000/"
 
 
 class Mixin:
@@ -91,6 +98,61 @@ def all_exception_handler(error: Exception) -> Tuple[Response, int]:
     :returns Tuple of a Flask Response and int
     """
     return create_response(message=str(error), status=500)
+
+
+def authenticated_route(route):
+    @functools.wraps(route)
+    def wrapper_wroute(*args, **kwargs):
+        token = request.cookies.get("jwt")
+        auth_server_res = requests.get(
+            auth_server_host + "getUser/",
+            headers={
+                "Content-Type": "application/json",
+                "token": token,
+                "google": "undefined",
+            },
+        )
+        if auth_server_res.status_code != 200:
+            return create_response(
+                message=auth_server_res.json()["message"],
+                status=401,
+                data={"status": "fail"},
+            )
+        auth_uid = auth_server_res.json()["user_id"]
+        db_user = User.objects.get(auth_server_uid=auth_uid)
+        return route(db_user, *args, **kwargs)
+
+    return wrapper_wroute
+
+
+def necessary_post_params(*important_properties):
+    def real_decorator(route):
+        @functools.wraps(route)
+        def wrapper_wroute(*args, **kwargs):
+            user_data = request.get_json()
+            missing_fields = invalid_model_helper(user_data, important_properties)
+            if missing_fields is not None:
+                return create_response(
+                    message="Missing the following necesary field(s): "
+                    + ", ".join(missing_fields),
+                    status=422,
+                    data={"status": "fail"},
+                )
+            return route(*args, **kwargs)
+
+        return wrapper_wroute
+
+    return real_decorator
+
+
+def invalid_model_helper(user_data, props):
+    missing_fields = []
+    for prop in props:
+        if prop not in user_data:
+            missing_fields.append(prop)
+    if len(missing_fields) == 0:
+        return None
+    return missing_fields
 
 
 def get_mongo_credentials(file: str = "creds.ini") -> Tuple:
