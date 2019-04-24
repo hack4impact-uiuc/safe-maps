@@ -19,4 +19,8 @@ class User(mongoengine.DynamicDocument):
     karma = IntField(required=True, default=0)
     posted_tips = ListField(ObjectIdField())
     date_created = DateTimeField(required=True)
+    pro_pic = StringField(
+        required=True,
+        default="https://pngimage.net/wp-content/uploads/2018/05/default-profile-image-png-5.png",
+    )
     auth_server_uid = StringField(required=True)

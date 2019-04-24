@@ -29,6 +29,7 @@ def create_user():
         username=data["username"],
         verified=False,
         anon=data["anon"],
+        pro_pic=data["pro_pic"],
         karma=0,
         posted_tips=[],
         date_created=datetime.now(),
@@ -65,6 +66,8 @@ def update_user(id):
         user.update(karma=data["karma"])
     if "posted_tips" in data:
         user.update(posted_tips=data["posted_tips"])
+    if "pro_pic" in data:
+        user.update(pro_pic=data["pro_pic"])
     return create_response(message="success!")
 
 
