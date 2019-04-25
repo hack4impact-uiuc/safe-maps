@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { StyleSheet, AsyncStorage } from "react-native";
 import { createStackNavigator } from "react-navigation";
-import API from "./components/API";
 
+import API from "./components/API";
+import VerifyScreen from "./screens/VerificationScreen";
 import MapScreen from "./screens/MapScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -35,7 +36,7 @@ export default class App extends Component {
   }
 
   render() {
-    return <Navigator />;
+    return <Navigator/>;
   }
 }
 
@@ -116,5 +117,12 @@ Navigator = createStackNavigator({
       header: null,
       headerMode: "screen"
     }
-  }
+  },
+  Verify: {
+    screen: VerifyScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
 });

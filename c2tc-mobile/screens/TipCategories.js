@@ -13,13 +13,6 @@ import { Appbar } from "react-native-paper";
 class TipCategories extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedCategory: this.props.navigation.getParam("category", "")
-    };
-  }
-
-  onCategorySelected(selectedCategory) {
-    this.setState({ selectedCategory });
   }
 
   render() {
@@ -38,26 +31,14 @@ class TipCategories extends React.Component {
               onPress={() => this.props.navigation.navigate("TipOverview")}
               style={styles.backButton}
             />
-            {this.state.selectedCategory !== "" && (
-              <Appbar.Content
-                title="Next"
-                titleStyle={styles.nextHeader}
-                onPress={() =>
-                  this.props.navigation.navigate("TipForm", {
-                    category: this.state.selectedCategory
-                  })
-                }
-              />
-            )}
           </Appbar.Header>
         </View>
         <View style={styles.row}>
           <TouchableOpacity
-            onPress={() => this.onCategorySelected("crime")}
-            style={[
-              this.state.selectedCategory !== "crime"
-                ? styles.category
-                : styles.categorySelected,
+            onPress={() => this.props.navigation.navigate("TipForm", {
+              category: "crime"
+            })}
+            style={[ styles.category,
               { marginRight: 10, backgroundColor: Colors.crime }
             ]}
           >
@@ -70,12 +51,10 @@ class TipCategories extends React.Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.onCategorySelected("health")}
-            style={[
-              this.state.selectedCategory !== "health"
-                ? styles.category
-                : styles.categorySelected,
-              { backgroundColor: Colors.health }
+            onPress={() => this.props.navigation.navigate("TipForm", {
+              category: "health"
+            })}
+            style={[styles.category, { backgroundColor: Colors.health }
             ]}
           >
             <View style={styles.categoryView}>
@@ -89,11 +68,10 @@ class TipCategories extends React.Component {
         </View>
         <View style={styles.row}>
           <TouchableOpacity
-            onPress={() => this.onCategorySelected("transportation")}
-            style={[
-              this.state.selectedCategory !== "transportation"
-                ? styles.category
-                : styles.categorySelected,
+            onPress={() => this.props.navigation.navigate("TipForm", {
+              category: "transportation"
+            })}
+            style={[styles.category,
               { marginRight: 10, backgroundColor: Colors.transportation }
             ]}
           >
@@ -106,11 +84,11 @@ class TipCategories extends React.Component {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.onCategorySelected("financial")}
+            onPress={() => this.props.navigation.navigate("TipForm", {
+              category: "financial"
+            })}
             style={[
-              this.state.selectedCategory !== "financial"
-                ? styles.category
-                : styles.categorySelected,
+              styles.category,
               { backgroundColor: Colors.financial }
             ]}
           >
@@ -143,15 +121,6 @@ const styles = StyleSheet.create({
   category: {
     width: (Dimensions.get("window").width - 30) / 2,
     height: (Dimensions.get("window").width - 100) / 2,
-    borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "center"
-  },
-  categorySelected: {
-    width: (Dimensions.get("window").width - 30) / 2,
-    height: (Dimensions.get("window").width - 100) / 2,
-    borderWidth: 2,
-    borderColor: "black",
     borderRadius: 10,
     flexDirection: "row",
     justifyContent: "center"
