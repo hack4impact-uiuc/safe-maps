@@ -1,0 +1,168 @@
+---
+name: Frontend for Register
+route: /frontend-register
+---
+
+
+# Frontend Register
+
+
+<img src={require('./images/register.png')} style={{maxWidth:500}}></img>
+
+## The Code
+https://github.com/hack4impact-uiuc/infra-authentication-client/blob/master/pages/register.js
+
+The code for the register component is comprised of a Card with inputs for text and buttons for submission
+
+```
+          <Card
+            className="interview-card"
+            style={{ width: "400px", height: "60%" }}
+          >
+            <CardTitle>
+              <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
+                Register
+              </h3>
+            </CardTitle>
+
+            <CardBody>
+              <Form>
+                <FormGroup>
+                  <Label for="exampleEmail">Email</Label>
+                  <Input
+                    type="email"
+                    name="email"
+                    id="exampleEmail"
+                    maxLength="64"
+                    pattern={EMAIL_REGEX}
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="examplePassword">Password</Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    minLength="8"
+                    maxLength="64"
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="examplePassword">Confirm Password</Label>
+                  <Input
+                    type="password"
+                    name="password2"
+                    minLength="8"
+                    maxLength="64"
+                    value={this.state.password2}
+                    onChange={this.handleChange}
+                    required
+                  />
+                </FormGroup>
+                <Button
+                  color="success"
+                  size="lg"
+                  onClick={this.handleSubmit}
+                  style={{ float: "left", width: "48%" }}
+                >
+                  Register
+                </Button>{" "}
+                <Button
+                  color="success"
+                  size="lg"
+                  onClick={() => Router.push("/login")}
+                  style={{ float: "right", width: "49%" }}
+                >
+                  Login
+                </Button>
+                <br />
+                <br />
+                <br />
+                <p style={{ color: "red" }}>{this.state.errorMessage}</p>
+              </Form>
+            </CardBody>
+          </Card>
+          <GoogleLogin
+            className="btn sign-in-btn"
+            clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
+            responseType="id_token"
+            buttonText={this.props.role}
+            scope="https://www.googleapis.com/auth/userinfo.email"
+            onSuccess={this.handleGoogle}
+          />
+```
+
+
+<img src={require('./images/register2.png')} style={{maxWidth:500}}></img>
+
+## Part Two
+
+The second part is entering a PIN that has been emailed to the email account used to verify the user, or skipping this portion, they will have the
+opportunity to resend the pin and verify the account later
+```
+<Card
+          className="interview-card"
+          style={{ width: "400px", height: "60%" }}
+        >
+          <CardBody>
+            <Form>
+              <FormGroup>
+                <p style={{ color: "green" }}>{this.state.pinMessage}</p>
+                <Label>PIN</Label>
+                <Input
+                  name="pin"
+                  type="number"
+                  maxLength="10"
+                  minLength="4"
+                  value={this.state.pin}
+                  onChange={this.handleChange}
+                  required
+                />
+              </FormGroup>
+              <Button
+                color="success"
+                size="lg"
+                onClick={this.handlePINResend}
+                style={{
+                  float: "left",
+                  marginBottom: "3%",
+                  width: "100%"
+                }}
+              >
+                Resend PIN
+              </Button>
+              <Button
+                color="success"
+                size="lg"
+                onClick={this.handlePINVerify}
+                style={{
+                  float: "left",
+                  marginBotton: "3%",
+                  width: "100%"
+                }}
+              >
+                Verify Email
+              </Button>
+              <Button
+                color="link"
+                size="sm"
+                onClick={() => Router.push("/")}
+                style={{
+                  float: "right",
+                  width: "25%",
+                  marginRight: "6%"
+                }}
+              >
+                Skip Verification
+              </Button>
+            </Form>
+            {this.state.passwordChangeMessage}
+          </CardBody>
+        </Card>
+     
+```

@@ -1,0 +1,44 @@
+---
+name: Email Verification
+route: /verify-email
+---
+
+# Email Verification
+
+## Resend Verification
+
+| Endpoint | /resendEmail [POST] |
+| ------ | ----------- |
+| Header   | token |
+| Response 200 | success message |
+| Response 400 | error message |
+
+(1) If the config file doesn't have gmail verification enabled, it will return with the error message ""Gmail not enabled. Do not use this endpoint."
+
+(2) If the request doesn't have a header with a token, it will return an error message "Malformed request, doesn't have a token"
+
+(3) Verifies the JWT token, and otherwise returns the error message "JWT Malformed"
+
+(4) Verifies the user exists in the database, and if not returns the error message "User does not exist in the DB."
+
+(5) Resends the pin to the user's email. If the email isn't sent, it responds with the error message "Verification email could not be sent"
+
+(6) Responds with a success message "Verification email sent"
+
+## Verify Email Endpoint
+| Endpoint | /verifyEmail [POST] |
+| ------ | ----------- |
+| Body   | email, pin |
+| Response 200 | success message |
+| Response 400 | error message |
+
+(1) If the config file doesn't have gmail verification enabled, it will return with the error message ""Gmail not enabled. Do not use this endpoint."
+
+(2) If the request doesn't have a body with a pin and email, the request will return with the error message "Malformed request: email or pin not specified"
+
+(3) If a user with that email doesn't exist, it returns te error message "User does not exist in the DB."
+
+(4) If the pin does not match the pin sent to tat email address, it returns the error message "PIN does not match"
+
+(5) It succesfully changes the user's status to verified and sends the success message ""User successfully verified" 
+

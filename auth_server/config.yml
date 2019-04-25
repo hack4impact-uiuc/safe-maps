@@ -1,0 +1,16 @@
+roles:
+  root:
+    - moderator
+    - student
+  moderator:
+    - student
+  student: null
+security_questions:
+  - Do you love this shit?
+  - Are you high right now?
+  - Do you ever get nervous?
+  - Are you single?
+  - 'I heard you fucked your girl, is it true?'
+useGoogleAuth: false
+security_question: false
+gmail: true

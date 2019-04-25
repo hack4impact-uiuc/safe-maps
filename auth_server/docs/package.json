@@ -1,0 +1,17 @@
+{
+  "name": "auth-infra-docs",
+  "scripts": {
+    "dev": "docz dev",
+    "build": "docz build",
+    "now-build": "yarn build",
+    "now-start": "docz dev"
+  },
+  "devDependencies": {
+    "docz": "latest",
+    "docz-theme-default": "latest",
+    "webpack": "^4.28.4"
+  },
+  "dependencies": {
+    "now": "^14.2.2"
+  }
+}

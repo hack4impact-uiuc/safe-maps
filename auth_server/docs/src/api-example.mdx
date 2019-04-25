@@ -1,0 +1,34 @@
+---
+name: API Example
+route: /api-example
+---
+
+
+# API Example
+https://github.com/hack4impact-uiuc/infra-authentication-api/blob/master/src/api/login.js
+
+
+## The Code
+This is an example of getting the JWT token from a request
+
+```
+router.post("/login", async function(req, res) {
+  const results = await fetch("http://localhost:8000/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: req.body.email,
+      password: req.body.password
+    })
+  });
+
+  const resp = await results.json();
+  if (!resp.token) {
+    sendResponse(res, 400, resp.message);
+  } else {
+    sendResponse(res, 200, resp.message, {
+      token: resp.token
+    });
+  }
+});
+```

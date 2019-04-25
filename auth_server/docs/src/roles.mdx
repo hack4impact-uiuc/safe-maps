@@ -1,0 +1,48 @@
+---
+name: Roles
+route: /roles
+---
+
+# Roles
+
+## Roles
+
+| Endpoint | /roles [GET] |
+| ------ | ----------- |
+| header   | token |
+| Response 200 | security question |
+| Response 400 | error message |
+
+(1) If the token isn't provided, it returns the error message "Token not provided"
+
+(2) If the token is invalid it returns "Invalid Token", and if there isn't a corresponding user, it returns ""User does not exist in the database"
+
+(3) It looks at the user's permission level, and gets all the role's its allowed to see. 
+
+(4) Returns user information for every one of those user's email and role
+
+
+
+## Role Change
+
+| Endpoint | /roleschange [POST] |
+| ------ | ----------- |
+| header   | token |
+| body   | userEmail, newROle |
+| Response 200 | success message |
+| Response 400 | error message |
+
+(1) If it doesn't have a token in the header, it returns the error message "Token not provided"
+
+(2) If the token is invalid it returns "Invalid Token", and if there isn't a corresponding user, it returns "User does not exist in the database"
+
+(3) If it doesn't have a userEmail and newRole, it returns the error message "Malformed Request"
+
+(4) If a user with the userEmail doesn't exist, it returns the error message "User with that email doesn't exist"
+
+(4) If the user doesn't have the permission level to promote the user, it returns the error message "Incorrect Permission Levels"
+
+(5) Otherwise the user promotes the role of the user and sends te success message "Sucessfully set new permission level for [userEmail] to [newRole]"
+
+
+
