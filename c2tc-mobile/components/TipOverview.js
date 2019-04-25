@@ -71,13 +71,16 @@ class TipOverview extends React.Component {
           </View>
           <Text style={styles.tipTitle}>{this.props.tip.title}</Text>
         </View>
+        <View style={styles.cardActionsBorder} />
         <View style={styles.cardActions}>
           <View style={styles.leftActions}>
             <Text style={styles.actionText}>
-              <FontAwesome name="map-marker" size={17} /> {this.state.address}{" "}
+              <FontAwesome name="map-marker" size={16} color="#8E8E93" />{" "}
+              {this.state.address}{" "}
             </Text>
             <Text style={styles.actionText}>
-              <FontAwesome name="user" size={17} /> {this.state.username}
+              <FontAwesome name="user" size={16} color="#8E8E93" />{" "}
+              {this.state.username}
             </Text>
           </View>
           {screenType === "verification" && (
@@ -90,10 +93,10 @@ class TipOverview extends React.Component {
           {screenType === "view" && (
             <View style={styles.rightActions}>
               <TouchableOpacity style={styles.button}>
-                <FontAwesome name="caret-up" size={30} color="#9A9A9A" />
+                <FontAwesome name="chevron-up" size={24} color="#8E8E93" />
               </TouchableOpacity>
               <TouchableOpacity style={styles.button}>
-                <FontAwesome name="caret-down" size={30} color="#9A9A9A" />
+                <FontAwesome name="chevron-down" size={24} color="#8E8E93" />
               </TouchableOpacity>
             </View>
           )}
@@ -112,37 +115,45 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
     marginVertical: 10,
-    shadowColor: "rgba(0,0,0, .6)",
-    shadowOffset: { height: 2, width: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 3,
-    elevation: 3
+    elevation: 3,
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOffset: { height: 0, width: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 7
   },
   tags: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    marginBottom: 5
+    marginBottom: 10
   },
   cardTitle: {
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    padding: 20,
+    padding: 15,
     backgroundColor: "white"
   },
   tipTitle: {
-    fontSize: 20,
-    fontWeight: "500"
+    fontSize: 18,
+    fontWeight: "600",
+    paddingBottom: 1
+  },
+  cardActionsBorder: {
+    alignItems: "center",
+    height: 1.5,
+    marginTop: -1.5,
+    backgroundColor: "#C7C7CC",
+    marginHorizontal: 15
   },
   cardActions: {
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    padding: 20,
-    backgroundColor: "#E4E4E4",
+    padding: 15,
+    backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "flex-start"
   },
   leftActions: {
-    width: Dimensions.get("window").width - 195
+    width: Dimensions.get("window").width - 160
   },
   rightActions: {
     flexDirection: "row",
@@ -150,15 +161,12 @@ const styles = StyleSheet.create({
     width: 95
   },
   actionText: {
-    fontSize: 17
+    fontSize: 16,
+    fontWeight: "600",
+    paddingVertical: 2
   },
   button: {
-    alignItems: "center",
-    height: 35,
-    width: 35,
-    margin: 5,
-    borderRadius: 25,
-    backgroundColor: "white"
+    marginLeft: 16
   }
 });
 
