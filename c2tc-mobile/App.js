@@ -18,14 +18,14 @@ import ProfileScreen from "./screens/ProfileScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 
-import { Notifications, Location, TaskManager, Permissions } from 'expo';
+import { Notifications, Location, TaskManager, Permissions } from "expo";
 
-const LOCATION_TASK_NAME = 'background-location-task';
+const LOCATION_TASK_NAME = "background-location-task";
 
 export default class App extends Component {
   beginListeningToLocation = async () => {
     await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-      accuracy: Location.Accuracy.Balanced,
+      accuracy: Location.Accuracy.Balanced
     });
   };
 
@@ -40,13 +40,13 @@ export default class App extends Component {
       await AsyncStorage.setItem("loaded", JSON.stringify(1));
     }
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
+    if (status !== "granted") {
       this.setState({
-        errorMessage: 'Permission to access location was denied',
+        errorMessage: "Permission to access location was denied"
       });
     } else {
       Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-        accuracy: Location.Accuracy.Balanced,
+        accuracy: Location.Accuracy.Balanced
       });
     }
     await this.beginListeningToLocation();
@@ -57,7 +57,7 @@ export default class App extends Component {
   }
 
   render() {
-    return <Navigator/>;
+    return <Navigator />;
   }
 }
 
@@ -81,7 +81,7 @@ Navigator = createStackNavigator({
     navigationOptions: {
       header: null,
       headerMode: "screen",
-      gesturesEnabled: false,
+      gesturesEnabled: false
     }
   },
   TipOverview: {
@@ -89,7 +89,7 @@ Navigator = createStackNavigator({
     navigationOptions: {
       header: null,
       headerMode: "screen",
-      gesturesEnabled: false,
+      gesturesEnabled: false
     }
   },
   TipCategories: {
@@ -147,37 +147,40 @@ Navigator = createStackNavigator({
       header: null,
       headerMode: "screen"
     }
-  },
+  }
 });
 
-function shouldNotify(eventsNearby){
+function shouldNotify(eventsNearby) {
   return eventsNearby.length > 0;
 }
 
-function compareEvents(eventA, eventB){
+function compareEvents(eventA, eventB) {
   let eventAScore = eventA.upvotes.length - eventA.downvotes.length;
   let eventBScore = eventB.upvotes.length - eventB.downvotes.length;
-  return (eventAScore < eventBScore) ? -1 : (eventAScore > eventBScore) ? 1 : 0;
+  return eventAScore < eventBScore ? -1 : eventAScore > eventBScore ? 1 : 0;
 }
 
-function createNotificationData(eventsNearby){
-  topFiveTips = eventsNearby.sort(compareEvents).reverse().slice(0, 5);
-  let compositeTipsTitles = topFiveTips.map((tip) => tip.title).join("\n");
+function createNotificationData(eventsNearby) {
+  topFiveTips = eventsNearby
+    .sort(compareEvents)
+    .reverse()
+    .slice(0, 5);
+  let compositeTipsTitles = topFiveTips.map(tip => tip.title).join("\n");
 
   const localnotification = {
-    title: 'There are tips nearby!',
+    title: "There are tips nearby!",
     body: compositeTipsTitles,
     android: {
-      sound: true,
+      sound: true
     },
     ios: {
-      sound: true,
-    },
+      sound: true
+    }
   };
   return localnotification;
 }
 
-handleNewLocation = async ( { data, error }) => {
+handleNewLocation = async ({ data, error }) => {
   if (error) {
     return;
   }
@@ -187,7 +190,7 @@ handleNewLocation = async ( { data, error }) => {
     const long = locations[0].coords.longitude;
     eventsNearby = await API.getTipsNearby(lat, long);
 
-    if (shouldNotify(eventsNearby)){
+    if (shouldNotify(eventsNearby)) {
       const notificationData = createNotificationData(eventsNearby);
       const schedulingOptions = { time: Date.now() + 1000 };
       Notifications.scheduleLocalNotificationAsync(
@@ -195,7 +198,7 @@ handleNewLocation = async ( { data, error }) => {
         schedulingOptions
       );
     }
-  };
-}
+  }
+};
 
 TaskManager.defineTask(LOCATION_TASK_NAME, handleNewLocation);

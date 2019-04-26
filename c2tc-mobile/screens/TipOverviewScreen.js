@@ -173,39 +173,39 @@ class TipOverviewScreen extends React.Component {
         />
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
-            <View style={styles.header}>
-              <Text style={styles.date}>
-                {this.state.currentdate.toUpperCase()}
+          <View style={styles.header}>
+            <Text style={styles.date}>
+              {this.state.currentdate.toUpperCase()}
+            </Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={[
+                  styles.headertext,
+                  {
+                    alignSelf: "flex-start",
+                    width: Dimensions.get("window").width - 104
+                  }
+                ]}
+              >
+                Good Evening,{"\n"}
+                {this.state.user}
               </Text>
-              <View style={{ flexDirection: "row" }}>
-                <Text
-                  style={[
-                    styles.headertext,
-                    {
-                      alignSelf: "flex-start",
-                      width: Dimensions.get("window").width - 104
-                    }
-                  ]}
-                >
-                  Good Evening,{"\n"}
-                  {this.state.user}
-                </Text>
-                <TouchableOpacity onPress={this.profilePicPressed}>
-                  <Image
-                    style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: 50 / 2,
-                      alignSelf: "flex-end"
-                    }}
-                    source={{
-                      uri:
-                        "https://facebook.github.io/react-native/docs/assets/favicon.png"
-                    }}
-                  />
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity onPress={this.profilePicPressed}>
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 50 / 2,
+                    alignSelf: "flex-end"
+                  }}
+                  source={{
+                    uri:
+                      "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                  }}
+                />
+              </TouchableOpacity>
             </View>
+          </View>
           {/* {screenStyle === "verification" && (
             <View style={styles.header}>
               <Text>All Pending Tips</Text>

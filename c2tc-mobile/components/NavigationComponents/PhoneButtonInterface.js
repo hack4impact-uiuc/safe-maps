@@ -4,7 +4,8 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Linking
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import call from "react-native-phone-call";
@@ -13,18 +14,25 @@ export default class PhoneButton extends Component {
   constructor(props) {
     super(props);
   }
-  _onPressCall = () => {
-    const args = {
-      number: this.props.number,
-      prompt: false
-    };
-    call(args).catch(console.error);
+
+  _onPress = () => {
+    if (typeof this.props.url !== "undefined") {
+      Linking.openURL(
+        "https://itunes.apple.com/us/app/mtd-connect/id1445758206"
+      );
+    } else {
+      const args = {
+        number: this.props.number,
+        prompt: false
+      };
+      call(args).catch(console.error);
+    }
   };
 
   render() {
     return (
       <View style={styles.view}>
-        <TouchableOpacity onPress={this._onPressCall} style={styles.button}>
+        <TouchableOpacity onPress={this._onPress} style={styles.button}>
           <FontAwesome name={this.props.icon} color="#8e8e93" size={25} />
         </TouchableOpacity>
         <Text style={styles.text}>{this.props.name}</Text>
