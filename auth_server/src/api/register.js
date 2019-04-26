@@ -3,10 +3,7 @@ const bcrypt = require("bcrypt");
 const { check, validationResult } = require("express-validator/check");
 const User = require("../models/User");
 const { sendResponse } = require("./../utils/sendResponse");
-const {
-  getRolesForUser,
-  getSecurityQuestions
-} = require("./../utils/getConfigFile");
+const { getSecurityQuestions } = require("./../utils/getConfigFile");
 const { signAuthJWT } = require("../utils/jwtHelpers");
 const { generatePIN } = require("../utils/pinHelpers");
 const { isGmailEnabled } = require("../utils/getConfigFile");
@@ -44,13 +41,6 @@ router.post(
     }
     const question =
       securityQuestionsResponse.securityQuestions[req.body.questionIdx];
-    if (!question || !req.body.answer) {
-      return sendResponse(
-        res,
-        400,
-        "user entered wrong security question or no answer"
-      );
-    }
     const userData = {
       email: String(req.body.email).toLowerCase(),
       password: encodedPassword,
@@ -60,14 +50,6 @@ router.post(
       verified: false
     };
     const user = new User(userData);
-    const requiredAuthFrom = await getRolesForUser(req.body.role);
-    if (requiredAuthFrom != null) {
-      return sendResponse(
-        res,
-        400,
-        "User needs a higher permission level for that role"
-      );
-    }
 
     const jwt_token = await signAuthJWT(user._id, user.password);
     if (usingGmail) {

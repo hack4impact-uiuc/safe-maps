@@ -4,7 +4,8 @@ async function generatePIN(user) {
     throw "User is not defined";
   }
   // generate and update update pin
-  user.pin = Math.floor(Math.random() * (100000000 - 100000 + 1)) + 100000;
+
+  user.pin = Math.floor(100000 + Math.random() * 900000);
   var date = new Date();
   // add a day to the current date for the expiration
   date.setDate(date.getDate() + 1);
