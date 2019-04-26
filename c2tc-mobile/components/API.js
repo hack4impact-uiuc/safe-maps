@@ -72,14 +72,6 @@ async function getTipsNearby(lat, long) {
   return getEndpoint(`tips?lat=${lat}&long=${long}`, "tips");
 }
 
-async function getTipsNearby(lat, long) {
-  return getEndpoint(`tips_nearby/?lat=${lat}&long=${long}`, "tip");
-}
-
-async function getTipsNearby(lat, long) {
-  return getEndpoint(`tips_nearby/?lat=${lat}&long=${long}`, "tip");
-}
-
 async function getTipsFromUser(user_id) {
   return getEndpoint(`user/${user_id}/tips`, "tips");
 }
@@ -105,7 +97,7 @@ async function getPendingTips() {
 }
 
 async function getDeniedTips() {
-  return getEndpoint("tips/pending", "denied_tips");
+  return getEndpoint("tips/denied", "denied_tips");
 }
 
 async function getVerifiedTipsByUser(id) {
