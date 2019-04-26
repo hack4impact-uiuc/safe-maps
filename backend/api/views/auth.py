@@ -6,7 +6,7 @@ from api.models.User import User
 from datetime import datetime
 
 auth = Blueprint("auth", __name__)
-auth_server_host = "http://localhost:8000/"
+auth_server_host = "https://c2tc-auth-server.herokuapp.com/"
 
 
 def invalid_email(email_address):
@@ -36,6 +36,7 @@ def register():
 @auth.route("/login", methods=["POST"])
 @necessary_post_params("email", "password")
 def login():
+    print("attempting to login")
     return post_to_auth_server("login", "email", "password")
 
 
@@ -44,10 +45,12 @@ def post_to_auth_server(endpoint, *properties_to_post):
 
     auth_post_data = {key: user_input[key] for key in properties_to_post}
 
+    print("auth_server_host + endpoint: ", auth_server_host + endpoint)
     auth_server_response = requests.post(
         auth_server_host + endpoint, json=auth_post_data
     )
     response_body = auth_server_response.json()
+    print("response_body: ", response_body)
 
     if "token" not in response_body:
         return create_response(
