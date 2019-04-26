@@ -80,14 +80,16 @@ Navigator = createStackNavigator({
     screen: MapScreen,
     navigationOptions: {
       header: null,
-      headerMode: "screen"
+      headerMode: "screen",
+      gesturesEnabled: false,
     }
   },
   TipOverview: {
     screen: TipScreen,
     navigationOptions: {
       header: null,
-      headerMode: "screen"
+      headerMode: "screen",
+      gesturesEnabled: false,
     }
   },
   TipCategories: {
