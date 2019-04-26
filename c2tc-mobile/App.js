@@ -17,6 +17,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
+import AlertScreen from "./screens/AlertScreen";
 
 import { Notifications, Location, TaskManager, Permissions } from 'expo';
 
@@ -63,7 +64,7 @@ export default class App extends Component {
 
 Navigator = createStackNavigator({
   Intro: {
-    screen: IntroScreen,
+    screen: AlertScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"
@@ -146,6 +147,13 @@ Navigator = createStackNavigator({
       headerMode: "screen"
     }
   },
+  Alert: {
+    screen: AlertScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  }
 });
 
 function shouldNotify(eventsNearby){
