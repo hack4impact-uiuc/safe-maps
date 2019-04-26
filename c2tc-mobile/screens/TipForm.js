@@ -195,12 +195,12 @@ class TipForm extends React.Component {
             maxHeight={150}
             onChangeText={body => this.setState({ body })}
           />
-          <Text style={styles.header}>Tip Location</Text>
+          <Text style={styles.header}>Tip Address</Text>
           <TextInput
             mode="outlined"
             style={styles.inputBodyContainerStyle}
-            label="Tip Location"
-            placeholder="Location of your tip"
+            label="Tip Address"
+            placeholder="Address of your tip"
             value={this.state.address}
             multiline={true}
             numberOfLines={5}
