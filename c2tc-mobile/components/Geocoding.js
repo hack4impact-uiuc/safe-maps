@@ -9,8 +9,6 @@ export async function addressToLatLong(address) {
 
   lat = responseJson["results"][0]["locations"][0]["latLng"]["lat"];
   lng = responseJson["results"][0]["locations"][0]["latLng"]["lng"];
-  console.log(lat);
-  console.log(lng);
   return [lat, lng];
 }
 
