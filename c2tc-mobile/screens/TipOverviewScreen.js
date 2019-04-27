@@ -86,18 +86,22 @@ class TipOverviewScreen extends React.Component {
 
   setGreeting = () => {
     let curr_greeting = "";
-    let hour = new Date().getUTCHours();
+    let date = new Date();
+    var timeOffsetInMS = date.getTimezoneOffset() * 60000;
+    date.setTime(date.getTime() - timeOffsetInMS);
+
+    let hour = date.getUTCHours();
 
     if (hour <= 4) {
-      curr_greeting = "Good Night";
+      curr_greeting = "Good Night,";
     } else if (hour <= 12) {
-      curr_greeting = "Good Morning";
+      curr_greeting = "Good Morning,";
     } else if (hour <= 15) {
-      curr_greeting = "Good Afternoon";
+      curr_greeting = "Good Afternoon,";
     } else if (hour <= 19) {
-      curr_greeting = "Good Evening";
+      curr_greeting = "Good Evening,";
     } else {
-      curr_greeting = "Good Night";
+      curr_greeting = "Good Night,";
     }
 
     this.setState({
@@ -177,7 +181,8 @@ class TipOverviewScreen extends React.Component {
                   }
                 ]}
               >
-                {this.state.greeting},{"\n"}
+                {this.state.greeting}
+                {"\n"}
                 {this.state.username}
               </Text>
               <TouchableOpacity onPress={this.profilePicPressed}>
