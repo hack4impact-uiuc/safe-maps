@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions
 } from "react-native";
+import { AsyncStorage } from "react-native";
 import TipOverview from "../components/TipOverview";
 import API from "../components/API";
 import { NavigationEvents } from "react-navigation";
@@ -31,6 +32,8 @@ class TipOverviewScreen extends React.Component {
       author: "author",
       date: "date posted",
       location: "location",
+      proPic: "",
+      username: "",
       user: "",
       currentdate: "",
       greeting: "",
@@ -43,6 +46,15 @@ class TipOverviewScreen extends React.Component {
   }
 
   async componentWillMount() {
+    await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
+    let user_id = await AsyncStorage.getItem("user_id");
+    if (user_id) {
+      let user = await API.getUser(user_id);
+      this.setState({
+        proPic: user.pro_pic,
+        username: this.state.username
+      });
+    }
     this.setDate();
     this.setGreeting();
     let tipsResponse = await API.getVerifiedTips();
@@ -51,12 +63,22 @@ class TipOverviewScreen extends React.Component {
 
   onComponentFocused = async () => {
     if (this.state.hasLoaded) {
+      await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
+      let user_id = await AsyncStorage.getItem("user_id");
+      if (user_id) {
+        let user = await API.getUser(user_id);
+        this.setState({
+          proPic: user.pro_pic,
+          username: user.username
+        });
+      }
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse });
     }
     let pendingTips = await API.getPendingTips();
     this.setState({ pendingTips });
   };
+
   profilePicPressed = () => {
     this.props.navigation.navigate("Profile");
   };
@@ -158,20 +180,33 @@ class TipOverviewScreen extends React.Component {
                 Good Evening,{"\n"}
                 {this.state.user}
               </Text>
-              <TouchableOpacity onPress={this.profilePicPressed}>
-                <Image
-                  style={{
-                    width: 50,
-                    height: 50,
-                    borderRadius: 50 / 2,
-                    alignSelf: "flex-end"
-                  }}
-                  source={{
-                    uri:
-                      "https://facebook.github.io/react-native/docs/assets/favicon.png"
-                  }}
-                />
-              </TouchableOpacity>
+              <View style={{ flexDirection: "row" }}>
+                <Text
+                  style={[
+                    styles.headertext,
+                    {
+                      alignSelf: "flex-start",
+                      width: Dimensions.get("window").width - 104
+                    }
+                  ]}
+                >
+                  Good Evening,{"\n"}
+                  {this.state.username}
+                </Text>
+                <TouchableOpacity onPress={this.profilePicPressed}>
+                  <Image
+                    style={{
+                      width: 50,
+                      height: 50,
+                      borderRadius: 50 / 2,
+                      alignSelf: "flex-end"
+                    }}
+                    source={{
+                      uri: this.state.proPic
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           <View style={styles.content}>

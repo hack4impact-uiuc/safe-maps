@@ -47,7 +47,8 @@ export default class ProfileScreen extends React.Component {
         karmaScore: user.karma,
         verified: user.verified,
         anonymousToOthers: user.anon,
-        netId: user.net_id
+        netId: user.net_id,
+        proPic: user.pro_pic
       });
       let verifiedTips = await API.getVerifiedTipsByUser(user_id);
       this.setState({
@@ -129,8 +130,7 @@ export default class ProfileScreen extends React.Component {
                 borderRadius: 70 / 2
               }}
               source={{
-                uri:
-                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                uri: this.state.proPic
               }}
             />
             <Text style={styles.header}>{this.state.displayName} </Text>

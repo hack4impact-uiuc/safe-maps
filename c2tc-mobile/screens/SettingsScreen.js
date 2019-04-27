@@ -56,8 +56,7 @@ export default class SettingsScreen extends React.Component {
             <Image
               style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
               source={{
-                uri:
-                  "https://facebook.github.io/react-native/docs/assets/favicon.png"
+                uri: this.state.user.pro_pic
               }}
             />
             <View>
@@ -98,10 +97,6 @@ export default class SettingsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
-  },
   profile: {
     flexDirection: "row",
     padding: 25

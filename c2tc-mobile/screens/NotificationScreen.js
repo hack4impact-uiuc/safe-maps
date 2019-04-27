@@ -10,30 +10,51 @@ export default class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      locationTips: false,
-      illiniAlerts: false,
-      productUpdates: false
+      crimeTips: true,
+      healthTips: true,
+      transpoTips: true,
+      financialTips: true,
+      otherTips: true,
+      productUpdates: true
     };
   }
 
   onComponentFocused = async () => {
     this._mounted = true;
-    let locationTips = await AsyncStorage.getItem("location_tips");
-    if (locationTips === "true") {
+    let crimeTips = await AsyncStorage.getItem("crime_tips");
+    if (crimeTips === "false") {
       this.setState({
-        locationTips: true
+        crimeTips: false
       });
     }
-    let illiniAlerts = await AsyncStorage.getItem("illini_alerts");
-    if (illiniAlerts === "true") {
+    let healthTips = await AsyncStorage.getItem("health_tips");
+    if (healthTips === "false") {
       this.setState({
-        illiniAlerts: true
+        healthTips: false
+      });
+    }
+    let transpoTips = await AsyncStorage.getItem("transpo_tips");
+    if (transpoTips === "false") {
+      this.setState({
+        transpoTips: false
+      });
+    }
+    let financialTips = await AsyncStorage.getItem("financial_tips");
+    if (financialTips === "false") {
+      this.setState({
+        financialTips: false
+      });
+    }
+    let otherTips = await AsyncStorage.getItem("other_tips");
+    if (otherTips === "false") {
+      this.setState({
+        otherTips: false
       });
     }
     let productUpdates = await AsyncStorage.getItem("product_updates");
-    if (productUpdates === "true") {
+    if (productUpdates === "false") {
       this.setState({
-        productUpdates: true
+        productUpdates: false
       });
     }
   };
@@ -43,22 +64,49 @@ export default class SettingsScreen extends React.Component {
   };
 
   setAndStoreState = async stateVar => {
-    if (stateVar === "locationTips") {
-      if (!this.state.locationTips) {
-        await AsyncStorage.setItem("location_tips", "true");
-        this.setState({ locationTips: !this.state.locationTips });
+    if (stateVar === "crimeTips") {
+      if (!this.state.crimeTips) {
+        await AsyncStorage.setItem("crime_tips", "true");
+        this.setState({ crimeTips: !this.state.crimeTips });
       } else {
-        await AsyncStorage.setItem("location_tips", "false");
-        this.setState({ locationTips: !this.state.locationTips });
+        await AsyncStorage.setItem("crime_tips", "false");
+        this.setState({ crimeTips: !this.state.crimeTips });
       }
     }
-    if (stateVar === "illiniAlerts") {
-      if (!this.state.illiniAlerts) {
-        await AsyncStorage.setItem("illini_alerts", "true");
-        this.setState({ illiniAlerts: !this.state.illiniAlerts });
+    if (stateVar === "healthTips") {
+      if (!this.state.healthTips) {
+        await AsyncStorage.setItem("health_tips", "true");
+        this.setState({ healthTips: !this.state.healthTips });
       } else {
-        await AsyncStorage.setItem("illini_alerts", "false");
-        this.setState({ illiniAlerts: !this.state.illiniAlerts });
+        await AsyncStorage.setItem("health_tips", "false");
+        this.setState({ healthTips: !this.state.healthTips });
+      }
+    }
+    if (stateVar === "transpoTips") {
+      if (!this.state.transpoTips) {
+        await AsyncStorage.setItem("transpo_tips", "true");
+        this.setState({ transpoTips: !this.state.transpoTips });
+      } else {
+        await AsyncStorage.setItem("transpo_tips", "false");
+        this.setState({ transpoTips: !this.state.transpoTips });
+      }
+    }
+    if (stateVar === "financialTips") {
+      if (!this.state.financialTips) {
+        await AsyncStorage.setItem("financial_tips", "true");
+        this.setState({ financialTips: !this.state.financialTips });
+      } else {
+        await AsyncStorage.setItem("financial_tips", "false");
+        this.setState({ financialTips: !this.state.financialTips });
+      }
+    }
+    if (stateVar === "otherTips") {
+      if (!this.state.otherTips) {
+        await AsyncStorage.setItem("other_tips", "true");
+        this.setState({ otherTips: !this.state.otherTips });
+      } else {
+        await AsyncStorage.setItem("other_tips", "false");
+        this.setState({ otherTips: !this.state.otherTips });
       }
     }
     if (stateVar === "productUpdates") {
@@ -86,28 +134,71 @@ export default class SettingsScreen extends React.Component {
         <Text>{"\n"}</Text>
 
         <View style={styles.listItem}>
-          <Text style={styles.text}>Location Tips</Text>
+          <Text style={styles.text}>Crime Tips</Text>
           <View style={styles.switch}>
             <ToggleSwitch
               style={styles.switch}
-              isOn={this.state.locationTips}
+              isOn={this.state.crimeTips}
               onColor="green"
               offColor="gray"
               size="small"
-              onToggle={() => this.setAndStoreState("locationTips")}
+              onToggle={() => this.setAndStoreState("crimeTips")}
             />
           </View>
         </View>
         <View style={styles.divider} />
         <View style={styles.listItem}>
-          <Text style={styles.text}>Illini Alerts</Text>
+          <Text style={styles.text}>Health Tips</Text>
           <View style={styles.switch}>
             <ToggleSwitch
-              isOn={this.state.illiniAlerts}
+              style={styles.switch}
+              isOn={this.state.healthTips}
               onColor="green"
               offColor="gray"
               size="small"
-              onToggle={() => this.setAndStoreState("illiniAlerts")}
+              onToggle={() => this.setAndStoreState("healthTips")}
+            />
+          </View>
+        </View>
+        <View style={styles.divider} />
+        <View style={styles.listItem}>
+          <Text style={styles.text}>Transportation Tips</Text>
+          <View style={styles.switch}>
+            <ToggleSwitch
+              style={styles.switch}
+              isOn={this.state.transpoTips}
+              onColor="green"
+              offColor="gray"
+              size="small"
+              onToggle={() => this.setAndStoreState("transpoTips")}
+            />
+          </View>
+        </View>
+        <View style={styles.divider} />
+        <View style={styles.listItem}>
+          <Text style={styles.text}>Financial Tips</Text>
+          <View style={styles.switch}>
+            <ToggleSwitch
+              style={styles.switch}
+              isOn={this.state.financialTips}
+              onColor="green"
+              offColor="gray"
+              size="small"
+              onToggle={() => this.setAndStoreState("financialTips")}
+            />
+          </View>
+        </View>
+        <View style={styles.divider} />
+        <View style={styles.listItem}>
+          <Text style={styles.text}>Other Tips</Text>
+          <View style={styles.switch}>
+            <ToggleSwitch
+              style={styles.switch}
+              isOn={this.state.otherTips}
+              onColor="green"
+              offColor="gray"
+              size="small"
+              onToggle={() => this.setAndStoreState("otherTips")}
             />
           </View>
         </View>

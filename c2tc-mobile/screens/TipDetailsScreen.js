@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
-  AsyncStorage,
+  AsyncStorage
 } from "react-native";
 import Tag from "../components/Tag";
 import { FontAwesome } from "@expo/vector-icons";

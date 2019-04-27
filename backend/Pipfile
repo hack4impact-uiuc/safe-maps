@@ -17,6 +17,7 @@ pip = "*"
 "urllib3" = "*"
 apscheduler = "*"
 geopy = "*"
+black = "*"
 
 [dev-packages]
 "flake8" = "*"
