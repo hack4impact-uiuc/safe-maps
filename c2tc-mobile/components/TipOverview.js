@@ -20,8 +20,8 @@ class TipOverview extends React.Component {
       address: "Loading...",
       username: "",
       userid: "",
-      isUpvoted: null,
-      isDownvoted: null
+      isUpvoted: false,
+      isDownvoted: false
     };
   }
 
@@ -35,36 +35,44 @@ class TipOverview extends React.Component {
 
   async componentDidMount() {
     let user = await API.getUser(this.props.tip.author);
-    let userid = user._id;
-    let username = user.username;
     let address = await latlongToAddress(
       this.props.tip.latitude,
       this.props.tip.longitude
     );
-    if (user.anon) {
-      username = "Anonymous";
-    }
 
     this.setState({
-      userid: userid,
-      username: username,
+      user: user,
+      username: user.anon ? "Anonymous" : user.username,
       address: address
     });
+    if (this.props.screenType === "verified") {
+      this.setVoteStatus();
+    }
   }
 
   onComponentFocused = async () => {
     let user = await API.getUser(this.props.tip.author);
+    let address = await latlongToAddress(
+      this.props.tip.latitude,
+      this.props.tip.longitude
+    );
 
     this.setState({
-      username: user.username
+      user: user,
+      username: user.anon ? "Anonymous" : user.username,
+      address: address
     });
+    if (this.props.screenType === "verified") {
+      this.setVoteStatus();
+    }
   };
 
   setVoteStatus = async () => {
     let upVotedUsers = await API.getUserUpvotes(this.props.tip._id);
 
     if (
-      upVotedUsers.filter(user => user._id === this.state.userid).length > 0
+      upVotedUsers &&
+      upVotedUsers.filter(user => user._id === this.props.user._id).length > 0
     ) {
       let isUpvoted = true;
       let isDownvoted = false;
@@ -75,7 +83,9 @@ class TipOverview extends React.Component {
     } else {
       let downVotedUsers = await API.getUserDownvotes(this.props.tip._id);
       if (
-        downVotedUsers.filter(user => user._id === this.state.userid).length > 0
+        downVotedUsers &&
+        downVotedUsers.filter(user => user._id === this.props.user._id).length >
+          0
       ) {
         let isUpvoted = false;
         let isDownvoted = true;
@@ -95,27 +105,23 @@ class TipOverview extends React.Component {
   };
 
   upvotePress = async () => {
+    this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
     let data = {
       tips_id: this.props.tip._id,
-      user_id: this.state.userid,
+      user_id: this.props.user._id,
       vote_type: "UPVOTE"
     };
-
-    let response = await API.voteTip(data);
-
-    this.setVoteStatus();
+    await API.voteTip(data);
   };
 
   downvotePress = async () => {
+    this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
     let data = {
       tips_id: this.props.tip._id,
-      user_id: this.state.userid,
+      user_id: this.props.user._id,
       vote_type: "DOWNVOTE"
     };
-
-    let response = await API.voteTip(data);
-
-    this.setVoteStatus();
+    await API.voteTip(data);
   };
 
   render() {
@@ -126,7 +132,10 @@ class TipOverview extends React.Component {
           this.props.navigation.navigate("TipDetail", {
             tip: this.props.tip,
             screenType: this.props.screenType,
-            tips: this.props.tips
+            tips: this.props.tips,
+            upvoted: this.state.isUpvoted,
+            downvoted: this.state.isDownvoted,
+            author: this.state.user
           })
         }
         style={styles.card}

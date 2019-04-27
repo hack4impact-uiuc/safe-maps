@@ -35,6 +35,7 @@ class TipOverviewScreen extends React.Component {
       proPic:
         "https://pngimage.net/wp-content/uploads/2018/05/default-profile-image-png-5.png",
       username: "",
+      user: null,
       currentdate: "",
       greeting: "",
       bgImg: DAY_BACKGROUND_IMG,
@@ -51,7 +52,8 @@ class TipOverviewScreen extends React.Component {
       let user = await API.getUser(user_id);
       this.setState({
         proPic: user.pro_pic,
-        username: user.username
+        username: user.username,
+        user: user
       });
     }
     this.setDate();
@@ -67,7 +69,8 @@ class TipOverviewScreen extends React.Component {
         let user = await API.getUser(user_id);
         this.setState({
           proPic: user.pro_pic,
-          username: user.username
+          username: user.username,
+          user: user
         });
       }
       let tipsResponse = await API.getVerifiedTips();
@@ -213,6 +216,7 @@ class TipOverviewScreen extends React.Component {
               <TipOverview
                 key={tip._id}
                 tip={tip}
+                user={this.state.user}
                 tips={this.state.tip}
                 navigation={this.props.navigation}
                 screenType="verified"

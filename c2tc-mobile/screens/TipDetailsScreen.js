@@ -23,8 +23,8 @@ class TipDetailsScreen extends React.Component {
       screenStyle: this.props.navigation.state.params.screenType,
       tips: this.props.navigation.state.params.tips,
       userid: "",
-      isDownvoted: null,
-      isUpvoted: null
+      isDownvoted: this.props.navigation.getParam("downvoted", false),
+      isUpvoted: this.props.navigation.getParam("upvoted", false)
     };
   }
 
@@ -67,32 +67,21 @@ class TipDetailsScreen extends React.Component {
   };
 
   async componentDidMount() {
-    let author = await API.getUser(
-      this.props.navigation.state.params.tip.author
-    );
-    let username = author.username;
-    if (author.anon) {
-      username = "Anonymous";
-    }
+    let author = this.props.navigation.getParam("author", false);
 
     let userid = await AsyncStorage.getItem("user_id");
 
     this.setState({
-      username,
+      username: author.anon ? "Anonymous" : author.username,
       userid
     });
-
-    this.setVoteStatus();
   }
 
   approvePress = async () => {
     let data = {
       status: "verified"
     };
-    let response = await API.updateStatus(
-      this.props.navigation.state.params.tip._id,
-      data
-    );
+    await API.updateStatus(this.props.navigation.state.params.tip._id, data);
     this.props.navigation.navigate("TipOverview");
   };
 
@@ -100,35 +89,29 @@ class TipDetailsScreen extends React.Component {
     let data = {
       status: "denied"
     };
-    let response = await API.updateStatus(
-      this.props.navigation.state.params.tip._id,
-      data
-    );
+    await API.updateStatus(this.props.navigation.state.params.tip._id, data);
     this.props.navigation.navigate("TipOverview");
   };
 
   upvotePress = async () => {
+    this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
     let data = {
       tips_id: this.props.navigation.state.params.tip._id,
       user_id: this.state.userid,
       vote_type: "UPVOTE"
     };
 
-    let response = await API.voteTip(data);
-
-    this.setVoteStatus();
+    await API.voteTip(data);
   };
 
   downvotePress = async () => {
+    this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
     let data = {
       tips_id: this.props.navigation.state.params.tip._id,
       user_id: this.state.userid,
       vote_type: "DOWNVOTE"
     };
-
-    let response = await API.voteTip(data);
-
-    this.setVoteStatus();
+    await API.voteTip(data);
   };
 
   render() {
@@ -328,9 +311,9 @@ const styles = StyleSheet.create({
 
   content: {
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderBottomColor: "#9C9C9C",
-    borderBottomWidth: 2,
+    marginHorizontal: 22,
+    borderBottomColor: "#D4D4D8",
+    borderBottomWidth: 1,
     marginBottom: 10,
     fontSize: 17
   },
@@ -338,9 +321,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderBottomColor: "#9C9C9C",
-    borderBottomWidth: 2
+    marginHorizontal: 22,
+    borderBottomColor: "#D4D4D8",
+    borderBottomWidth: 1
   },
   tip: {
     width: 50,
@@ -376,7 +359,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     backgroundColor: "#9041AF",
     paddingBottom: 15,
-    marginBottom: 30
+    marginBottom: 0
   },
   navBarPending: {
     paddingTop: 37,
