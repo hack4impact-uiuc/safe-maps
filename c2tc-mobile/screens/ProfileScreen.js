@@ -97,7 +97,7 @@ export default class ProfileScreen extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.profileScreen}>
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
           <View style={styles.navBar}>
@@ -140,11 +140,11 @@ export default class ProfileScreen extends React.Component {
           </View>
           {this.state.verified && (
             <View>
-              <Divider style={styles.divider} />
+              <View style={styles.divider} />
               <Text style={styles.dividedText}>Moderator (Verified)</Text>
             </View>
           )}
-          <Divider style={styles.divider} />
+          <View style={styles.divider} />
           <View style={styles.anonView}>
             <Text style={[styles.dividedText, styles.anonText]}>
               Anonymous To Other Users
@@ -152,17 +152,17 @@ export default class ProfileScreen extends React.Component {
             <ToggleSwitch
               style={styles.anonToggle}
               isOn={this.state.anonymousToOthers}
-              onColor="green"
-              offColor="gray"
+              onColor="#4ADA64"
+              offColor="#C8C8CD"
               size="small"
               onToggle={e => this.onChangeVisibility(e)}
             />
           </View>
-          <Divider style={styles.divider} />
+          <View style={styles.divider} />
           <Text style={styles.dividedText}>
             {this.state.netId}@illinois.edu
           </Text>
-          <Divider style={styles.divider} />
+          <View style={styles.divider} />
           <View style={styles.content}>
             <Text style={styles.subheader}> Posted Tips </Text>
             {this.state.verifiedTips.map(tip => (
@@ -199,6 +199,10 @@ export default class ProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  profileScreen: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
+  },
   navBar: {
     paddingTop: 37,
     flexDirection: "row",
@@ -259,18 +263,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 0
   },
-  // backButton: {
-  //   marginRight: 0,
-  //   paddingRight: 0
-  // },
-  // backHeader: {
-  //   marginLeft: -10
-  // },
-  // settingsButton: {
-  //   alignSelf: "flex-end"
-  // },
   divider: {
-    backgroundColor: "black"
+    borderBottomColor: "#CACACF",
+    marginHorizontal: 22,
+    borderBottomWidth: 1
   },
 
   tipOverview: {

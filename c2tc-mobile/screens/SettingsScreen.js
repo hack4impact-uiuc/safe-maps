@@ -28,7 +28,7 @@ export default class SettingsScreen extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.settings}>
         <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View style={styles.navBar}>
           <TouchableOpacity
@@ -66,6 +66,7 @@ export default class SettingsScreen extends React.Component {
             <FontAwesome
               name="chevron-right"
               size={15}
+              color="#D2D2D7"
               style={styles.profileArrow}
             />
           </View>
@@ -76,7 +77,12 @@ export default class SettingsScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Notifications</Text>
-            <FontAwesome name="chevron-right" size={15} style={styles.arrow} />
+            <FontAwesome
+              name="chevron-right"
+              color="#D2D2D7"
+              size={15}
+              style={styles.arrow}
+            />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -87,7 +93,12 @@ export default class SettingsScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Show App Tutorials</Text>
-            <FontAwesome name="chevron-right" size={15} style={styles.arrow} />
+            <FontAwesome
+              name="chevron-right"
+              color="#D2D2D7"
+              size={15}
+              style={styles.arrow}
+            />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -97,6 +108,10 @@ export default class SettingsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  settings: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
+  },
   profile: {
     flexDirection: "row",
     padding: 25
@@ -123,7 +138,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width - 40
   },
   divider: {
-    borderBottomColor: "gray",
+    borderBottomColor: "#D2D2D7",
     borderBottomWidth: 1
   },
   profileArrow: {
@@ -137,7 +152,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     backgroundColor: "#9041AF",
     paddingBottom: 15,
-    marginBottom: 30
+    marginBottom: 10
   },
   backButton: {
     paddingLeft: 20,

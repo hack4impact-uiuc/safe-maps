@@ -21,7 +21,7 @@ export default class EditProfileScreen extends React.Component {
       username: this.props.navigation.getParam("user", "no user").username,
       password: this.props.navigation.getParam("user", "no user").password,
       user: this.props.navigation.getParam("user", "no user"),
-      url: "",
+      url: this.props.navigation.getParam("user", "no user").pro_pic,
       modalVisible: false
     };
   }
@@ -60,7 +60,6 @@ export default class EditProfileScreen extends React.Component {
   };
 
   closeModal = async () => {
-    console.log(this.state.url);
     let data = {
       pro_pic: this.state.url
     };
@@ -72,14 +71,16 @@ export default class EditProfileScreen extends React.Component {
 
   render() {
     return (
-      <View behavior="padding" enabled>
+      <View style={styles.editProfile} behavior="padding" enabled>
         <Modal
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
         >
           <View>
-            <Text style={styles.modalText}>Enter URL for new picture:</Text>
+            <Text style={styles.modalText}>
+              Enter Image URL for New Profile Picture:
+            </Text>
             <TextInput
               style={styles.textInput}
               onChangeText={e => this.onChangePicture(e)}
@@ -105,7 +106,7 @@ export default class EditProfileScreen extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.profile}>
+        <TouchableOpacity onPress={this.openModal} style={styles.profile}>
           <Image
             style={{ width: 50, height: 50, borderRadius: 50 / 2 }}
             source={{
@@ -113,11 +114,9 @@ export default class EditProfileScreen extends React.Component {
             }}
           />
           <View>
-            <Text onPress={this.openModal} style={styles.changePicture}>
-              Change Picture >
-            </Text>
+            <Text style={styles.changePicture}>Change Picture</Text>
           </View>
-        </View>
+        </TouchableOpacity>
         <TextInput
           style={styles.textInput}
           onChangeText={e => this.onChangeUserName(e)}
@@ -135,36 +134,43 @@ export default class EditProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
+  editProfile: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
   },
   profile: {
     flexDirection: "row",
-    padding: 35
+    padding: 22
   },
   changePicture: {
     flexDirection: "row",
-    paddingLeft: 30,
+    paddingLeft: 20,
     paddingTop: 10,
-    fontSize: 17
+    fontSize: 19,
+    fontWeight: "400"
   },
   textInput: {
     marginVertical: 10,
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "black",
-    marginHorizontal: 35
+    backgroundColor: "white",
+    marginHorizontal: 22
   },
   modalText: {
     fontSize: 20,
+    fontWeight: "500",
     padding: 30,
+    marginTop: 20,
     alignSelf: "center"
   },
   modalSave: {
     fontSize: 20,
+    fontWeight: "500",
     alignSelf: "center",
-    paddingTop: 30
+    color: "white",
+    marginTop: 30,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: "#9042AF"
   },
   navBar: {
     paddingTop: 37,
@@ -173,7 +179,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width,
     backgroundColor: "#9041AF",
     paddingBottom: 15,
-    marginBottom: 30
+    marginBottom: 10
   },
   backButton: {
     paddingLeft: 20,

@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 1.5,
     marginTop: -1.5,
-    backgroundColor: "#C7C7CC",
+    backgroundColor: "#E8E8EA",
     marginHorizontal: 15
   },
   cardActions: {

@@ -2,9 +2,14 @@ import React from "react";
 import { AsyncStorage } from "react-native";
 import ToggleSwitch from "toggle-switch-react-native";
 import { NavigationEvents } from "react-navigation";
-import { View, Dimensions, Text, StyleSheet } from "react-native";
-
-import { Appbar } from "react-native-paper";
+import { FontAwesome } from "@expo/vector-icons";
+import {
+  View,
+  Dimensions,
+  Text,
+  StyleSheet,
+  TouchableOpacity
+} from "react-native";
 
 export default class SettingsScreen extends React.Component {
   constructor(props) {
@@ -45,22 +50,6 @@ export default class SettingsScreen extends React.Component {
         financialTips: false
       });
     }
-    let otherTips = await AsyncStorage.getItem("other_tips");
-    if (otherTips === "false") {
-      this.setState({
-        otherTips: false
-      });
-    }
-    let productUpdates = await AsyncStorage.getItem("product_updates");
-    if (productUpdates === "false") {
-      this.setState({
-        productUpdates: false
-      });
-    }
-  };
-
-  handleBackPress = e => {
-    this.props.navigation.goBack();
   };
 
   setAndStoreState = async stateVar => {
@@ -100,47 +89,31 @@ export default class SettingsScreen extends React.Component {
         this.setState({ financialTips: !this.state.financialTips });
       }
     }
-    if (stateVar === "otherTips") {
-      if (!this.state.otherTips) {
-        await AsyncStorage.setItem("other_tips", "true");
-        this.setState({ otherTips: !this.state.otherTips });
-      } else {
-        await AsyncStorage.setItem("other_tips", "false");
-        this.setState({ otherTips: !this.state.otherTips });
-      }
-    }
-    if (stateVar === "productUpdates") {
-      if (!this.state.productUpdates) {
-        await AsyncStorage.setItem("product_updates", "true");
-        this.setState({ productUpdates: !this.state.productUpdates });
-      } else {
-        await AsyncStorage.setItem("product_updates", "false");
-        this.setState({ productUpdates: !this.state.productUpdates });
-      }
-    }
   };
 
   render() {
     return (
-      <View>
+      <View style={styles.notifications}>
         <NavigationEvents onDidFocus={this.onComponentFocused} />
-        <View>
-          <Appbar.Header>
-            <Appbar.BackAction onPress={this.handleBackPress} />
-            <Appbar.Content title="Notifications" />
-          </Appbar.Header>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.goBack()}
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              Settings
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <Text>{"\n"}</Text>
-
         <View style={styles.listItem}>
           <Text style={styles.text}>Crime Tips</Text>
           <View style={styles.switch}>
             <ToggleSwitch
               style={styles.switch}
               isOn={this.state.crimeTips}
-              onColor="green"
-              offColor="gray"
+              onColor="#4ADA64"
+              offColor="#C8C8CD"
               size="small"
               onToggle={() => this.setAndStoreState("crimeTips")}
             />
@@ -153,8 +126,8 @@ export default class SettingsScreen extends React.Component {
             <ToggleSwitch
               style={styles.switch}
               isOn={this.state.healthTips}
-              onColor="green"
-              offColor="gray"
+              onColor="#4ADA64"
+              offColor="#C8C8CD"
               size="small"
               onToggle={() => this.setAndStoreState("healthTips")}
             />
@@ -167,8 +140,8 @@ export default class SettingsScreen extends React.Component {
             <ToggleSwitch
               style={styles.switch}
               isOn={this.state.transpoTips}
-              onColor="green"
-              offColor="gray"
+              onColor="#4ADA64"
+              offColor="#C8C8CD"
               size="small"
               onToggle={() => this.setAndStoreState("transpoTips")}
             />
@@ -181,37 +154,10 @@ export default class SettingsScreen extends React.Component {
             <ToggleSwitch
               style={styles.switch}
               isOn={this.state.financialTips}
-              onColor="green"
-              offColor="gray"
+              onColor="#4ADA64"
+              offColor="#C8C8CD"
               size="small"
               onToggle={() => this.setAndStoreState("financialTips")}
-            />
-          </View>
-        </View>
-        <View style={styles.divider} />
-        <View style={styles.listItem}>
-          <Text style={styles.text}>Other Tips</Text>
-          <View style={styles.switch}>
-            <ToggleSwitch
-              style={styles.switch}
-              isOn={this.state.otherTips}
-              onColor="green"
-              offColor="gray"
-              size="small"
-              onToggle={() => this.setAndStoreState("otherTips")}
-            />
-          </View>
-        </View>
-        <View style={styles.divider} />
-        <View style={styles.listItem}>
-          <Text style={styles.text}>Product Updates</Text>
-          <View style={styles.switch}>
-            <ToggleSwitch
-              isOn={this.state.productUpdates}
-              onColor="green"
-              offColor="gray"
-              size="small"
-              onToggle={() => this.setAndStoreState("productUpdates")}
             />
           </View>
         </View>
@@ -221,11 +167,15 @@ export default class SettingsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  notifications: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
+  },
   switch: {
     paddingTop: 15
   },
   divider: {
-    borderBottomColor: "gray",
+    borderBottomColor: "#D2D2D7",
     borderBottomWidth: 1
   },
   listItem: {
@@ -236,7 +186,26 @@ const styles = StyleSheet.create({
   text: {
     paddingHorizontal: 30,
     paddingTop: 10,
-    fontSize: 15,
+    fontSize: 17,
+    fontWeight: "400",
     width: Dimensions.get("window").width - 80
+  },
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15
+    // marginBottom: 20
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   }
 });

@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     paddingLeft: 20,
-    marginRight: Dimensions.get("window").width - 255
+    marginRight: Dimensions.get("window").width - 235
   },
   headerText: {
     color: "white",

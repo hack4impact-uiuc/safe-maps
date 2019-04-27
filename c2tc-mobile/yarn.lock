@@ -5488,7 +5488,7 @@ react-native-maps@^0.21.0:
     babel-plugin-module-resolver "^2.3.0"
     babel-preset-react-native "1.9.0"
 
-"react-native-maps@github:expo/react-native-maps#v0.22.1-exp.0":
+react-native-maps@expo/react-native-maps#v0.22.1-exp.0:
   version "0.22.1"
   resolved "https://codeload.github.com/expo/react-native-maps/tar.gz/e6f98ff7272e5d0a7fe974a41f28593af2d77bb2"
 
@@ -6299,7 +6299,6 @@ spdx-license-ids@^3.0.0:
 split-on-first@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/split-on-first/-/split-on-first-1.1.0.tgz#f610afeee3b12bce1d0c30425e76398b78249a5f"
-  integrity sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==
 
 split-string@^3.0.1, split-string@^3.0.2:
   version "3.1.0"
@@ -6547,7 +6546,6 @@ to-regex@^3.0.1, to-regex@^3.0.2:
 toggle-switch-react-native@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/toggle-switch-react-native/-/toggle-switch-react-native-2.0.2.tgz#3979bb41343a8bbc45735246d138a93e3d0917a1"
-  integrity sha512-Q7bGEkcPgFsLIa9Io/ZSXA4LIvIxBqothaiUU6b9ay8XXQoKqsgvoPehLVYBvfpnQOmyfZ5NHOdOKiV8ewI6fQ==
   dependencies:
     prop-types "^15.5.7"
 

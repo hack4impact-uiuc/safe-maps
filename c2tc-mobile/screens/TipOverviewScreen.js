@@ -32,13 +32,12 @@ class TipOverviewScreen extends React.Component {
       author: "author",
       date: "date posted",
       location: "location",
-      proPic: "",
+      proPic:
+        "https://pngimage.net/wp-content/uploads/2018/05/default-profile-image-png-5.png",
       username: "",
-      user: "",
       currentdate: "",
       greeting: "",
       bgImg: DAY_BACKGROUND_IMG,
-      screenType: "view",
       tips: [],
       pendingTips: [],
       hasLoaded: false
@@ -52,7 +51,7 @@ class TipOverviewScreen extends React.Component {
       let user = await API.getUser(user_id);
       this.setState({
         proPic: user.pro_pic,
-        username: this.state.username
+        username: user.username
       });
     }
     this.setDate();
@@ -63,7 +62,6 @@ class TipOverviewScreen extends React.Component {
 
   onComponentFocused = async () => {
     if (this.state.hasLoaded) {
-      await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
       let user_id = await AsyncStorage.getItem("user_id");
       if (user_id) {
         let user = await API.getUser(user_id);
@@ -129,7 +127,7 @@ class TipOverviewScreen extends React.Component {
       "Monday",
       "Tuesday",
       "Wednesday",
-      "Thrusday",
+      "Thursday",
       "Friday",
       "Saturday",
       "Sunday"
@@ -151,7 +149,6 @@ class TipOverviewScreen extends React.Component {
   };
 
   render() {
-    const screenStyle = this.state.screenType;
     if (this.props.page !== "tips") {
       return this.props.navigation.navigate("Map");
     }
@@ -177,54 +174,41 @@ class TipOverviewScreen extends React.Component {
                   }
                 ]}
               >
-                Good Evening,{"\n"}
-                {this.state.user}
+                {this.state.greeting},{"\n"}
+                {this.state.username}
               </Text>
-              <View style={{ flexDirection: "row" }}>
-                <Text
-                  style={[
-                    styles.headertext,
-                    {
-                      alignSelf: "flex-start",
-                      width: Dimensions.get("window").width - 104
-                    }
-                  ]}
-                >
-                  Good Evening,{"\n"}
-                  {this.state.username}
-                </Text>
-                <TouchableOpacity onPress={this.profilePicPressed}>
-                  <Image
-                    style={{
-                      width: 50,
-                      height: 50,
-                      borderRadius: 50 / 2,
-                      alignSelf: "flex-end"
-                    }}
-                    source={{
-                      uri: this.state.proPic
-                    }}
-                  />
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity onPress={this.profilePicPressed}>
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 50 / 2,
+                    alignSelf: "flex-end"
+                  }}
+                  source={{
+                    uri: this.state.proPic
+                  }}
+                />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.content}>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate("TipCategories")}
-            >
-              <Text style={styles.button}> Submit A Tip </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate("PendingTips", {
-                  tips: this.state.pendingTips
-                })
-              }
-            >
-              <Text style={styles.button}> Review Pending Tips </Text>
-            </TouchableOpacity>
-
+            <View style={styles.contentNav}>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("TipCategories")}
+              >
+                <Text style={styles.button}> Submit A Tip </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate("PendingTips", {
+                    tips: this.state.pendingTips
+                  })
+                }
+              >
+                <Text style={styles.button}> Review Pending Tips </Text>
+              </TouchableOpacity>
+            </View>
             {this.state.tips.map(tip => (
               <TipOverview
                 key={tip._id}
@@ -256,7 +240,9 @@ const styles = StyleSheet.create({
   date: {
     color: "white",
     fontWeight: "500",
-    opacity: 0.85,
+    textShadowColor: "rgba(0,0,0,.75)",
+    textShadowOffset: { height: 1, width: 1 },
+    textShadowRadius: 7,
     paddingTop: 6
   },
   header: {
@@ -270,10 +256,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "white",
     borderTopColor: "#c7c7cc",
-    shadowColor: "rgba(0,0,0,1)",
-    shadowOffset: { height: 0, width: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 7
+    textShadowColor: "rgba(0,0,0,.75)",
+    textShadowOffset: { height: 1, width: 1 },
+    textShadowRadius: 7
   },
   button: {
     paddingBottom: 16,
@@ -282,9 +267,13 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "white",
     shadowColor: "rgba(0,0,0,1)",
-    shadowOffset: { height: 0, width: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 7
+    textShadowColor: "rgba(0,0,0,.75)",
+    textShadowOffset: { height: 1, width: 1 },
+    textShadowRadius: 7
+  },
+  contentNav: {
+    flexDirection: "row",
+    justifyContent: "flex-start"
   }
 });
 
