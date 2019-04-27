@@ -11,7 +11,6 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
 import API from "./API";
-import Loader from "../components/Loader";
 import { NavigationEvents } from "react-navigation";
 import { latlongToAddress } from "../components/Geocoding";
 
@@ -23,7 +22,9 @@ class TipOverview extends React.Component {
       username: "",
       userid: "",
       isUpvoted: false,
-      isDownvoted: false
+      isDownvoted: false,
+      downvoteList: [],
+      upvoteList: []
     };
   }
 
@@ -71,7 +72,9 @@ class TipOverview extends React.Component {
 
   setVoteStatus = async () => {
     let upVotedUsers = await API.getUserUpvotes(this.props.tip._id);
-
+    this.setState({
+      upvoteList: upVotedUsers
+    });
     if (
       upVotedUsers &&
       upVotedUsers.filter(user => user._id === this.props.user._id).length > 0
@@ -84,6 +87,9 @@ class TipOverview extends React.Component {
       });
     } else {
       let downVotedUsers = await API.getUserDownvotes(this.props.tip._id);
+      this.setState({
+        downvoteList: downVotedUsers
+      });
       if (
         downVotedUsers &&
         downVotedUsers.filter(user => user._id === this.props.user._id).length >
@@ -163,7 +169,9 @@ class TipOverview extends React.Component {
             tips: this.props.tips,
             upvoted: this.state.isUpvoted,
             downvoted: this.state.isDownvoted,
-            author: this.state.user
+            author: this.state.user,
+            upvoteList: this.state.upvoteList,
+            downvoteList: this.state.downvoteList
           })
         }
         style={styles.card}
