@@ -19,6 +19,7 @@ from api.models.User import User
 logger = LocalProxy(lambda: current_app.logger)
 
 auth_server_host = "https://c2tc-auth-server.herokuapp.com/"
+# auth_server_host = "http://localhost:8001/"
 
 
 class Mixin:
@@ -103,7 +104,7 @@ def all_exception_handler(error: Exception) -> Tuple[Response, int]:
 def authenticated_route(route):
     @functools.wraps(route)
     def wrapper_wroute(*args, **kwargs):
-        token = request.cookies.get("jwt")
+        token = request.headers.get("token")
         auth_server_res = requests.get(
             auth_server_host + "getUser/",
             headers={

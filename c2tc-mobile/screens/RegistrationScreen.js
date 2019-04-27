@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
+import { AsyncStorage } from "react-native";
+import API from "../components/API";
 
 export default class Registration extends Component {
   constructor(props) {
@@ -17,26 +19,34 @@ export default class Registration extends Component {
   }
 
   state = {
-    usr: "",
+    email: "",
     pswd: "",
     repswd: "",
+    username: "",
     errors: []
   };
 
   handleRegistration = async () => {
-    const errors = this.validate();
+    let errors = this.validate();
     if (errors.length === 0) {
-      //Login
+      const response = await API.registerNewUser(this.state.email, this.state.pswd, this.state.username);
+      if (!response.success) {
+        errors = [response.message]
+        this.setState({ errors });
+      } else {
+        await AsyncStorage.setItem("token", JSON.stringify(response.result.token));
+        this.setState({ successfulSubmit: true });
+      }
     } else {
       this.setState({ errors });
     }
   };
 
   validate() {
-    const errors = [];
+    let errors = [];
 
-    if (this.state.usr.length === 0) {
-      errors.push("Username cannot be empty");
+    if (this.state.email.length === 0) {
+      errors.push("Email cannot be empty");
     }
 
     if (this.state.pswd.length === 0) {
@@ -49,6 +59,17 @@ export default class Registration extends Component {
 
     if (this.state.pswd !== this.state.repswd) {
       errors.push("Passwords do not match!");
+    }
+
+    let emailParts = this.state.email.split("@");
+    if (emailParts.length != 2) {
+      errors.push("Invalid amount of @'s");
+    } else {
+      if (emailParts[1] != "illinois.edu"){
+        errors.push("Have to have an illinois email to register with the app!");
+      } else {
+        this.state.username = emailParts[0];
+      }
     }
 
     return errors;
@@ -84,14 +105,14 @@ export default class Registration extends Component {
               <Text key={error}>Error: {error}</Text>
             ))}
           </View>
-          <Text style={styles.header}>Username</Text>
+          <Text style={styles.header}>Email</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
-            label="Username"
-            placeholder="Username"
-            value={this.state.usr}
-            onChangeText={usr => this.setState({ usr })}
+            label="Email"
+            placeholder="Email"
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
           />
           <Text style={styles.header}>Password</Text>
           <TextInput
@@ -99,6 +120,7 @@ export default class Registration extends Component {
             style={styles.inputContainerStyle}
             label="Password"
             placeholder="Password"
+            secureTextEntry={true}
             value={this.state.pswd}
             onChangeText={pswd => this.setState({ pswd })}
           />
@@ -106,6 +128,7 @@ export default class Registration extends Component {
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
+            secureTextEntry={true}
             label="Re-Password"
             placeholder="Re-Password"
             value={this.state.repswd}

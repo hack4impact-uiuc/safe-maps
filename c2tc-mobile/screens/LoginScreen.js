@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { TextInput } from "react-native-paper";
+import { AsyncStorage } from "react-native";
+import API from "../components/API";
 
 export default class Login extends Component {
   constructor(props) {
@@ -17,13 +19,42 @@ export default class Login extends Component {
   }
 
   state = {
-    usr: "",
-    pswd: ""
+    email: "",
+    pswd: "",
+    errors: []
   };
 
-  handleLogin = async () => {};
+  handleLogin = async () => {
+    let errors = this.validate();
+
+    if (errors.length == 0){
+      const response = await API.login(this.state.email, this.state.pswd);
+      if (!response.success) {
+        errors = [response.message]
+      } else {
+        await AsyncStorage.setItem("token", JSON.stringify(response.result.token));
+        this.setState({ successfulSubmit: true });
+      }
+    }
+
+    this.setState({ errors });
+  };
+  validate() {
+    let errors = [];
+
+    if (this.state.email.length === 0) {
+      errors.push("Email cannot be empty");
+    }
+
+    if (this.state.pswd.length === 0) {
+      errors.push("Password cannot be empty");
+    }
+
+    return errors;
+  }
 
   render() {
+    const { errors } = this.state;
     return (
       <KeyboardAvoidingView
         style={styles.wrapper}
@@ -46,19 +77,25 @@ export default class Login extends Component {
           removeClippedSubviews={false}
         >
           <Text style={styles.full_header}>Login</Text>
-          <Text style={styles.header}>Username</Text>
+          <View style={styles.errors}>
+            {errors.map(error => (
+              <Text key={error}>Error: {error}</Text>
+            ))}
+          </View>
+          <Text style={styles.header}>Email</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
-            label="Username"
-            placeholder="Username"
-            value={this.state.usr}
-            onChangeText={usr => this.setState({ usr })}
+            label="Email"
+            placeholder="Email"
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
           />
           <Text style={styles.header}>Password</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
+            secureTextEntry={true}
             label="Password"
             placeholder="Password"
             value={this.state.pswd}

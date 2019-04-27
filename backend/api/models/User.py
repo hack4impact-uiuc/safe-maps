@@ -12,7 +12,6 @@ import mongoengine
 class User(mongoengine.DynamicDocument):
     """User Document Schema"""
 
-    net_id = StringField(required=True)
     username = StringField(required=True)
     verified = BooleanField(required=True, default=False)
     anon = BooleanField(required=True, default=False)

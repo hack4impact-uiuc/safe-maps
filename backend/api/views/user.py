@@ -25,7 +25,6 @@ def create_user():
     """
     data = request.get_json()
     user = User.objects.create(
-        net_id=data["net_id"],
         username=data["username"],
         verified=False,
         anon=data["anon"],
@@ -54,8 +53,6 @@ def update_user(id):
     """
     data = request.get_json()
     user = User.objects.get(id=id)
-    if "net_id" in data:
-        user.update(net_id=data["net_id"])
     if "username" in data:
         user.update(username=data["username"])
     if "verified" in data:

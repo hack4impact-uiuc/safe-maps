@@ -1,4 +1,6 @@
+import { AsyncStorage } from "react-native";
 const host = "https://cut-to-the-case.now.sh";
+const auth_server_host = "https://cut-to-the-case.now.sh"
 
 async function getEndpoint(endPoint, dataKey) {
   try {
@@ -12,13 +14,12 @@ async function getEndpoint(endPoint, dataKey) {
   }
 }
 
-async function postEndpoint(endPoint, data) {
+async function postEndpoint(endPoint, data, additonal_headers=null) {
   try {
+    let headers = { ... additonal_headers, "Content-Type": "application/json" }
     let response = await fetch(host + "/" + endPoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers,
       body: JSON.stringify(data)
     });
     let responseJson = await response.json();
@@ -58,8 +59,42 @@ async function deleteEndpoint(endPoint) {
     console.error(error);
   }
 }
+
+async function postToAuthServer(endPoint, data, additonal_headers=null){
+  console.log("postToAuthServer");
+  try {
+    let headers = { ... additonal_headers, "Content-Type": "application/json" }
+    let response = await fetch(auth_server_host + "/" + endPoint, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(data)
+    });
+    let responseJson = await response.json();
+    console.log("responseJson");
+    console.log(responseJson);
+    return responseJson;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function registerNewUser(email, password, username){
+  let anon = true;
+  let role = "student";
+  return postToAuthServer("register", { email, password, anon, username, role});
+}
+
+async function login(email, password){
+  return postToAuthServer("login", { email, password });
+}
+
+async function verifyPin(pin){
+  return postToAuthServer("verifyEmail", { pin });
+}
+
 async function createTip(data) {
-  return postEndpoint("tips", data);
+  let token = await AsyncStorage.getItem("token");
+  return postEndpoint("tips", data, { token });
 }
 
 async function getTips() {
@@ -203,5 +238,8 @@ export default {
   editTip,
   updateStatus,
   voteTip,
-  deleteTip
+  deleteTip,
+  registerNewUser,
+  login,
+  verifyPin
 };
