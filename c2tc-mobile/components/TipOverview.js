@@ -146,10 +146,17 @@ class TipOverview extends React.Component {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: async () => API.deleteTip(this.props.tip._id)},
+        {
+          text: 'OK', 
+          onPress: async () => {
+            API.deleteTip(this.props.tip._id);
+            this.props.delete(this.props.tip._id);
+          }
+        },
       ],
       {cancelable: false},
     );
+
   }
 
   render() {

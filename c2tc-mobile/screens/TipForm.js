@@ -82,7 +82,8 @@ class TipForm extends React.Component {
         user_id: this.state.userId,
         latitude: this.state.lat,
         longitude: this.state.lng,
-        category: this.state.category
+        category: this.state.category,
+        status: "pending"
       };
       if (this.props.navigation.getParam("edit", false)) {
         console.log("Edit Tip")
@@ -91,6 +92,8 @@ class TipForm extends React.Component {
           user: true
         });
       } else {
+        console.log("Submitting Tip")
+        console.log(tip)
         await API.createTip(tip);
         this.props.navigation.navigate("TipOverview");
       }

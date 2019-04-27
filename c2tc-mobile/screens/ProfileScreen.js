@@ -74,12 +74,12 @@ export default class ProfileScreen extends React.Component {
           user,
           displayName: user.username
         });
-        let verifiedTips = await API.getVerifiedTipsByUser(user_id);
+        let verifiedTips = await API.getVerifiedTipsByUser(this.state.user_id);
         this.setState({
           verifiedTips
         });
-        let pendingTips = await API.getPendingTipsByUser(user_id);
-        let deniedTips = await API.getDeniedTipsByUser(user_id);
+        let pendingTips = await API.getPendingTipsByUser(this.state.user_id);
+        let deniedTips = await API.getDeniedTipsByUser(this.state.user_id);
         this.setState({
           pendingTips,
           deniedTips
@@ -87,6 +87,13 @@ export default class ProfileScreen extends React.Component {
       }
     }
   };
+
+  deleteTip = (tipId) => {
+    this.state.pendingTips.filter(tip => tip._id != tipId)
+    this.state.verifiedTips.filter(tip => tip._id != tipId)
+    this.state.deniedTips.filter(tip => tip._id != tipId)
+  }
+
 
   async onChangeVisibility(anonymousToOthers) {
     this.setState({ anonymousToOthers });
@@ -173,6 +180,7 @@ export default class ProfileScreen extends React.Component {
                 navigation={this.props.navigation}
                 screenType={"view"}
                 editable={true}
+                delete={this.deleteTip}
               />
             ))}
             <Text style={styles.subheader}> Pending Tips </Text>
@@ -182,6 +190,8 @@ export default class ProfileScreen extends React.Component {
                 tip={tip}
                 navigation={this.props.navigation}
                 screenType={"approved"}
+                editable={true}
+                delete={this.deleteTip}
               />
             ))}
             <Text style={styles.subheader}> Denied Tips </Text>
@@ -191,6 +201,8 @@ export default class ProfileScreen extends React.Component {
                 tip={tip}
                 navigation={this.props.navigation}
                 screenType={"denied"}
+                editable={true}
+                delete={this.deleteTip}
               />
             ))}
           </View>
