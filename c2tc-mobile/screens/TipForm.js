@@ -147,6 +147,14 @@ class TipForm extends React.Component {
     return errors;
   }
 
+  backPress = () => {
+    if (this.props.navigation.getParam("edit", false)) {
+      this.props.navigation.navigate("Profile") 
+    } else {
+      this.props.navigation.navigate("TipCategories")
+    }
+  }
+
   render() {
     const { errors } = this.state;
 
@@ -158,12 +166,12 @@ class TipForm extends React.Component {
       >
         <View style={styles.navBar}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipOverview")}
+            onPress={this.backPress}
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
               <FontAwesome name="chevron-left" size={20} color="white" />{" "}
-              Categories
+              {this.props.navigation.getParam("edit", false) ? "Back" : "Categories"}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
