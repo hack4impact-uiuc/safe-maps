@@ -37,6 +37,7 @@ class TipOverviewScreen extends React.Component {
       bgImg: DAY_BACKGROUND_IMG,
       screenType: "view",
       tips: [],
+      pendingTips: [],
       hasLoaded: false
     };
   }
@@ -44,51 +45,18 @@ class TipOverviewScreen extends React.Component {
   async componentWillMount() {
     this.setDate();
     this.setGreeting();
-    if (this.state.screenType === "view") {
-      let tipsResponse = await API.getVerifiedTips();
-      this.setState({ tips: tipsResponse, hasLoaded: true });
-    } else if (this.state.screenType === "verification") {
-      let tipsResponse = await API.getPendingTips();
-      this.setState({ tips: tipsResponse, hasLoaded: true });
-    } else {
-      let tipsResponse = await API.getTips();
-      this.setState({ tips: tipsResponse, hasLoaded: true });
-    }
+    let tipsResponse = await API.getVerifiedTips();
+    this.setState({ tips: tipsResponse, hasLoaded: true });
   }
 
   onComponentFocused = async () => {
     if (this.state.hasLoaded) {
-      if (this.state.screenType === "view") {
-        let tipsResponse = await API.getVerifiedTips();
-        this.setState({ tips: tipsResponse });
-      } else if (this.state.screenType === "verification") {
-        let tipsResponse = await API.getPendingTips();
-        this.setState({ tips: tipsResponse });
-      } else {
-        let tipsResponse = await API.getTips();
-        this.setState({ tips: tipsResponse });
-      }
-    }
-  };
-
-  onChangeScreenType = async () => {
-    if (this.state.screenType === "view") {
-      this.state.screenType = "verification";
-    } else {
-      this.state.screenType = "view";
-    }
-    if (this.state.screenType === "view") {
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse });
-    } else if (this.state.screenType === "verification") {
-      let tipsResponse = await API.getPendingTips();
-      this.setState({ tips: tipsResponse });
-    } else {
-      let tipsResponse = await API.getTips();
-      this.setState({ tips: tipsResponse });
     }
+    let pendingTips = await API.getPendingTips();
+    this.setState({ pendingTips });
   };
-
   profilePicPressed = () => {
     this.props.navigation.navigate("Profile");
   };
@@ -206,33 +174,29 @@ class TipOverviewScreen extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-          {/* {screenStyle === "verification" && (
-            <View style={styles.header}>
-              <Text>All Pending Tips</Text>
-            </View>
-          )} */}
           <View style={styles.content}>
             <TouchableOpacity
               onPress={() => this.props.navigation.navigate("TipCategories")}
             >
-              <Text style={styles.button}>Submit A Tip</Text>
+              <Text style={styles.button}> Submit A Tip </Text>
             </TouchableOpacity>
-            {screenStyle === "view" && (
-              <TouchableOpacity onPress={this.onChangeScreenType}>
-                <Text style={styles.button}>Review Pending Tips</Text>
-              </TouchableOpacity>
-            )}
-            {screenStyle === "verification" && (
-              <TouchableOpacity onPress={this.onChangeScreenType}>
-                <Text style={styles.button}>View Verified Tips</Text>
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("PendingTips", {
+                  tips: this.state.pendingTips
+                })
+              }
+            >
+              <Text style={styles.button}> Review Pending Tips </Text>
+            </TouchableOpacity>
+
             {this.state.tips.map(tip => (
               <TipOverview
                 key={tip._id}
                 tip={tip}
+                tips={this.state.tip}
                 navigation={this.props.navigation}
-                screenType={this.state.screenType}
+                screenType="verified"
               />
             ))}
           </View>

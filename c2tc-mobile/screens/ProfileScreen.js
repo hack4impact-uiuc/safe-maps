@@ -11,7 +11,8 @@ import {
   StyleSheet,
   Dimensions,
   Image,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
 
 import { Appbar, Divider } from "react-native-paper";
@@ -93,36 +94,31 @@ export default class ProfileScreen extends React.Component {
     await API.updateUser(this.state.user_id, data);
   }
 
-  handleBackPress = e => {
-    this.props.navigation.navigate("TipOverview");
-  };
-
   render() {
     return (
       <View>
         <ScrollView style={styles.tipOverview}>
           <NavigationEvents onDidFocus={this.onComponentFocused} />
-          <View>
-            <Appbar.Header>
-              <Appbar.BackAction
-                style={styles.backButton}
-                onPress={this.handleBackPress}
-              />
-              <Appbar.Content
-                titleStyle={styles.backHeader}
-                title="Tip Overview"
-                onPress={this.handleBackPress}
-              />
-              <Appbar.Content
-                title="Settings"
-                titleStyle={styles.settingsHeader}
-                onPress={() =>
-                  this.props.navigation.navigate("Settings", {
-                    user: this.state.user
-                  })
-                }
-              />
-            </Appbar.Header>
+          <View style={styles.navBar}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("TipOverview")}
+              style={styles.backButton}
+            >
+              <Text style={styles.headerText}>
+                <FontAwesome name="chevron-left" size={20} color="white" /> Tip
+                Overview
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate("Settings", {
+                  user: this.state.user
+                })
+              }
+              style={styles.settingsButton}
+            >
+              <Text style={styles.headerText}>Settings</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.profile}>
             <Image
@@ -203,6 +199,32 @@ export default class ProfileScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 270
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  settingsHeader: {
+    color: "white",
+    marginRight: 20
+  },
+  header: {
+    marginTop: 30,
+    flexDirection: "row",
+    justifyContent: "flex-start"
+  },
   subheader: {
     fontWeight: "500",
     fontSize: 18
@@ -237,16 +259,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 0
   },
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
-  },
-  backHeader: {
-    marginLeft: -10
-  },
-  settingsHeader: {
-    alignSelf: "flex-end"
-  },
+  // backButton: {
+  //   marginRight: 0,
+  //   paddingRight: 0
+  // },
+  // backHeader: {
+  //   marginLeft: -10
+  // },
+  // settingsButton: {
+  //   alignSelf: "flex-end"
+  // },
   divider: {
     backgroundColor: "black"
   },

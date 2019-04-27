@@ -12,6 +12,7 @@ import IntroScreen from "./screens/IntroScreen";
 import TipForm from "./screens/TipForm";
 import TipCategories from "./screens/TipCategories";
 import TipScreen from "./screens/TipScreen";
+import PendingTipScreen from "./screens/PendingTipScreen";
 import TipDetailsScreen from "./screens/TipDetailsScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
@@ -136,6 +137,13 @@ Navigator = createStackNavigator({
   },
   Notifications: {
     screen: NotificationScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  PendingTips: {
+    screen: PendingTipScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"

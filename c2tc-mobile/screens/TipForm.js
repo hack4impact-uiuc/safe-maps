@@ -5,8 +5,10 @@ import {
   Dimensions,
   View,
   Text,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 import { Appbar, TextInput, withTheme } from "react-native-paper";
 import API from "../components/API";
 import { Location } from "expo";
@@ -134,33 +136,22 @@ class TipForm extends React.Component {
         behavior="padding"
         keyboardVerticalOffset={0}
       >
-        <View style={styles.headerView}>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() =>
-                this.props.navigation.navigate("TipCategories", {
-                  category: this.state.category
-                })
-              }
-              style={styles.backButton}
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Categories"
-              onPress={() =>
-                this.props.navigation.navigate("TipCategories", {
-                  category: this.state.category
-                })
-              }
-              style={styles.backButton}
-            />
-            <Appbar.Content
-              title="Submit"
-              titleStyle={styles.nextHeader}
-              onPress={this.handSubmitTip}
-            />
-          </Appbar.Header>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate("TipOverview")}
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              Categories
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.handSubmitTip}
+            style={styles.submitButton}
+          >
+            <Text style={styles.headerText}>Submit</Text>
+          </TouchableOpacity>
         </View>
         <ScrollView
           style={styles.container}
@@ -274,18 +265,27 @@ const styles = StyleSheet.create({
     borderRadius: 1,
     borderColor: "red"
   },
-  headerView: {
-    marginBottom: 20
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 30
   },
   backButton: {
-    marginRight: 0,
-    paddingRight: 0
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 255
   },
-  backHeader: {
-    marginLeft: -10
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   },
-  nextHeader: {
-    alignSelf: "flex-end"
+  submitHeader: {
+    color: "white",
+    marginRight: 20
   }
 });
 

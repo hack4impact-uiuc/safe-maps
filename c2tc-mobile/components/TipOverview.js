@@ -125,7 +125,8 @@ class TipOverview extends React.Component {
         onPress={() =>
           this.props.navigation.navigate("TipDetail", {
             tip: this.props.tip,
-            screenType: this.props.screenType
+            screenType: this.props.screenType,
+            tips: this.props.tips
           })
         }
         style={styles.card}
@@ -152,10 +153,12 @@ class TipOverview extends React.Component {
               {this.state.username}
             </Text>
           </View>
-          {screenType === "verification" && (
-            <View style={styles.rightActions} />
+          {screenType === "pending" && (
+            <View style={styles.rightActionsPending}>
+              <Text style={styles.rightActionText}>Review</Text>
+            </View>
           )}
-          {screenType === "view" && (
+          {screenType === "verified" && (
             <View style={styles.rightActions}>
               <TouchableOpacity
                 style={styles.button}
@@ -194,7 +197,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 15,
     marginVertical: 10,
-    elevation: 3,
+    elevation: 7,
     shadowColor: "rgba(0,0,0,1)",
     shadowOffset: { height: 0, width: 0 },
     shadowOpacity: 0.25,
@@ -238,6 +241,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     width: 95
+  },
+  rightActionsPending: {
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    width: 95,
+    paddingLeft: 30
+  },
+  rightActionText: {
+    color: "#C03303",
+    fontSize: 16,
+    fontWeight: "500"
   },
   actionText: {
     fontSize: 16,

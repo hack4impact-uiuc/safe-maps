@@ -1,8 +1,15 @@
 import React from "react";
 import API from "../components/API";
 
-import { View, Text, StyleSheet, Image } from "react-native";
-
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 import { Appbar, TextInput } from "react-native-paper";
 
 export default class EditProfileScreen extends React.Component {
@@ -39,26 +46,20 @@ export default class EditProfileScreen extends React.Component {
   render() {
     return (
       <View behavior="padding" enabled>
-        <View>
-          <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() =>
-                this.props.navigation.navigate("Settings", {
-                  user: this.state.user
-                })
-              }
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Save Changes"
-              onPress={() =>
-                this.props.navigation.navigate("Settings", {
-                  user: this.state.user
-                })
-              }
-            />
-          </Appbar.Header>
+        <View style={styles.navBar}>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("Settings", {
+                user: this.state.user
+              })
+            }
+            style={styles.backButton}
+          >
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" /> Save
+              Changes
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.profile}>
           <Image
@@ -110,7 +111,22 @@ const styles = StyleSheet.create({
     borderColor: "black",
     marginHorizontal: 35
   },
-  backHeader: {
-    marginLeft: -10
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 30
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   }
 });
