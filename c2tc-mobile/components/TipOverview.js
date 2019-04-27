@@ -4,7 +4,9 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  Button,
+  Alert
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import Tag from "../components/Tag";
@@ -124,6 +126,32 @@ class TipOverview extends React.Component {
     await API.voteTip(data);
   };
 
+  editPress = () => {
+    this.props.navigation.navigate("TipForm", {
+      category: this.props.tip.category,
+      edit: true,
+      tip_id: this.props.tip._id,
+      body: this.props.tip.content,
+      title: this.props.tip.title,
+    })
+  }
+
+  deletePress = () => {
+    Alert.alert(
+      'Are you sure you want to Delete?',
+      'Deletions are permanent',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: async () => API.deleteTip(this.props.tip._id)},
+      ],
+      {cancelable: false},
+    );
+  }
+
   render() {
     const screenType = this.props.screenType;
     return (
@@ -165,6 +193,18 @@ class TipOverview extends React.Component {
           {screenType === "pending" && (
             <View style={styles.rightActionsPending}>
               <Text style={styles.rightActionText}>Review</Text>
+            </View>
+          )}
+          {this.props.editable === true && (
+            <View>
+              <Button
+                title="Edit"
+                onPress={this.editPress}
+              />
+              <Button
+                title="Delete"
+                onPress={this.deletePress}
+              />
             </View>
           )}
           {screenType === "verified" && (

@@ -44,6 +44,18 @@ class TipForm extends React.Component {
       location
     });
   }
+
+  componentDidMount() {
+    let editable = this.props.navigation.getParam("edit", false);
+    let title = this.props.navigation.getParam("title", "")
+    let body = this.props.navigation.getParam("body", "")
+    let address = this.props.navigation.getParam("address", "")
+
+    if (editable) {
+      this.setState({ title, body, address })
+    }
+  }
+
   setCategory = category => {
     this.setState({ category });
   };
@@ -72,8 +84,16 @@ class TipForm extends React.Component {
         longitude: this.state.lng,
         category: this.state.category
       };
-      await API.createTip(tip);
-      this.props.navigation.navigate("TipOverview");
+      if (this.props.navigation.getParam("edit", false)) {
+        console.log("Edit Tip")
+        await API.editTip(this.props.navigation.getParam("tip_id", 0), tip);
+        this.props.navigation.navigate("Profile", {
+          user: true
+        });
+      } else {
+        await API.createTip(tip);
+        this.props.navigation.navigate("TipOverview");
+      }
     } else {
       this.setState({ errors });
     }
@@ -127,6 +147,14 @@ class TipForm extends React.Component {
     return errors;
   }
 
+  backPress = () => {
+    if (this.props.navigation.getParam("edit", false)) {
+      this.props.navigation.navigate("Profile") 
+    } else {
+      this.props.navigation.navigate("TipCategories")
+    }
+  }
+
   render() {
     const { errors } = this.state;
 
@@ -138,12 +166,12 @@ class TipForm extends React.Component {
       >
         <View style={styles.navBar}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipOverview")}
+            onPress={this.backPress}
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
               <FontAwesome name="chevron-left" size={20} color="white" />{" "}
-              Categories
+              {this.props.navigation.getParam("edit", false) ? "Back" : "Categories"}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
