@@ -96,7 +96,7 @@ def get_verified_tips(user_db):
         response = [
             tip.to_mongo()
             for tip in Tips.objects
-            if tip.status == "verified" and user_id == str(tip.author)
+            if tip.status == "verified" and str(user_id) == str(tip.author)
         ]
     response = {"verified_tips": response}
     return create_response(data=response)
@@ -112,7 +112,7 @@ def get_pending_tips(user_db):
         response = [
             tip.to_mongo()
             for tip in Tips.objects
-            if tip.status == "pending" and user_id == str(tip.author)
+            if tip.status == "pending" and str(user_id) == str(tip.author)
         ]
     response = {"pending_tips": response}
     return create_response(data=response)
@@ -128,7 +128,7 @@ def get_denied_tips(user_db):
         response = [
             tip.to_mongo()
             for tip in Tips.objects
-            if tip.status == "denied" and user_id == str(tip.author)
+            if tip.status == "denied" and str(user_id) == str(tip.author)
         ]
     response = {"denied_tips": response}
     return create_response(data=response)
