@@ -11,9 +11,13 @@ import API from "../components/API";
 import { Appbar } from "react-native-paper";
 
 class VerificationScreen extends React.Component {
-  state = {
-    pin: '0'
-  };
+  constructor(props) {
+    super(props)
+    this.state = {
+      pin: "0",
+      errors: []
+    }
+  }
 
   handleVerification = async () => {
     const response = await API.verifyPin(this.state.pin);
@@ -21,15 +25,16 @@ class VerificationScreen extends React.Component {
       errors = [response.message]
       this.setState({ errors });
     } else {
-      await AsyncStorage.setItem("verifiedPin", true);
+      await AsyncStorage.setItem("verifiedPin", "yes");
       this.setState({ successfulSubmit: true });
     }
   }
 
   render() {
+    const { errors } = this.state;
     return (
       <View >
-          <Appbar.Header>
+          {/* <Appbar.Header>
             <Appbar.BackAction
               style={styles.backButton}
               onPress={() =>
@@ -43,8 +48,13 @@ class VerificationScreen extends React.Component {
                 this.props.navigation.navigate("TipOverview")
               }
             />
-          </Appbar.Header>
+          </Appbar.Header> */}
           <View style={styles.content}>
+            <View style={styles.errors}>
+              {errors.map(error => (
+                <Text key={error}>Error: {error}</Text>
+              ))}
+            </View>
             <Text style={styles.header}>Enter Verification Pin</Text>
             <TextInput
                 style={styles.verificationText}
@@ -52,7 +62,7 @@ class VerificationScreen extends React.Component {
                 textContentType = "oneTimeCode"
                 value={this.state.pin}
                 maxLength={6}
-                onChange={(e) => this.setState({pin:e})}
+                onChangeText={(pin) => this.setState({ pin })}
             />
             <TouchableOpacity style={styles.submit} onPress={this.handleVerification} >
               <Text style={styles.submitText}>Submit</Text>
@@ -64,44 +74,44 @@ class VerificationScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    header:{
-        fontSize: 25,
-        fontWeight: "500",
-        marginBottom: 50
-    },
-    submit:{
-        alignItems: "center",
-        backgroundColor: "#8E44AD",
-        width: 150,
-        borderRadius: 7,
-        padding:10,
-        marginTop: 20
-    },  
-    submitText:{
-        color: "white",
-        fontSize: 20,
-    },
-    verificationText:{
-        fontSize: 25,
-        padding: 10,
-        width:110,
-        borderRadius: 5,
-        borderColor: "black",
-        borderWidth: 1
-    },
-    content:{
-        height: Dimensions.get("window").height -75,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    backButton: {
-        marginRight: 0,
-        paddingRight: 0
-    },
-    backHeader: {
-        marginLeft: -10
-    },
+  header: {
+    fontSize: 25,
+    fontWeight: "500",
+    marginBottom: 50
+  },
+  submit: {
+    alignItems: "center",
+    backgroundColor: "#8E44AD",
+    width: 150,
+    borderRadius: 7,
+    padding: 10,
+    marginTop: 20
+  },
+  submitText: {
+    color: "white",
+    fontSize: 20
+  },
+  verificationText: {
+    fontSize: 25,
+    padding: 10,
+    width: 110,
+    borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 1
+  },
+  content: {
+    height: Dimensions.get("window").height - 75,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  backButton: {
+    marginRight: 0,
+    paddingRight: 0
+  },
+  backHeader: {
+    marginLeft: -10
+  }
 });
 
 export default VerificationScreen;

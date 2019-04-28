@@ -32,7 +32,8 @@ export default class Login extends Component {
       if (!response.success) {
         errors = [response.message]
       } else {
-        await AsyncStorage.setItem("token", JSON.stringify(response.result.token));
+        await AsyncStorage.setItem("token", response.result.token);
+        await API.setVerifiedPin()
         this.setState({ successfulSubmit: true });
       }
     }

@@ -32,6 +32,8 @@ class TipOverviewScreen extends React.Component {
       author: "author",
       date: "date posted",
       location: "location",
+      token: "",
+      verifiedPin: false,
       proPic:
         "https://pngimage.net/wp-content/uploads/2018/05/default-profile-image-png-5.png",
       username: "",
@@ -46,16 +48,23 @@ class TipOverviewScreen extends React.Component {
   }
 
   async componentWillMount() {
-    await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
-    let user_id = await AsyncStorage.getItem("user_id");
-    if (user_id) {
-      let user = await API.getUser(user_id);
-      this.setState({
-        proPic: user.pro_pic,
-        username: user.username,
-        user: user
-      });
-    }
+    let token = await AsyncStorage.getItem("token");
+    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+    let user;
+      if (token) {
+        user = await API.getUser(token);
+        this.setState({
+          username: user.username,
+          user: user,
+          token: token
+        });
+      }
+      if (verifiedPin) {
+        this.setState({
+          proPic: user.pro_pic,
+          verifiedPin: verifiedPin
+        });
+      }
     this.setDate();
     this.setGreeting();
     let tipsResponse = await API.getVerifiedTips();
@@ -64,13 +73,21 @@ class TipOverviewScreen extends React.Component {
 
   onComponentFocused = async () => {
     if (this.state.hasLoaded) {
-      let user_id = await AsyncStorage.getItem("user_id");
-      if (user_id) {
-        let user = await API.getUser(user_id);
+      let token = await AsyncStorage.getItem("token");
+      let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+      let user;
+      if (token) {
+        user = await API.getUser(token);
+        this.setState({
+          username: user.username,
+          user: user,
+          token: token
+        });
+      }
+      if (verifiedPin) {
         this.setState({
           proPic: user.pro_pic,
-          username: user.username,
-          user: user
+          verifiedPin: verifiedPin
         });
       }
       let tipsResponse = await API.getVerifiedTips();
@@ -81,7 +98,12 @@ class TipOverviewScreen extends React.Component {
   };
 
   profilePicPressed = () => {
-    this.props.navigation.navigate("Profile");
+    if (this.state.verifiedPin) {
+      this.props.navigation.navigate("Profile");
+    }
+    else {
+      this.props.navigation.navigate("NonRegistered");
+    }
   };
 
   setGreeting = () => {
@@ -201,7 +223,7 @@ class TipOverviewScreen extends React.Component {
             </View>
           </View>
           <View style={styles.content}>
-            <View style={styles.contentNav}>
+            {this.state.verifiedPin ? <View style={styles.contentNav}>
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate("TipCategories")}
               >
@@ -216,7 +238,7 @@ class TipOverviewScreen extends React.Component {
               >
                 <Text style={styles.button}> Review Pending Tips </Text>
               </TouchableOpacity>
-            </View>
+            </View> : null}
             {this.state.tips.map(tip => (
               <TipOverview
                 key={tip._id}

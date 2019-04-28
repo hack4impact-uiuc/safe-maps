@@ -68,6 +68,21 @@ def post_to_auth_server(endpoint, *properties_to_post):
         return (our_response, code)
 
 
+def get_user_by_token(token):
+    auth_server_res = requests.get(
+        auth_server_host + "getUser/",
+        headers={
+            "Content-Type": "application/json",
+            "token": token,
+            "google": "undefined",
+        },
+    )
+    if auth_server_res.status_code != 200:
+        return None
+    auth_uid = auth_server_res.json()["user_id"]
+    return User.objects.get(auth_server_uid=auth_uid)
+
+
 @auth.route("/verifyEmail", methods=["POST"])
 @necessary_post_params("pin")
 def verifyEmail():
@@ -85,6 +100,10 @@ def verifyEmail():
     )
 
     response_body = auth_server_res.json()
+
+    if auth_server_res.status_code == 200:
+        db_user = get_user_by_token(token)
+        db_user.update(verified=True)
 
     return create_response(
         message=response_body["message"], status=auth_server_res.status_code

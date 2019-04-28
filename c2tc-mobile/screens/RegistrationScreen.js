@@ -34,7 +34,7 @@ export default class Registration extends Component {
         errors = [response.message]
         this.setState({ errors });
       } else {
-        await AsyncStorage.setItem("token", JSON.stringify(response.result.token));
+        await AsyncStorage.setItem("token", response.result.token);
         this.setState({ successfulSubmit: true });
       }
     } else {
