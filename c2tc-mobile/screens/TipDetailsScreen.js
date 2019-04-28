@@ -24,7 +24,7 @@ class TipDetailsScreen extends React.Component {
       user: null,
       token: "",
       verifiedPin: false,
-      upvotePercentage: 0,
+      upvotePercentage: "0% Upvoted",
       isDownvoted: this.props.navigation.getParam("downvoted", false),
       isUpvoted: this.props.navigation.getParam("upvoted", false)
     };
@@ -82,6 +82,20 @@ class TipDetailsScreen extends React.Component {
       verifiedPin: verifiedPin,
       token: token
     });
+    let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
+    let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
+      .length;
+    let upvotePercentage = "";
+    if (upvoteNumb === 0 && downvoteNumb === 0) {
+      upvotePercentage = "0% Upvoted";
+    } else if (upvoteNumb >= downvoteNumb) {
+      upvotePercentage =
+        (upvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Upvoted";
+    } else {
+      upvotePercentage =
+        (downvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Downvoted";
+    }
+    this.setState({ upvotePercentage });
   }
 
   onComponentFocused = async () => {

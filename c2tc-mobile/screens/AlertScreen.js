@@ -21,7 +21,7 @@ export default class AlertScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      token: ""
+      token: null
     }
   }
 
@@ -38,7 +38,7 @@ export default class AlertScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ marginTop: 22 }}>
+      <View style={styles.alert}>
           <View style={styles.navBar}>
           <TouchableOpacity
             onPress={() =>
@@ -53,29 +53,33 @@ export default class AlertScreen extends React.Component {
           </TouchableOpacity>
         </View>
           <View style={{ marginTop: 22 }}>
-            <View>
+            <View style={styles.reason}>
               <Text style={styles.reason_text}>
                 Sorry, in order to access this feature you must login!
               </Text>
             </View>
-            <View style={{ justifyContent: "center", flexDirection: "row" }}>
-              <Button
-                mode="contained"
-                style={styles.button}
-                onPress ={() => this.props.navigation.navigate("Login")}
-              >
-                Login
-              </Button>
-            </View>
-            <View style={{ justifyContent: "center", flexDirection: "row", marginTop: 22 }}>
-              <Button
-                mode="contained"
-                style={styles.button}
-                onPress={() => this.props.navigation.navigate("Registration")}
-              >
-                Register
-              </Button>
-            </View>
+            {!this.state.token && (
+              <View>
+                <View style={{ justifyContent: "center", flexDirection: "row" }}>
+                    <Button
+                      mode="contained"
+                      style={styles.button}
+                      onPress ={() => this.props.navigation.navigate("Login")}
+                    >
+                      Login
+                    </Button>
+                  </View>
+                  <View style={{ justifyContent: "center", flexDirection: "row", marginTop: 22 }}>
+                    <Button
+                      mode="contained"
+                      style={styles.button}
+                      onPress={() => this.props.navigation.navigate("Registration")}
+                    >
+                      Register
+                    </Button>
+                  </View>
+              </View>
+            )}
             {this.state.token ? <View style={{ justifyContent: "center", flexDirection: "row", marginTop: 22 }}>
               <Button
                 mode="contained"
@@ -92,19 +96,46 @@ export default class AlertScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  alert:{
+    backgroundColor:"white",
+    height:Dimensions.get("window").height,
+  },
+  reason:{
+    marginHorizontal: 22,
+    marginBottom: 20,
+    flexDirection: "row",
+    justifyContent: "center"
+  },
   reason_text: {
-    margin: 10
+    fontSize: 20,
+    fontWeight:"500"
   },
   button: {
-    width: "40%"
-    // flex: 0.3
+    alignItems: "center",
+    backgroundColor: "#8E44AD",
+    borderRadius: 7,
+    width: "50%",
+    fontSize: 17,
+    paddingVertical: 5,
+
+  },
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 10
   },
   backButton: {
-    marginRight: 0,
-    paddingRight: 0
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
   },
-  backHeader: {
-    marginLeft: -10
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   },
   alert: {
     position: "absolute"

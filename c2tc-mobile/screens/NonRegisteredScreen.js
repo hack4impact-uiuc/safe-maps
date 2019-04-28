@@ -11,7 +11,7 @@ import {
   Image
 } from "react-native";
 
-import { Appbar } from "react-native-paper";
+
 
 export default class NonRegisteredScreen extends React.Component {
   constructor(props) {
@@ -20,13 +20,9 @@ export default class NonRegisteredScreen extends React.Component {
     };
   }
 
-  handleBackPress = e => {
-    this.props.navigation.navigate("TipOverview");
-  };
-
   render() {
     return (
-      <View style={{ marginTop: 22 }}>
+      <View style={styles.nonRegistered}>
         <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View style={styles.navBar}>
           <TouchableOpacity
@@ -41,13 +37,12 @@ export default class NonRegisteredScreen extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.divider} />
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate("Notifications")}
         >
           <View style={styles.list}>
             <Text style={styles.text}>Notifications</Text>
-            <FontAwesome name="chevron-right" size={15} style={styles.arrow} />
+            <FontAwesome name="chevron-right" color="#D2D2D7" size={15} style={styles.arrow} />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -56,7 +51,7 @@ export default class NonRegisteredScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Login</Text>
-            <FontAwesome name="chevron-right" size={15} style={styles.arrow} />
+            <FontAwesome name="chevron-right" color="#D2D2D7" size={15} style={styles.arrow} />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -65,7 +60,7 @@ export default class NonRegisteredScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Register</Text>
-            <FontAwesome name="chevron-right" size={15} style={styles.arrow} />
+            <FontAwesome name="chevron-right" color="#D2D2D7" size={15} style={styles.arrow} />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -75,23 +70,14 @@ export default class NonRegisteredScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
-  },
-  profile: {
-    flexDirection: "row",
-    padding: 25
+  nonRegistered:{
+    height:Dimensions.get("window").height,
+    backgroundColor: "white"
   },
   name: {
     flexDirection: "row",
     paddingLeft: 30,
     fontSize: 20
-  },
-  editProfile: {
-    paddingLeft: 30,
-    fontSize: 15,
-    color: "gray"
   },
   list: {
     height: 45,
@@ -105,22 +91,35 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width - 40
   },
   divider: {
-    borderBottomColor: "gray",
+    borderBottomColor: "#D2D2D7",
     borderBottomWidth: 1
   },
   profileArrow: {
     paddingTop: 20,
     paddingLeft: 100
   },
-  backHeader: {
-    marginLeft: -10
-  },
   arrow: {
     paddingTop: 15
+  },
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 10
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
   },
   headerText: {
     color: "white",
     fontSize: 20,
     fontWeight: "500"
+  },
+  arrow: {
+    paddingTop: 15
   }
 });

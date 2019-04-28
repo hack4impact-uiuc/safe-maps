@@ -9,7 +9,8 @@ import {
   Dimensions,
   TouchableOpacity,
   Button,
-  Modal
+  Modal,
+  AsyncStorage
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Appbar, TextInput } from "react-native-paper";
@@ -22,7 +23,8 @@ export default class EditProfileScreen extends React.Component {
       password: this.props.navigation.getParam("user", "no user").password,
       user: this.props.navigation.getParam("user", "no user"),
       url: this.props.navigation.getParam("user", "no user").pro_pic,
-      modalVisible: false
+      modalVisible: false,
+      token: ""
     };
   }
 

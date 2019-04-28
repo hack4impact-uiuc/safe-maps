@@ -245,7 +245,7 @@ class TipForm extends React.Component {
               }
             }}
             query={{
-              key: "api_key",
+              key: "AIzaSyCmAnBd0gtNpTjbou4LreRuWX2uKyUK6Po",
               language: "en"
             }}
             onPress={(data, details = null) => {

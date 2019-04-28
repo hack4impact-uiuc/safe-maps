@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import API from "../components/API";
 import { Appbar } from "react-native-paper";
+import { FontAwesome } from "@expo/vector-icons";
 import { AsyncStorage } from "react-native";
 
 class VerificationScreen extends React.Component {
@@ -36,22 +37,20 @@ class VerificationScreen extends React.Component {
   render() {
     const { errors } = this.state;
     return (
-      <View >
-          {/* <Appbar.Header>
-            <Appbar.BackAction
-              style={styles.backButton}
-              onPress={() =>
+      <View style={styles.verify} >
+          <View style={styles.navBar}>
+            <TouchableOpacity
+                onPress={() =>
                 this.props.navigation.navigate("TipOverview")
-              }
-            />
-            <Appbar.Content
-              titleStyle={styles.backHeader}
-              title="Tip Overview"
-              onPress={() =>
-                this.props.navigation.navigate("TipOverview")
-              }
-            />
-          </Appbar.Header> */}
+                }
+                style={styles.backButton}
+            >
+                <Text style={styles.headerText}>
+                <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+                Tip Overview
+                </Text>
+            </TouchableOpacity>
+            </View>
           <View style={styles.content}>
             <View style={styles.errors}>
               {errors.map(error => (
@@ -77,6 +76,10 @@ class VerificationScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  verify:{
+    backgroundColor:"white",
+    height:Dimensions.get("window").height,
+  },
   header: {
     fontSize: 25,
     fontWeight: "500",
@@ -103,18 +106,29 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   content: {
-    height: Dimensions.get("window").height - 75,
+    height: Dimensions.get("window").height - 275,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
   },
-  backButton: {
-    marginRight: 0,
-    paddingRight: 0
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 10
   },
-  backHeader: {
-    marginLeft: -10
-  }
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
+  },
 });
 
 export default VerificationScreen;

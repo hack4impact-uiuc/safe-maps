@@ -36,6 +36,7 @@ export default class Registration extends Component {
       } else {
         await AsyncStorage.setItem("token", response.result.token);
         this.setState({ successfulSubmit: true });
+        this.props.navigation.navigate("Verify")
       }
     } else {
       this.setState({ errors });
@@ -84,13 +85,16 @@ export default class Registration extends Component {
         behavior="padding"
         keyboardVerticalOffset={0}
       >
-        <View style={styles.backHeader}>
+       <View style={styles.navBar}>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate("TipOverview")}
+            onPress={() =>
+              this.props.navigation.navigate("NonRegistered")
+            }
             style={styles.backButton}
           >
-            <Text style={styles.backText}>
-              <FontAwesome name="chevron-left" size={20} color="#027BFF" /> Back
+            <Text style={styles.headerText}>
+              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
+              Settings
             </Text>
           </TouchableOpacity>
         </View>
@@ -150,21 +154,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 10
+  },
   backButton: {
     paddingLeft: 20,
-    width: Dimensions.get("window").width
+    marginRight: Dimensions.get("window").width - 220
   },
-  backText: {
-    color: "#027BFF",
-    fontSize: 20
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
   },
-  backHeader: {
-    marginTop: 30,
-    flexDirection: "row",
-    justifyContent: "flex-start"
+  arrow: {
+    paddingTop: 15
   },
   wrapper: {
     flex: 1,
+    height:Dimensions.get("window").height,
     backgroundColor: "white"
   },
   inputContainerStyle: {

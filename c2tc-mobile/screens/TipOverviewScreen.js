@@ -40,6 +40,7 @@ class TipOverviewScreen extends React.Component {
       user: null,
       currentdate: "",
       greeting: "",
+      trusted: false,
       bgImg: DAY_BACKGROUND_IMG,
       tips: [],
       pendingTips: [],
@@ -48,6 +49,11 @@ class TipOverviewScreen extends React.Component {
   }
 
   async componentWillMount() {
+    // await AsyncStorage.removeItem("token");
+    this.setDate();
+    this.setGreeting();
+    let tipsResponse = await API.getVerifiedTips();
+    this.setState({ tips: tipsResponse, hasLoaded: true });
     let token = await AsyncStorage.getItem("token");
     let verifiedPin = await AsyncStorage.getItem("verifiedPin");
     let user;
@@ -56,6 +62,7 @@ class TipOverviewScreen extends React.Component {
         this.setState({
           username: user.username,
           user: user,
+          trusted: user.trusted,
           token: token
         });
       }
@@ -65,14 +72,14 @@ class TipOverviewScreen extends React.Component {
           verifiedPin: verifiedPin
         });
       }
-    this.setDate();
-    this.setGreeting();
-    let tipsResponse = await API.getVerifiedTips();
-    this.setState({ tips: tipsResponse, hasLoaded: true });
+    
   }
 
   onComponentFocused = async () => {
     if (this.state.hasLoaded) {
+      let tipsResponse = await API.getVerifiedTips();
+      this.setState({ tips: tipsResponse });
+      // await AsyncStorage.removeItem("verifiedPin");
       let token = await AsyncStorage.getItem("token");
       let verifiedPin = await AsyncStorage.getItem("verifiedPin");
       let user;
@@ -81,7 +88,8 @@ class TipOverviewScreen extends React.Component {
         this.setState({
           username: user.username,
           user: user,
-          token: token
+          token: token,
+          trusted: user.trusted,
         });
       }
       if (verifiedPin) {
@@ -90,8 +98,6 @@ class TipOverviewScreen extends React.Component {
           verifiedPin: verifiedPin
         });
       }
-      let tipsResponse = await API.getVerifiedTips();
-      this.setState({ tips: tipsResponse });
     }
     let pendingTips = await API.getPendingTips();
     this.setState({ pendingTips });
@@ -229,15 +235,18 @@ class TipOverviewScreen extends React.Component {
               >
                 <Text style={styles.button}> Submit A Tip </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.navigate("PendingTips", {
-                    tips: this.state.pendingTips
-                  })
-                }
-              >
-                <Text style={styles.button}> Review Pending Tips </Text>
-              </TouchableOpacity>
+              {
+                this.state.trusted && 
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate("PendingTips", {
+                      tips: this.state.pendingTips
+                    })
+                  }
+                >
+                  <Text style={styles.button}> Review Pending Tips </Text>
+                </TouchableOpacity>
+              }
             </View> : null}
             {this.state.tips.map(tip => (
               <TipOverview
