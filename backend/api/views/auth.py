@@ -37,7 +37,6 @@ def register():
 @auth.route("/login", methods=["POST"])
 @necessary_post_params("email", "password")
 def login():
-    print("attempting to login")
     return post_to_auth_server("login", "email", "password")
 
 
@@ -46,12 +45,10 @@ def post_to_auth_server(endpoint, *properties_to_post):
 
     auth_post_data = {key: user_input[key] for key in properties_to_post}
 
-    print("auth_server_host + endpoint: ", auth_server_host + endpoint)
     auth_server_response = requests.post(
         auth_server_host + endpoint, json=auth_post_data
     )
     response_body = auth_server_response.json()
-    print("response_body: ", response_body)
 
     if "token" not in response_body:
         return create_response(
@@ -87,7 +84,6 @@ def get_user_by_token(token):
 @necessary_post_params("pin")
 def verifyEmail():
     token = request.headers.get("token")
-    print("request.headers: ", request.headers)
     post_body = {"pin": request.get_json()["pin"]}
     auth_server_res = requests.post(
         auth_server_host + "verifyEmail/",
@@ -113,6 +109,7 @@ def verifyEmail():
 def create_new_db_user(client_data, auth_uid):
     user = User.objects.create(
         username=client_data["username"],
+        trusted=False,
         verified=False,
         anon=client_data["anon"],
         karma=0,

@@ -14,6 +14,7 @@ class User(mongoengine.DynamicDocument):
 
     username = StringField(required=True)
     verified = BooleanField(required=True, default=False)
+    trusted = BooleanField(required=True, default=False)
     anon = BooleanField(required=True, default=False)
     karma = IntField(required=True, default=0)
     posted_tips = ListField(ObjectIdField())

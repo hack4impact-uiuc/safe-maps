@@ -73,6 +73,8 @@ def update_user(user):
         user.update(posted_tips=data["posted_tips"])
     if "pro_pic" in data:
         user.update(pro_pic=data["pro_pic"])
+    if "trusted" in data:
+        user.update(trusted=data["trusted"])
     return create_response(message="success!")
 
 
