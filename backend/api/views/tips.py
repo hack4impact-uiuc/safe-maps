@@ -7,6 +7,7 @@ from api.core import (
     logger,
     authenticated_route,
     necessary_post_params,
+    can_be_authenticated,
 )
 from datetime import datetime
 import functools
@@ -43,10 +44,10 @@ def get_tip(id):
     return create_response(data=dict(response))
 
 
-@tips.route("/user/<user_id>/tips", methods=["GET"])
-def get_tips_by_user(user_id):
-    user = User.objects.get(id=user_id)
-    posted_tips = (user.to_mongo())["posted_tips"]
+@tips.route("/user/tips", methods=["GET"])
+@authenticated_route
+def get_tips_by_user(user_db):
+    posted_tips = (user_db.to_mongo())["posted_tips"]
     posted_tips_list = [
         Tips.objects.get(id=str(tips)).to_mongo() for tips in posted_tips
     ]
@@ -86,11 +87,12 @@ def get_tip_downvotes(tips_id):
 
 
 @tips.route("/tips/verified", methods=["GET"])
-def get_verified_tips():
-    user_id = request.args.get("id")
-    if user_id is None:
+@can_be_authenticated
+def get_verified_tips(user_db):
+    if user_db is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "verified"]
     else:
+        user_id = user_db.id
         response = [
             tip.to_mongo()
             for tip in Tips.objects
@@ -101,11 +103,12 @@ def get_verified_tips():
 
 
 @tips.route("/tips/pending", methods=["GET"])
-def get_pending_tips():
-    user_id = request.args.get("id")
-    if user_id is None:
+@can_be_authenticated
+def get_pending_tips(user_db):
+    if user_db is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "pending"]
     else:
+        user_id = user_db.id
         response = [
             tip.to_mongo()
             for tip in Tips.objects
@@ -116,11 +119,12 @@ def get_pending_tips():
 
 
 @tips.route("/tips/denied", methods=["GET"])
-def get_denied_tips():
-    user_id = request.args.get("id")
-    if user_id is None:
+@can_be_authenticated
+def get_denied_tips(user_db):
+    if user_db is None:
         response = [tip.to_mongo() for tip in Tips.objects if tip.status == "denied"]
     else:
+        user_id = user_db.id
         response = [
             tip.to_mongo()
             for tip in Tips.objects
@@ -193,11 +197,13 @@ def update_status(id):
 
 
 @tips.route("/tips_votes", methods=["PUT"])
-def change_vote():
+@authenticated_route
+def change_vote(user_db):
     """
     PUT function for changing a user's upvote or downvote
     """
     data = request.get_json()
+    data["user_id"] = user_db.id
     tip = Tips.objects.get(id=data["tips_id"])
     if data["vote_type"] == UPVOTE:
         if ObjectId(data["user_id"]) in tip.to_mongo()["upvotes"]:

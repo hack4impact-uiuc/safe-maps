@@ -31,7 +31,7 @@ export default class EditProfileScreen extends React.Component {
     let data = {
       password
     };
-    await API.updateUser(this.state.user._id, data);
+    await API.updateUser(this.state.token, data);
     let currentUser = this.state.user;
     currentUser.password = password;
     this.setState({
@@ -43,7 +43,7 @@ export default class EditProfileScreen extends React.Component {
     let data = {
       username
     };
-    await API.updateUser(this.state.user._id, data);
+    await API.updateUser(this.state.token, data);
     let currentUser = this.state.user;
     currentUser.username = username;
     this.setState({ user: currentUser });
@@ -63,11 +63,16 @@ export default class EditProfileScreen extends React.Component {
     let data = {
       pro_pic: this.state.url
     };
-    await API.updateUser(this.state.user._id, data);
+    await API.updateUser(this.state.token, data);
     let currentUser = this.state.user;
     this.setState({ user: currentUser });
     this.setState({ modalVisible: false });
   };
+
+  async componentDidMount() {
+    let token = await AsyncStorage.getItem("token");
+    this.setState({ token });
+  }
 
   render() {
     return (

@@ -36,12 +36,11 @@ export default class ProfileScreen extends React.Component {
   }
 
   async componentWillMount() {
-    await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
-    let user_id = await AsyncStorage.getItem("user_id");
-    if (user_id) {
-      let user = await API.getUser(user_id);
+    // await AsyncStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1Y2MzOTNmYjhiMDFlNjAwMjRmMjNiNjQiLCJoYXNoZWRQYXNzd29yZCI6IiQyYiQxMCRRaUlqc0lLRFF1Y1JBR2t1czhNSmN1cGZDWG1SdkVLNmV3UGVYNXJIalAyemthN2hyQ2cwYSIsImlhdCI6MTU1NjQwODU5OSwiZXhwIjoxNTU2NDk0OTk5fQ.P6uvF9iqETTykRsJGGYuTdgnqSZShL2OEbhkLDTHMaU")
+    let token = await AsyncStorage.getItem("token");
+    if (token) {
+      let user = await API.getUser(token);
       this.setState({
-        user_id,
         displayName: user.username,
         user,
         karmaScore: user.karma,
@@ -50,12 +49,12 @@ export default class ProfileScreen extends React.Component {
         netId: user.net_id,
         proPic: user.pro_pic
       });
-      let verifiedTips = await API.getVerifiedTipsByUser(user_id);
+      let verifiedTips = await API.getVerifiedTipsByUser(token);
       this.setState({
         verifiedTips
       });
-      let pendingTips = await API.getPendingTipsByUser(user_id);
-      let deniedTips = await API.getDeniedTipsByUser(user_id);
+      let pendingTips = await API.getPendingTipsByUser(token);
+      let deniedTips = await API.getDeniedTipsByUser(token);
       this.setState({
         pendingTips,
         deniedTips,

@@ -101,6 +101,27 @@ def all_exception_handler(error: Exception) -> Tuple[Response, int]:
     return create_response(message=str(error), status=500)
 
 
+def can_be_authenticated(route):
+    @functools.wraps(route)
+    def wrapper_wroute(*args, **kwargs):
+        token = request.headers.get("token")
+        auth_server_res = requests.get(
+            auth_server_host + "getUser/",
+            headers={
+                "Content-Type": "application/json",
+                "token": token,
+                "google": "undefined",
+            },
+        )
+        if auth_server_res.status_code != 200:
+            return route(None, *args, **kwargs)
+        auth_uid = auth_server_res.json()["user_id"]
+        db_user = User.objects.get(auth_server_uid=auth_uid)
+        return route(db_user, *args, **kwargs)
+
+    return wrapper_wroute
+
+
 def authenticated_route(route):
     @functools.wraps(route)
     def wrapper_wroute(*args, **kwargs):

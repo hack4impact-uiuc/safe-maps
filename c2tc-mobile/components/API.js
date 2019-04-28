@@ -2,9 +2,13 @@ import { AsyncStorage } from "react-native";
 const host = "https://cut-to-the-case.now.sh";
 const auth_server_host = "https://cut-to-the-case.now.sh"
 
-async function getEndpoint(endPoint, dataKey) {
+async function getEndpoint(endPoint, dataKey, additonal_headers=null) {
   try {
-    let response = await fetch(host + "/" + endPoint);
+    let headers = { ... additonal_headers, "Content-Type": "application/json" }
+    let response = await fetch(host + "/" + endPoint, {
+      method: "GET",
+      headers
+    });
     let responseJson = await response.json();
     return dataKey === "" || responseJson.success === false
       ? responseJson.result
@@ -29,13 +33,12 @@ async function postEndpoint(endPoint, data, additonal_headers=null) {
   }
 }
 
-async function putEndpoint(endPoint, data) {
+async function putEndpoint(endPoint, data, additonal_headers=null) {
   try {
+    let headers = { ... additonal_headers, "Content-Type": "application/json" }
     let response = await fetch(host + "/" + endPoint, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers,
       body: JSON.stringify(data)
     });
     let responseJson = await response.json();
@@ -89,7 +92,8 @@ async function login(email, password){
 }
 
 async function verifyPin(pin){
-  return postToAuthServer("verifyEmail", { pin });
+  let token = await AsyncStorage.getItem("token");
+  return postToAuthServer("verifyEmail", { pin }, { token });
 }
 
 async function createTip(data) {
@@ -109,8 +113,8 @@ async function getTipsNearby(lat, long) {
   return getEndpoint(`tips?lat=${lat}&long=${long}`, "tips");
 }
 
-async function getTipsFromUser(user_id) {
-  return getEndpoint(`user/${user_id}/tips`, "tips");
+async function getTipsFromUser(token) {
+  return getEndpoint(`user/tips`, "tips", { token });
 }
 
 async function getTipsFromCategory(category) {
@@ -137,16 +141,16 @@ async function getDeniedTips() {
   return getEndpoint("tips/denied", "denied_tips");
 }
 
-async function getVerifiedTipsByUser(id) {
-  return getEndpoint(`tips/verified?id=${id}`, "verified_tips");
+async function getVerifiedTipsByUser(token) {
+  return getEndpoint(`tips/verified`, "verified_tips", { token });
 }
 
-async function getPendingTipsByUser(id) {
-  return getEndpoint(`tips/pending?id=${id}`, "pending_tips");
+async function getPendingTipsByUser(token) {
+  return getEndpoint(`tips/pending`, "pending_tips", { token });
 }
 
-async function getDeniedTipsByUser(id) {
-  return getEndpoint(`tips/denied?id=${id}`, "denied_tips");
+async function getDeniedTipsByUser(token) {
+  return getEndpoint(`tips/denied`, "denied_tips", { token });
 }
 
 async function editTip(id, data) {
@@ -157,8 +161,8 @@ async function updateStatus(id, data) {
   return putEndpoint(`tips/${id}/status`, data);
 }
 
-async function voteTip(data) {
-  return putEndpoint("tips_votes", data);
+async function voteTip(data, token) {
+  return putEndpoint("tips_votes", data, { token });
 }
 
 async function deleteTip(id) {
@@ -169,16 +173,16 @@ async function getUsers() {
   return getEndpoint("users", "users");
 }
 
-async function getUser(id) {
-  return getEndpoint(`users/${id}`, "");
+async function getUser(token) {
+  return getEndpoint("userinfo", "", { token });
 }
 
 async function createUser(data) {
   return postEndpoint("users", data);
 }
 
-async function updateUser(id, data) {
-  return putEndpoint(`users/${id}`, data);
+async function updateUser(token, data) {
+  return putEndpoint(`users`, data, { token });
 }
 
 async function deleteUser(id) {

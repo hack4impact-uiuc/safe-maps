@@ -108,6 +108,10 @@ class TipDetailsScreen extends React.Component {
   };
 
   upvotePress = async () => {
+    let token = await AsyncStorage.getItem("token");
+    if (!token){
+      return;
+    }
     this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
     let data = {
       tips_id: this.props.navigation.state.params.tip._id,
@@ -115,17 +119,21 @@ class TipDetailsScreen extends React.Component {
       vote_type: "UPVOTE"
     };
 
-    await API.voteTip(data);
+    await API.voteTip(data, token);
   };
 
   downvotePress = async () => {
+    let token = await AsyncStorage.getItem("token");
+    if (!token){
+      return;
+    }
     this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
     let data = {
       tips_id: this.props.navigation.state.params.tip._id,
       user_id: this.state.userid,
       vote_type: "DOWNVOTE"
     };
-    await API.voteTip(data);
+    await API.voteTip(data, token);
   };
 
   render() {

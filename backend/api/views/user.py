@@ -2,7 +2,7 @@ import pdb
 from flask import Blueprint, request
 from datetime import datetime
 from api.models.User import User
-from api.core import create_response, serialize_list, logger
+from api.core import create_response, serialize_list, logger, authenticated_route
 
 user = Blueprint("user", __name__)
 
@@ -37,6 +37,14 @@ def create_user():
     return create_response(message="success!")
 
 
+@user.route("/userinfo", methods=["GET"])
+@authenticated_route
+def current_user_info(db_user):
+    return create_response(
+        message="Success!", status=200, data=dict(db_user.to_mongo())
+    )
+
+
 @user.route("/users/<id>", methods=["GET"])
 def get_user(id):
     """
@@ -46,13 +54,13 @@ def get_user(id):
     return create_response(data=dict(response))
 
 
-@user.route("/users/<id>", methods=["PUT"])
-def update_user(id):
+@user.route("/users", methods=["PUT"])
+@authenticated_route
+def update_user(user):
     """
     PUT function for updating a User
     """
     data = request.get_json()
-    user = User.objects.get(id=id)
     if "username" in data:
         user.update(username=data["username"])
     if "verified" in data:

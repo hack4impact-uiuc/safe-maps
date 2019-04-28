@@ -72,6 +72,7 @@ def post_to_auth_server(endpoint, *properties_to_post):
 @necessary_post_params("pin")
 def verifyEmail():
     token = request.headers.get("token")
+    print("request.headers: ", request.headers)
     post_body = {"pin": request.get_json()["pin"]}
     auth_server_res = requests.post(
         auth_server_host + "verifyEmail/",
