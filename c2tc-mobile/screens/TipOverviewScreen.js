@@ -79,7 +79,8 @@ class TipOverviewScreen extends React.Component {
     if (this.state.hasLoaded) {
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse });
-      // await AsyncStorage.removeItem("verifiedPin");
+      await AsyncStorage.removeItem("token");
+      await AsyncStorage.removeItem("verifiedPin");
       let token = await AsyncStorage.getItem("token");
       let verifiedPin = await AsyncStorage.getItem("verifiedPin");
       let user;
