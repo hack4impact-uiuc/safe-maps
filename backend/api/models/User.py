@@ -13,6 +13,7 @@ class User(mongoengine.DynamicDocument):
     """User Document Schema"""
 
     username = StringField(required=True)
+    email = StringField(required=True)
     verified = BooleanField(required=True, default=False)
     trusted = BooleanField(required=True, default=False)
     anon = BooleanField(required=True, default=False)

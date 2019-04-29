@@ -109,6 +109,7 @@ def verifyEmail():
 def create_new_db_user(client_data, auth_uid):
     user = User.objects.create(
         username=client_data["username"],
+        email=client_data["email"],
         trusted=False,
         verified=False,
         anon=client_data["anon"],
