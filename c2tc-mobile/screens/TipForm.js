@@ -165,11 +165,11 @@ class TipForm extends React.Component {
 
   backPress = () => {
     if (this.props.navigation.getParam("edit", false)) {
-      this.props.navigation.navigate("Profile") 
+      this.props.navigation.navigate("Profile");
     } else {
-      this.props.navigation.navigate("TipCategories")
+      this.props.navigation.navigate("TipCategories");
     }
-  }
+  };
 
   render() {
     const { errors } = this.state;
@@ -235,13 +235,21 @@ class TipForm extends React.Component {
             fetchDetails={true}
             styles={{
               textInputContainer: {
-                width: '100%'
+                backgroundColor: "rgba(0,0,0,0)",
+                borderTopWidth: 0,
+                borderBottomWidth: 0
               },
-              description: {
-                fontWeight: 'bold'
+              textInput: {
+                marginLeft: 22,
+                marginRight: 22,
+                height: 38,
+                color: "#444444",
+                fontSize: 16,
+                borderWidth: 1,
+                borderColor: "black"
               },
               predefinedPlacesDescription: {
-                color: '#1faadb'
+                color: "#1faadb"
               }
             }}
             query={{
@@ -313,25 +321,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 0
   },
-  // searchAhead: {
-  //   textInputContainer: {
-  //     backgroundColor: "rgba(0,0,0,0)",
-  //     borderTopWidth: 0,
-  //     borderBottomWidth: 0
-  //   },
-  //   textInput: {
-  //     marginLeft: 22,
-  //     marginRight: 22,
-  //     height: 38,
-  //     color: "#444444",
-  //     fontSize: 16,
-  //     borderWidth: 1,
-  //     borderColor: "black"
-  //   },
-  //   predefinedPlacesDescription: {
-  //     color: "#1faadb"
-  //   }
-  // },
   header: {
     fontWeight: "500",
     fontSize: 25,

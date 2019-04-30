@@ -66,7 +66,7 @@ export default class SettingsScreen extends React.Component {
             <FontAwesome
               name="chevron-right"
               size={15}
-              color="#D2D2D7" 
+              color="#D2D2D7"
               style={styles.profileArrow}
             />
           </View>
@@ -77,7 +77,12 @@ export default class SettingsScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Notifications</Text>
-            <FontAwesome name="chevron-right" color="#D2D2D7" size={15} style={styles.arrow} />
+            <FontAwesome
+              name="chevron-right"
+              color="#D2D2D7"
+              size={15}
+              style={styles.arrow}
+            />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -88,7 +93,12 @@ export default class SettingsScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Show App Tutorials</Text>
-            <FontAwesome name="chevron-right" color="#D2D2D7" size={15} style={styles.arrow} />
+            <FontAwesome
+              name="chevron-right"
+              color="#D2D2D7"
+              size={15}
+              style={styles.arrow}
+            />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -98,9 +108,9 @@ export default class SettingsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  settings:{
-    backgroundColor:"white",
-    height:Dimensions.get("window").height,
+  settings: {
+    backgroundColor: "white",
+    height: Dimensions.get("window").height
   },
   profile: {
     flexDirection: "row",

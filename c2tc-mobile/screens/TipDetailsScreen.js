@@ -52,7 +52,8 @@ class TipDetailsScreen extends React.Component {
         this.props.navigation.state.params.tip._id
       );
       if (
-        downVotedUsers.filter(user => user._id === this.state.user._id).length > 0
+        downVotedUsers.filter(user => user._id === this.state.user._id).length >
+        0
       ) {
         let isUpvoted = false;
         let isDownvoted = true;
@@ -123,9 +124,9 @@ class TipDetailsScreen extends React.Component {
     let author = this.props.navigation.getParam("author", false);
 
     this.setState({
-      username: author.anon ? "Anonymous" : author.username,
+      username: author.anon ? "Anonymous" : author.username
     });
-  }
+  };
 
   approvePress = async () => {
     let data = {
@@ -146,8 +147,7 @@ class TipDetailsScreen extends React.Component {
   upvotePress = async () => {
     if (!this.state.verifiedPin) {
       this.props.navigation.navigate("Alert");
-    }
-    else {
+    } else {
       this.setState({ isUpvoted: !this.state.isUpvoted, isDownvoted: false });
       let data = {
         tips_id: this.props.navigation.state.params.tip._id,
@@ -161,8 +161,7 @@ class TipDetailsScreen extends React.Component {
   downvotePress = async () => {
     if (!this.state.verifiedPin) {
       this.props.navigation.navigate("Alert");
-    }
-    else {
+    } else {
       this.setState({ isDownvoted: !this.state.isDownvoted, isUpvoted: false });
       let data = {
         tips_id: this.props.navigation.state.params.tip._id,
