@@ -44,7 +44,7 @@ export default class ProfileScreen extends React.Component {
         displayName: user.username,
         user,
         karmaScore: user.karma,
-        verified: user.verified,
+        verified: user.trusted,
         anonymousToOthers: user.anon,
         email: user.email,
         proPic: user.pro_pic
@@ -91,7 +91,7 @@ export default class ProfileScreen extends React.Component {
     let data = {
       anon: anonymousToOthers
     };
-    await API.updateUser(this.state.user_id, data);
+    await API.updateUser(this.state.token, data);
   }
 
   render() {

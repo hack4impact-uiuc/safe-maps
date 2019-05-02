@@ -21,7 +21,7 @@ class Tag extends React.Component {
 const styles = StyleSheet.create({
   tag: {
     minWidth: 50,
-    maxWidth: 100,
+    maxWidth: 150,
     borderRadius: 5,
     padding: 5,
     alignItems: "center",
