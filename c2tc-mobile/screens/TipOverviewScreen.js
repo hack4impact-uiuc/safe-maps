@@ -11,6 +11,7 @@ import {
 import { AsyncStorage } from "react-native";
 import TipOverview from "../components/TipOverview";
 import API from "../components/API";
+import Loader from "../components/Loader";
 import { NavigationEvents } from "react-navigation";
 import { connect } from "react-redux";
 
@@ -44,16 +45,32 @@ class TipOverviewScreen extends React.Component {
       bgImg: DAY_BACKGROUND_IMG,
       tips: [],
       pendingTips: [],
-      hasLoaded: false
+      hasLoaded: false,
+      isLoading: true
     };
   }
 
   async componentWillMount() {
-    // await AsyncStorage.removeItem("token");
+    await AsyncStorage.setItem("user_id", "5c9d72724497dd272aa31e11");
+    let user_id = await AsyncStorage.getItem("user_id");
+    if (user_id) {
+      let user = await API.getUser(user_id);
+      this.setState({
+        proPic: user.pro_pic,
+        username: user.username,
+        user: user
+      });
+    }
+
+  }
+
+  async componentDidMount() {
+    this.setState({isLoading: true})
     this.setDate();
     this.setGreeting();
     let tipsResponse = await API.getVerifiedTips();
     this.setState({ tips: tipsResponse, hasLoaded: true });
+    this.setState({isLoading: false});
     let token = await AsyncStorage.getItem("token");
     let verifiedPin = await AsyncStorage.getItem("verifiedPin");
     let user;
@@ -75,6 +92,7 @@ class TipOverviewScreen extends React.Component {
   }
 
   onComponentFocused = async () => {
+    console.log("component focused: " + this.state.isLoading);
     if (this.state.hasLoaded) {
       let tipsResponse = await API.getVerifiedTips();
       this.setState({ tips: tipsResponse });
@@ -183,7 +201,9 @@ class TipOverviewScreen extends React.Component {
   };
 
   render() {
-    if (this.props.page !== "tips") {
+    if (this.state.isLoading) {
+      return <Loader loading={this.state.isLoading} />;
+    } else if (this.props.page !== "tips") {
       return this.props.navigation.navigate("Map");
     }
     return (

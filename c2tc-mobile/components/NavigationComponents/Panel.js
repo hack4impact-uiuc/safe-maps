@@ -124,6 +124,7 @@ class Panel extends Component {
                       name="SafeWalk"
                       ref="button"
                       number="2173331216"
+                      url=""
                     />
                   </View>
                 </View>
