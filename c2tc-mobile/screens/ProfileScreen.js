@@ -31,7 +31,7 @@ export default class ProfileScreen extends React.Component {
       verifiedTips: [],
       pendingTips: [],
       deniedTips: [],
-      hasLoaded: false,
+      hasLoaded: false
     };
   }
 
@@ -39,7 +39,7 @@ export default class ProfileScreen extends React.Component {
     let token = await AsyncStorage.getItem("token");
     if (token) {
       let user = await API.getUser(token);
-      console.log(user)
+      console.log(user);
       this.setState({
         displayName: user.username,
         user,

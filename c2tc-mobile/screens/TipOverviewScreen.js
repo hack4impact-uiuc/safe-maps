@@ -60,23 +60,22 @@ class TipOverviewScreen extends React.Component {
     let token = await AsyncStorage.getItem("token");
     let verifiedPin = await AsyncStorage.getItem("verifiedPin");
     let user;
-      if (token) {
-        user = await API.getUser(token);
-        this.setState({
-          username: user.username,
-          user: user,
-          trusted: user.trusted,
-          token: token
-        });
-      }
-      if (verifiedPin) {
-        this.setState({
-          proPic: user.pro_pic,
-          verifiedPin: verifiedPin
-        });
-        
-      }
-    
+
+    if (token) {
+      user = await API.getUser(token);
+      this.setState({
+        username: user.username,
+        user: user,
+        trusted: user.trusted,
+        token: token
+      });
+    }
+    if (verifiedPin) {
+      this.setState({
+        proPic: user.pro_pic,
+        verifiedPin: verifiedPin
+      });
+    }
   }
 
   onComponentFocused = async () => {
@@ -92,7 +91,7 @@ class TipOverviewScreen extends React.Component {
           username: user.username,
           user: user,
           token: token,
-          trusted: user.trusted,
+          trusted: user.trusted
         });
       }
       if (verifiedPin) {
@@ -109,8 +108,7 @@ class TipOverviewScreen extends React.Component {
   profilePicPressed = () => {
     if (this.state.verifiedPin) {
       this.props.navigation.navigate("Profile");
-    }
-    else {
+    } else {
       this.props.navigation.navigate("NonRegistered");
     }
   };
@@ -181,7 +179,7 @@ class TipOverviewScreen extends React.Component {
       monthNames[monthIndex] +
       " " +
       year.toString().slice(2);
-    console.log(date_str)
+    console.log(date_str);
     this.setState({
       currentdate: date_str
     });
@@ -233,25 +231,28 @@ class TipOverviewScreen extends React.Component {
             </View>
           </View>
           <View style={styles.content}>
-            {this.state.verifiedPin ? <View style={styles.contentNav}>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("TipCategories")}
-              >
-                <Text style={styles.button}> Submit A Tip </Text>
-              </TouchableOpacity>
-              {
-                this.state.trusted && 
+            {this.state.verifiedPin ? (
+              <View style={styles.contentNav}>
                 <TouchableOpacity
                   onPress={() =>
-                    this.props.navigation.navigate("PendingTips", {
-                      tips: this.state.pendingTips
-                    })
+                    this.props.navigation.navigate("TipCategories")
                   }
                 >
-                  <Text style={styles.button}> Review Pending Tips </Text>
+                  <Text style={styles.button}> Submit A Tip </Text>
                 </TouchableOpacity>
-              }
-            </View> : null}
+                {this.state.trusted && (
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate("PendingTips", {
+                        tips: this.state.pendingTips
+                      })
+                    }
+                  >
+                    <Text style={styles.button}> Review Pending Tips </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            ) : null}
             {this.state.tips.map(tip => (
               <TipOverview
                 key={tip._id}

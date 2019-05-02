@@ -11,13 +11,10 @@ import {
   Image
 } from "react-native";
 
-
-
 export default class NonRegisteredScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   render() {
@@ -26,14 +23,12 @@ export default class NonRegisteredScreen extends React.Component {
         <NavigationEvents onDidFocus={this.onComponentFocused} />
         <View style={styles.navBar}>
           <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate("TipOverview")
-            }
+            onPress={() => this.props.navigation.navigate("TipOverview")}
             style={styles.backButton}
           >
             <Text style={styles.headerText}>
-              <FontAwesome name="chevron-left" size={20} color="white" />{" "}
-              Tip Overview
+              <FontAwesome name="chevron-left" size={20} color="white" /> Tip
+              Overview
             </Text>
           </TouchableOpacity>
         </View>
@@ -42,7 +37,12 @@ export default class NonRegisteredScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Notifications</Text>
-            <FontAwesome name="chevron-right" color="#D2D2D7" size={15} style={styles.arrow} />
+            <FontAwesome
+              name="chevron-right"
+              color="#D2D2D7"
+              size={15}
+              style={styles.arrow}
+            />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -51,7 +51,12 @@ export default class NonRegisteredScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Login</Text>
-            <FontAwesome name="chevron-right" color="#D2D2D7" size={15} style={styles.arrow} />
+            <FontAwesome
+              name="chevron-right"
+              color="#D2D2D7"
+              size={15}
+              style={styles.arrow}
+            />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -60,7 +65,12 @@ export default class NonRegisteredScreen extends React.Component {
         >
           <View style={styles.list}>
             <Text style={styles.text}>Register</Text>
-            <FontAwesome name="chevron-right" color="#D2D2D7" size={15} style={styles.arrow} />
+            <FontAwesome
+              name="chevron-right"
+              color="#D2D2D7"
+              size={15}
+              style={styles.arrow}
+            />
           </View>
         </TouchableOpacity>
         <View style={styles.divider} />
@@ -70,8 +80,8 @@ export default class NonRegisteredScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  nonRegistered:{
-    height:Dimensions.get("window").height,
+  nonRegistered: {
+    height: Dimensions.get("window").height,
     backgroundColor: "white"
   },
   name: {
