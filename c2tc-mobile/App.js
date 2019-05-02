@@ -20,6 +20,7 @@ import NotificationScreen from "./screens/NotificationScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import AlertScreen from "./screens/AlertScreen";
 import NonRegisteredScreen from "./screens/NonRegisteredScreen";
+import PasswordResetScreen from "./screens/PasswordResetScreen";
 
 import { Notifications, Location, TaskManager, Permissions } from "expo";
 
@@ -35,7 +36,10 @@ export default class App extends Component {
   constructor(props) {
     super(props);
   }
+
   async componentDidMount() {
+    // await AsyncStorage.removeItem("token");
+    // await AsyncStorage.removeItem("verifiedPin");
     let is_loaded = await AsyncStorage.getItem("loaded");
     if (is_loaded) {
       this._mounted = true;
@@ -181,6 +185,13 @@ Navigator = createStackNavigator({
   },
   NonRegistered: {
     screen: NonRegisteredScreen,
+    navigationOptions: {
+      header: null,
+      headerMode: "screen"
+    }
+  },
+  PasswordReset: {
+    screen: PasswordResetScreen,
     navigationOptions: {
       header: null,
       headerMode: "screen"

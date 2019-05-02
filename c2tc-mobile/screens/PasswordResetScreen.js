@@ -14,80 +14,52 @@ import { TextInput } from "react-native-paper";
 import { AsyncStorage } from "react-native";
 import API from "../components/API";
 
-export default class Login extends Component {
+export default class Registration extends Component {
   constructor(props) {
     super(props);
   }
 
   state = {
-    email: "",
+    pin: "",
     pswd: "",
+    repswd: "",
     errors: [],
     loading: false
   };
 
-  handleApiCall = async (errorChecks, apiCall, onSuccess) => {
-    let errors = errorChecks(this);
-
+  handlePasswordReset = async () => {
+    let errors = this.validate();
     if (errors.length === 0) {
+      let { email } = this.props.navigation.state.params;
       this.setState({ loading: true });
-      const response = await apiCall(this);
+      const response = await API.passwordReset(
+        email,
+        this.state.pin,
+        this.state.pswd
+      );
       this.setState({ loading: false });
       if (!response.success) {
-        errors = ["Error: " + response.message];
+        errors = [response.message];
       } else {
-        await onSuccess(this, response);
+        this.props.navigation.goBack(null);
       }
     }
-
     this.setState({ errors });
   };
 
-  handleLogin = async () => {
-    await this.handleApiCall(
-      this.validateLogin,
-      async comp => {
-        return await API.login(comp.state.email, comp.state.pswd);
-      },
-      async (comp, response) => {
-        await AsyncStorage.setItem("token", response.result.token);
-        await API.setVerifiedPin();
-        comp.setState({ successfulSubmit: true });
-        comp.props.navigation.navigate("TipOverview");
-      }
-    );
-  };
-
-  handleForgotpassword = async () => {
-    await this.handleApiCall(
-      this.validateForgotPassword,
-      async comp => {
-        return await API.forgotPassword(comp.state.email);
-      },
-      async (comp, response) => {
-        comp.props.navigation.navigate("PasswordReset", {
-          email: comp.state.email
-        });
-      }
-    );
-  };
-
-  validateForgotPassword(comp) {
-    if (comp.state.email.length === 0) {
-      return ["Error: Email cannot be empty!"];
-    }
-    return [];
-  }
-
-  validateLogin(comp) {
+  validate() {
     let errors = [];
 
-    if (comp.state.email.length === 0) {
-      errors.push("Email cannot be empty");
+    if (this.state.pswd.length === 0) {
+      errors.push("Password cannot be empty");
     }
 
-    if (comp.state.pswd.length === 0) {
-      errors.push("Password cannot be empty");
+    if (this.state.repswd.length === 0) {
+      errors.push("Re-enter password cannot be empty");
+    }
+
+    if (this.state.pswd !== this.state.repswd) {
+      errors.push("Passwords do not match!");
     }
 
     return errors;
@@ -95,6 +67,7 @@ export default class Login extends Component {
 
   render() {
     const { errors } = this.state;
+
     return (
       <KeyboardAvoidingView
         style={styles.wrapper}
@@ -122,39 +95,46 @@ export default class Login extends Component {
             color="#0000ff"
             animating={this.state.loading}
           />
-          <Text style={styles.full_header}>Login</Text>
+          <Text style={styles.full_header}>Reset Password</Text>
           <View style={styles.errors}>
             {errors.map(error => (
-              <Text key={error}>{error}</Text>
+              <Text key={error}>Error: {error}</Text>
             ))}
           </View>
-          <Text style={styles.header}>Email</Text>
+          <Text style={styles.header}>Pin (check your email)</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
-            label="Email"
-            placeholder="Email"
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
+            label="Pin"
+            placeholder="Pin"
+            value={this.state.pin}
+            onChangeText={pin => this.setState({ pin })}
           />
           <Text style={styles.header}>Password</Text>
           <TextInput
             mode="outlined"
             style={styles.inputContainerStyle}
-            secureTextEntry={true}
             label="Password"
             placeholder="Password"
+            secureTextEntry={true}
             value={this.state.pswd}
             onChangeText={pswd => this.setState({ pswd })}
           />
-          <TouchableOpacity style={styles.login_btn} onPress={this.handleLogin}>
-            <Text style={styles.button_text}>Login</Text>
-          </TouchableOpacity>
+          <Text style={styles.header}>Re-enter Password</Text>
+          <TextInput
+            mode="outlined"
+            style={styles.inputContainerStyle}
+            secureTextEntry={true}
+            label="Re-Password"
+            placeholder="Re-Password"
+            value={this.state.repswd}
+            onChangeText={repswd => this.setState({ repswd })}
+          />
           <TouchableOpacity
             style={styles.login_btn}
-            onPress={this.handleForgotpassword}
+            onPress={this.handlePasswordReset}
           >
-            <Text style={styles.button_text}>Forgot Password</Text>
+            <Text style={styles.button_text}>Reset</Text>
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -165,6 +145,27 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  navBar: {
+    paddingTop: 37,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    width: Dimensions.get("window").width,
+    backgroundColor: "#9041AF",
+    paddingBottom: 15,
+    marginBottom: 10
+  },
+  backButton: {
+    paddingLeft: 20,
+    marginRight: Dimensions.get("window").width - 220
+  },
+  headerText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  arrow: {
+    paddingTop: 15
   },
   wrapper: {
     flex: 1,
@@ -213,26 +214,5 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     marginTop: 30,
     marginLeft: 20
-  },
-  navBar: {
-    paddingTop: 37,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    width: Dimensions.get("window").width,
-    backgroundColor: "#9041AF",
-    paddingBottom: 15,
-    marginBottom: 10
-  },
-  backButton: {
-    paddingLeft: 20,
-    marginRight: Dimensions.get("window").width - 220
-  },
-  headerText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "500"
-  },
-  arrow: {
-    paddingTop: 15
   }
 });
