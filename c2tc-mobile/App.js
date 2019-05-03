@@ -57,6 +57,7 @@ export default class App extends Component {
       });
     }
     await this.beginListeningToLocation();
+    
   }
 
   componentWillUnmount() {
@@ -199,8 +200,24 @@ Navigator = createStackNavigator({
   }
 });
 
-function shouldNotify(eventsNearby) {
-  return eventsNearby.length > 0;
+shouldNotify = async (eventsNearby) => {
+  let showCrimes = await AsyncStorage.getItem("crime_tips");
+  let showHealth = await AsyncStorage.getItem("health_tips");
+  let showTranspo = await AsyncStorage.getItem("transpo_tips");
+  let showFinancial = await AsyncStorage.getItem("financial_tips");
+  
+  let showTips = [];
+
+  eventsNearby.forEach(event => {
+    if (event.category.toLowerCase() === "crimes" && showCrimes === "true"
+    || event.category.toLowerCase() === "health" && showHealth === "true"
+    || event.category.toLowerCase() === "transportation" && showTranspo === "true"
+    || event.category.toLowerCase() === "financial" && showFinancial === "true") {
+      showTips.push(event);
+    }
+  });
+
+  return showTips;
 }
 
 function compareEvents(eventA, eventB) {
@@ -209,12 +226,12 @@ function compareEvents(eventA, eventB) {
   return eventAScore < eventBScore ? -1 : eventAScore > eventBScore ? 1 : 0;
 }
 
-function createNotificationData(eventsNearby) {
-  topFiveTips = eventsNearby
+function createNotificationData(showTips) {
+  topFiveTips = showTips
     .sort(compareEvents)
     .reverse()
     .slice(0, 5);
-  let compositeTipsTitles = topFiveTips.map(tip => tip.title).join("\n");
+  let compositeTipsTitles = showTips.map(tip => tip.title).join("\n");
 
   const localnotification = {
     title: "There are tips nearby!",
@@ -239,14 +256,21 @@ handleNewLocation = async ({ data, error }) => {
     const long = locations[0].coords.longitude;
     eventsNearby = await API.getTipsNearby(lat, long);
 
-    if (shouldNotify(eventsNearby)) {
-      const notificationData = createNotificationData(eventsNearby);
-      const schedulingOptions = { time: Date.now() + 1000 };
-      Notifications.scheduleLocalNotificationAsync(
-        notificationData,
-        schedulingOptions
-      );
+    if (!eventsNearby) {
+      return;
     }
+
+    let showTips = await shouldNotify(eventsNearby);
+    if (!showTips) {
+      return;
+    }
+    
+    const notificationData = createNotificationData(showTips);
+    const schedulingOptions = { time: Date.now() + 1000 };
+    Notifications.scheduleLocalNotificationAsync(
+      notificationData,
+      schedulingOptions
+    );
   }
 };
 
