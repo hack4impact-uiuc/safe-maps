@@ -39,7 +39,6 @@ export default class ProfileScreen extends React.Component {
     let token = await AsyncStorage.getItem("token");
     if (token) {
       let user = await API.getUser(token);
-      console.log(user);
       this.setState({
         displayName: user.username,
         user,
@@ -49,17 +48,21 @@ export default class ProfileScreen extends React.Component {
         email: user.email,
         proPic: user.pro_pic
       });
-      let verifiedTips = await API.getVerifiedTipsByUser(token);
-      this.setState({
-        verifiedTips
-      });
-      let pendingTips = await API.getPendingTipsByUser(token);
-      let deniedTips = await API.getDeniedTipsByUser(token);
-      this.setState({
-        pendingTips,
-        deniedTips,
-        hasLoaded: true
-      });
+
+      let verifiedTips = API.getVerifiedTipsByUser(token);
+      let pendingTips = API.getPendingTipsByUser(token);
+      let deniedTips = API.getDeniedTipsByUser(token);
+
+      await Promise.all([verifiedTips, pendingTips, deniedTips]).then(
+        result => {
+          this.setState({
+            verifiedTips: result[0],
+            pendingTips: result[1],
+            deniedTips: result[2],
+            hasLoaded: true
+          });
+        }
+      );
     }
   }
 

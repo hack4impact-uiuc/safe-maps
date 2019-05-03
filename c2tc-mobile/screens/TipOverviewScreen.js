@@ -61,18 +61,21 @@ class TipOverviewScreen extends React.Component {
         user: user
       });
     }
-
   }
 
   async componentDidMount() {
-    this.setState({isLoading: true})
+    this.setState({ isLoading: true });
     this.setDate();
     this.setGreeting();
     let tipsResponse = await API.getVerifiedTips();
-    this.setState({ tips: tipsResponse, hasLoaded: true });
-    this.setState({isLoading: false});
-    let token = await AsyncStorage.getItem("token");
-    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
+
+    this.setState({ tips: tipsResponse, hasLoaded: true, isLoading: false });
+
+    const [token, verifiedPin] = await Promise.all([
+      AsyncStorage.getItem("token"),
+      AsyncStorage.getItem("verifiedPin")
+    ]);
+
     let user;
     if (token) {
       user = await API.getUser(token);
