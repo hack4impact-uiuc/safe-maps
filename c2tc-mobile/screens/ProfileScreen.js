@@ -49,6 +49,7 @@ export default class ProfileScreen extends React.Component {
         email: user.email,
         proPic: user.pro_pic
       });
+      console.log(user.email);
       let verifiedTips = await API.getVerifiedTipsByUser(token);
       this.setState({
         verifiedTips
@@ -143,6 +144,12 @@ export default class ProfileScreen extends React.Component {
               <Text style={styles.dividedText}>Moderator (Verified)</Text>
             </View>
           )}
+          <View>
+          <View style={styles.divider} />
+            <Text style={styles.dividedText}>
+              Email: {this.state.email}
+            </Text>
+          </View>
           <View style={styles.divider} />
           <View style={styles.anonView}>
             <Text style={[styles.dividedText, styles.anonText]}>
