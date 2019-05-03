@@ -75,7 +75,7 @@ class TipOverviewScreen extends React.Component {
       AsyncStorage.getItem("token"),
       AsyncStorage.getItem("verifiedPin")
     ]);
-
+    
     let user;
     if (token) {
       user = await API.getUser(token);
@@ -92,6 +92,7 @@ class TipOverviewScreen extends React.Component {
         verifiedPin: verifiedPin
       });
     }
+    this.setState({isLoading: false});
   }
 
   onComponentFocused = async () => {

@@ -72,6 +72,10 @@ class TipDetailsScreen extends React.Component {
     }
   };
 
+  async componentWillMount() {
+
+  }
+
   async componentDidMount() {
     let author = this.props.navigation.getParam("author", false);
     let user = API.getUser(token);
@@ -86,13 +90,17 @@ class TipDetailsScreen extends React.Component {
         token: result[2]
       });
     });
+    this.updateVotePercentages();
+  }
 
-    let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
-    let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
-      .length;
+  updateVotePercentages = async () => {
+    let upvotes = await API.getUserUpvotes(this.props.navigation.state.params.tip._id);
+    let downvotes = await API.getUserDownvotes(this.props.navigation.state.params.tip._id);
+    let upvoteNumb = upvotes.length;
+    let downvoteNumb = downvotes.length;
     let upvotePercentage = "";
     if (upvoteNumb === 0 && downvoteNumb === 0) {
-      upvotePercentage = "0% Upvoted";
+      upvotePercentage = " 0% Upvoted";
     } else if (upvoteNumb >= downvoteNumb) {
       upvotePercentage =
         (upvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Upvoted";
@@ -111,20 +119,6 @@ class TipDetailsScreen extends React.Component {
       verifiedPin: verifiedPin
     });
 
-    let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
-    let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
-      .length;
-    let upvotePercentage = "";
-    if (upvoteNumb === 0 && downvoteNumb === 0) {
-      upvotePercentage = " 0% Upvoted";
-    } else if (upvoteNumb >= downvoteNumb) {
-      upvotePercentage =
-        (upvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Upvoted";
-    } else {
-      upvotePercentage =
-        (downvoteNumb / (downvoteNumb + upvoteNumb)) * 100 + "% Downvoted";
-    }
-    this.setState({ upvotePercentage });
     let author = this.props.navigation.getParam("author", false);
 
     this.setState({
@@ -159,6 +153,7 @@ class TipDetailsScreen extends React.Component {
       };
 
       await API.voteTip(data, this.state.token);
+      this.updateVotePercentages();
     }
   };
 
@@ -172,6 +167,7 @@ class TipDetailsScreen extends React.Component {
         vote_type: "DOWNVOTE"
       };
       await API.voteTip(data, this.state.token);
+      this.updateVotePercentages();
     }
   };
 

@@ -29,6 +29,7 @@ class TipForm extends React.Component {
     lat: "0",
     lng: "0",
     errors: [],
+    submitted: false,
     touched: {
       title: false,
       body: false,
@@ -96,35 +97,38 @@ class TipForm extends React.Component {
   };
 
   handSubmitTip = async () => {
-    const errors = this.validate();
-    if (this.state.address.length !== 0) {
-      const latlng = await addressToLatLong(this.state.address);
-      this.state.lat = latlng[0];
-      this.state.lng = latlng[1];
-    }
-
-    if (errors.length === 0) {
-      tip = {
-        title: this.state.title,
-        content: this.state.body,
-        user_id: this.state.userId,
-        latitude: this.state.lat,
-        longitude: this.state.lng,
-        category: this.state.category
-      };
-      if (this.props.navigation.getParam("edit", false)) {
-        await API.editTip(this.props.navigation.getParam("tip_id", 0), tip);
-        this.props.navigation.navigate("Profile", {
-          user: true
-        });
-      } else {
-        await API.createTip(tip);
-        this.props.navigation.navigate("TipOverview");
+    if (!this.state.submitted) {
+      this.setState({ submitted: true });
+      const errors = this.validate();
+      if (this.state.address.length !== 0) {
+        const latlng = await addressToLatLong(this.state.address);
+        this.state.lat = latlng[0];
+        this.state.lng = latlng[1];
       }
-      this.showSuccessAlert();
-    } else {
-      this.setState({ errors });
-      this.showErrorAlert();
+
+      if (errors.length === 0) {
+        tip = {
+          title: this.state.title,
+          content: this.state.body,
+          user_id: this.state.userId,
+          latitude: this.state.lat,
+          longitude: this.state.lng,
+          category: this.state.category
+        };
+        if (this.props.navigation.getParam("edit", false)) {
+          await API.editTip(this.props.navigation.getParam("tip_id", 0), tip);
+          this.props.navigation.navigate("Profile", {
+            user: true
+          });
+        } else {
+          await API.createTip(tip);
+          this.props.navigation.navigate("TipOverview");
+        }
+        this.showSuccessAlert();
+      } else {
+        this.setState({ errors });
+        this.showErrorAlert();
+      }
     }
   };
 
