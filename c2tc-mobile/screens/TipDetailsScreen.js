@@ -74,15 +74,19 @@ class TipDetailsScreen extends React.Component {
 
   async componentDidMount() {
     let author = this.props.navigation.getParam("author", false);
-    let token = await AsyncStorage.getItem("token");
-    let verifiedPin = await AsyncStorage.getItem("verifiedPin");
-    let user = await API.getUser(token);
-    this.setState({
-      username: author.anon ? "Anonymous" : author.username,
-      user: user,
-      verifiedPin: verifiedPin,
-      token: token
+    let user = API.getUser(token);
+    let verifiedPin = AsyncStorage.getItem("verifiedPin");
+    let token = AsyncStorage.getItem("token");
+
+    await Promise.all([user, verifiedPin, token]).then(result => {
+      this.setState({
+        username: author.anon ? "Anonymous" : author.username,
+        user: result[0],
+        verifiedPin: result[1],
+        token: result[2]
+      });
     });
+
     let upvoteNumb = this.props.navigation.getParam("upvoteList", []).length;
     let downvoteNumb = this.props.navigation.getParam("downvoteList", [])
       .length;

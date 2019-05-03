@@ -26,25 +26,33 @@ export default class SettingsScreen extends React.Component {
 
   onComponentFocused = async () => {
     this._mounted = true;
-    let crimeTips = await AsyncStorage.getItem("crime_tips");
+
+    const [
+      crimeTips,
+      healthTips,
+      transpoTips,
+      financialTips
+    ] = await Promise.all([
+      AsyncStorage.getItem("crime_tips"),
+      AsyncStorage.getItem("health_tips"),
+      AsyncStorage.getItem("transpo_tips"),
+      AsyncStorage.getItem("financial_tips")
+    ]);
     if (crimeTips === "false") {
       this.setState({
         crimeTips: false
       });
     }
-    let healthTips = await AsyncStorage.getItem("health_tips");
     if (healthTips === "false") {
       this.setState({
         healthTips: false
       });
     }
-    let transpoTips = await AsyncStorage.getItem("transpo_tips");
     if (transpoTips === "false") {
       this.setState({
         transpoTips: false
       });
     }
-    let financialTips = await AsyncStorage.getItem("financial_tips");
     if (financialTips === "false") {
       this.setState({
         financialTips: false
