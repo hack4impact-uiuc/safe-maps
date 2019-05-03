@@ -48,20 +48,6 @@ export default class ProfileScreen extends React.Component {
         email: user.email,
         proPic: user.pro_pic
       });
-<<<<<<< HEAD
-      console.log(user.email);
-      let verifiedTips = await API.getVerifiedTipsByUser(token);
-      this.setState({
-        verifiedTips
-      });
-      let pendingTips = await API.getPendingTipsByUser(token);
-      let deniedTips = await API.getDeniedTipsByUser(token);
-      this.setState({
-        pendingTips,
-        deniedTips,
-        hasLoaded: true
-      });
-=======
 
       let verifiedTips = API.getVerifiedTipsByUser(token);
       let pendingTips = API.getPendingTipsByUser(token);
@@ -77,7 +63,6 @@ export default class ProfileScreen extends React.Component {
           });
         }
       );
->>>>>>> master
     }
   }
 
@@ -162,10 +147,8 @@ export default class ProfileScreen extends React.Component {
             </View>
           )}
           <View>
-          <View style={styles.divider} />
-            <Text style={styles.dividedText}>
-              Email: {this.state.email}
-            </Text>
+            <View style={styles.divider} />
+            <Text style={styles.dividedText}>Email: {this.state.email}</Text>
           </View>
           <View style={styles.divider} />
           <View style={styles.anonView}>

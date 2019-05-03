@@ -57,7 +57,6 @@ export default class App extends Component {
       });
     }
     await this.beginListeningToLocation();
-    
   }
 
   componentWillUnmount() {
@@ -200,25 +199,28 @@ Navigator = createStackNavigator({
   }
 });
 
-shouldNotify = async (eventsNearby) => {
+shouldNotify = async eventsNearby => {
   let showCrimes = await AsyncStorage.getItem("crime_tips");
   let showHealth = await AsyncStorage.getItem("health_tips");
   let showTranspo = await AsyncStorage.getItem("transpo_tips");
   let showFinancial = await AsyncStorage.getItem("financial_tips");
-  
+
   let showTips = [];
 
   eventsNearby.forEach(event => {
-    if (event.category.toLowerCase() === "crimes" && showCrimes === "true"
-    || event.category.toLowerCase() === "health" && showHealth === "true"
-    || event.category.toLowerCase() === "transportation" && showTranspo === "true"
-    || event.category.toLowerCase() === "financial" && showFinancial === "true") {
+    if (
+      (event.category.toLowerCase() === "crimes" && showCrimes === "true") ||
+      (event.category.toLowerCase() === "health" && showHealth === "true") ||
+      (event.category.toLowerCase() === "transportation" &&
+        showTranspo === "true") ||
+      (event.category.toLowerCase() === "financial" && showFinancial === "true")
+    ) {
       showTips.push(event);
     }
   });
 
   return showTips;
-}
+};
 
 function compareEvents(eventA, eventB) {
   let eventAScore = eventA.upvotes.length - eventA.downvotes.length;
@@ -264,7 +266,7 @@ handleNewLocation = async ({ data, error }) => {
     if (!showTips) {
       return;
     }
-    
+
     const notificationData = createNotificationData(showTips);
     const schedulingOptions = { time: Date.now() + 1000 };
     Notifications.scheduleLocalNotificationAsync(
