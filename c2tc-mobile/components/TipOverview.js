@@ -48,7 +48,7 @@ class TipOverview extends React.Component {
 
     this.setState({
       user: user,
-      username: user.anon ? "Anonymous" : user.username,
+      username: this.props.anon ? "Anonymous" : user.username,
       address: address,
       verifiedPin: verifiedPin,
       token: token
@@ -69,7 +69,7 @@ class TipOverview extends React.Component {
 
     this.setState({
       user: user,
-      username: user.anon ? "Anonymous" : user.username,
+      username: this.props.anon ? "Anonymous" : user.username,
       address: address,
       verifiedPin: verifiedPin,
       token: token
